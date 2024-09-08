@@ -1,0 +1,486 @@
+/* Reset */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:"Cormorant Garamond", serif;
+}
+
+
+/* classes gerais */
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background-color: #f4ebeb;
+}
+
+.flex{
+    display: flex;
+}
+
+.grid{
+    display: grid;
+}
+
+a{
+    text-decoration: none;
+    color: #007d7b;
+}
+
+.btn button{
+    border: 2px solid #007d7b;
+    width: 173px;
+    height: 173px;
+    border-radius: 86.5px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.btn button:hover{
+    background-color: #007d7b;
+}
+
+.btn button:hover a{
+    color: white;
+    
+}
+
+/* header */
+header{
+    width: 100%;
+    background-color: #007d7b;
+}
+
+header .flex{
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .img-logo{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+
+header .img-logo img{
+    border-radius: 50%;
+    height: 110px;
+}
+
+header .img-logo p{
+    display: inline-block;
+    margin: 0;
+    position: absolute;
+    left: 50px;
+    font-size: 1.7em;
+    color: #01474a;
+    font-weight: bolder;
+}
+
+
+
+header nav ul{
+    list-style-type: none;
+}
+
+header nav ul li{
+    display: inline-block;
+    padding-inline: 40px;
+    transition: .2s;
+}
+
+header nav ul li a{
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+header nav ul li a:hover{
+    transform: scale(1.2);
+    display: inline-block;
+}
+
+/* estilo do conteudo-topo */
+
+section.conteudo-topo{
+    background-image: url("../img/header-img.jpeg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+}
+
+.conteudo-topo .flex{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+.conteudo-topo .txt-topo{
+    margin-top: 40px;
+    
+}
+ 
+.conteudo-topo .txt-topo h1{
+    font-family:"Cormorant Garamond", serif;
+    font-size: 5em;
+    font-weight: bold;
+    text-align: center;
+}
+ 
+.conteudo-topo .txt-topo h1 span{
+    font-family:"Cormorant Garamond", serif;
+    font-weight: bold;
+    display: block;
+}
+
+ 
+.conteudo-topo .btn {
+    width: 60px;
+    height: 60px;
+    border: 2px solid white;
+    border-radius: 30px;
+    text-align: center;
+    margin-top: 30px;
+    transition: .5s;
+}
+
+.conteudo-topo .btn a {
+    color: white;
+    transition: .5s;
+}
+
+.conteudo-topo .btn span{
+    font-size: 3em;
+}
+
+.conteudo-topo .btn:hover a{
+    color: black;
+}
+
+.conteudo-topo .btn:hover{
+    background-color: white;
+}
+
+/* Estilo do hero */
+
+section.hero{
+    margin: 20px 0;
+    padding: 20px 0;
+    transition: .5s;
+}
+
+.hero .flex{
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.hero  .hero-esquerda{
+    max-width: 492px;
+}
+
+.hero  .hero-esquerda .flex{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 4%;
+}
+
+.hero .hero-esquerda .txt-esquerda{
+    margin-top: 40%;
+   padding: 50px;
+   margin-bottom: 10%;
+}
+
+.hero .hero-esquerda .txt-esquerda h1{
+    font-size: 2.7rem;
+    padding: 20px;
+    text-align: center;
+}
+
+.hero .hero-esquerda .txt-esquerda p{
+    font-size: 0.7em;
+    text-align: center;
+}
+
+.hero .hero-esquerda .btn button{
+    margin: 50px 0;
+    position: absolute;
+    top: -25%;
+    left: 40%;
+}
+   
+
+.hero .hero-esquerda .btn a {
+    text-align: center;
+    text-decoration: none;
+}
+
+.hero .img-esquerda{
+    position: relative;
+}
+
+.hero .img-esquerda img{
+    height: 386px;
+    width: 492px;
+    margin-top: 50px;
+}
+
+.hero .hero-direita{
+    padding: 10% 0;
+}
+
+.hero .img-direita img{
+    width: 490px;
+    height: 898px;
+    
+}
+
+/* Estilo bem-estar */
+
+section.bem-estar{
+    margin: 30px 0;
+    padding: 50px 4%;
+}
+
+section.bem-estar .flex{
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.bem-estar .txt-bem-estar{
+    text-align: right;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 70px;
+}
+
+.bem-estar .txt-bem-estar h2{
+    font-size: 2.5em;
+    font-weight: 500;
+}
+
+.bem-estar .txt-bem-estar p{
+    font-size: .8em;
+}
+
+.bem-estar-conteudo .bem-estar-img{
+    display: flex;
+    gap: 30px;
+}
+
+.bem-estar-conteudo .bem-estar-img img{
+    width: 300px;
+    height: 500px;
+}
+
+/* Estilo de Serenita */
+section.serenita-casa{
+    margin: 50px 0;
+}
+
+.serenita-casa .Serenita-esquerda .flex{
+    padding-inline: 0;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.serenita-casa .Serenita-esquerda .txt-Serenita-esquerda{
+    padding: 50px;
+}
+
+.serenita-casa .Serenita-esquerda .txt-Serenita-esquerda h1{
+    font-size: 2.7rem;
+    padding: 20px;
+    text-align: center;
+}
+
+.serenita-casa .Serenita-esquerda .txt-Serenita-esquerda h1 span{
+    display: block;
+}
+
+.serenita-casa .Serenita-esquerda .txt-Serenita-esquerda p{
+    font-size: 0.7em;
+    text-align: center;
+}
+
+.serenita-casa .Serenita-esquerda .btn{
+    margin-inline: auto;
+}
+
+.serenita-casa .Serenita-esquerda .img-serenita-esquerda img{
+    width: 500px;
+    height: 500px;
+}
+
+
+.serenita-casa .serenita-direita .img-serenita-direita img{
+    width: 700px;
+    height: 800px;
+}
+
+/* Estilo Horarios */
+section.horarios{
+    margin-top: 120px;
+}
+
+.horarios .container-horarios{
+    width: 1214px;
+    height: 600px;
+    background-color: aqua;
+    margin-left: 10%;
+    background-image: url("../img/space-foto6.jpg");
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.horarios .flex{
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+}
+
+
+.horarios .titulo{
+    align-self: flex-start;
+    padding: 0 10%;
+    margin-bottom: 50px;
+}
+
+.horarios .container-horarios .tabela{
+    align-self: flex-start;
+    padding: 0 10%;
+}
+
+.horarios .titulo h1{
+    font-size: 3em;
+    font-weight: 600;
+}
+
+.horarios .container-horarios .tabela .flex{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.horarios .container-horarios .titulo h1{
+    color: white;
+}
+
+.horarios .container-horarios .tabela h2{
+    color: white;
+}
+
+.horarios .container-horarios .tabela p{
+    color: white;
+    padding: 20px;
+    font-weight: bolder;
+}
+
+/* Estilo de localizacao */
+section.localizacao{
+    margin-top: 10%;
+}
+
+.localizacao .container-localizacao h1{
+    font-size: 2.7rem;
+}
+
+.localizacao .container-localizacao p{
+    font-size: 1.3em;
+}
+
+.localizacao .container-localizacao h1,p{
+    text-align: center;
+    padding: 20px;
+}
+
+.container-localizacao .flex{
+    gap: 50px;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.localizacao .container-localizacao img{
+    width: 400px;
+    height: 500px;
+}
+
+/* Estilo de footer */
+footer.rodape{
+    margin-top: 10%;
+    background-color: #007d7b;
+    color: white;
+}
+
+.rodape .containerfooter{
+    max-width: 1280px;
+    padding-inline: 12%;
+    padding-top: 50px;
+}
+
+.rodape .flex{
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.rodape .logo-rodape{
+    width: 30%;
+    height: 100%;
+}
+
+.rodape .logo-rodape a{
+    color: white;
+}
+
+.rodape .logo-rodape h2{
+    font-size: 2em;
+}
+
+.rodape .links-rodape{
+    width: 70%;
+}
+
+.rodape .links-rodape .grid{
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+}
+
+.rodape .links-rodape h2{
+    font-size: 1.7em;
+}
+
+.rodape .links-rodape ul{
+    list-style-type: none;
+    padding-top: 50px;
+}
+
+.rodape .links-rodape ul li a{
+    color: white;
+    font-size: 1.2em;
+    transition: .2s;
+}
+
+.rodape .links-rodape ul li a:hover{
+    opacity: 0.5;
+}
+
+.rodape p{
+    margin-top: 50px;
+    padding: 30px;
+    font-size: 1.2em;
+}
+
