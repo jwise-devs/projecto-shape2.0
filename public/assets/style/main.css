@@ -68,18 +68,25 @@ header .img-logo{
 
 
 header .img-logo img{
-    border-radius: 50%;
-    height: 110px;
+    height: 120px;
 }
 
 header .img-logo p{
     display: inline-block;
-    margin: 0;
     position: absolute;
-    left: 50px;
-    font-size: 1.7em;
+    left: 55px;
+    font-size: 2em;
     color: #01474a;
     font-weight: bolder;
+    top: 3px;
+}
+
+header .img-logo p span{
+    display: block;
+    color: #B9B9B5;
+    font-size: .5em;
+    text-align: left;
+
 }
 
 
