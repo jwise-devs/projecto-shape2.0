@@ -14,7 +14,7 @@ html{
 }
 
 body{
-    background-color: #f4ebeb;
+    background-color: #ffffffc7;
 }
 
 .flex{
@@ -52,7 +52,7 @@ a{
 /* header */
 header{
     width: 100%;
-    background-color: #007d7b;
+    background-color: rgb(226, 224, 224);
 }
 
 header .flex{
@@ -76,7 +76,7 @@ header .img-logo p{
     position: absolute;
     left: 55px;
     font-size: 2em;
-    color: #01474a;
+    color: #007d7b;
     font-weight: bolder;
     top: 3px;
 }
@@ -86,7 +86,7 @@ header .img-logo p span{
     color: #B9B9B5;
     font-size: .5em;
     text-align: left;
-
+    font-weight: bold;
 }
 
 
@@ -102,7 +102,7 @@ header nav ul li{
 }
 
 header nav ul li a{
-    color: black;
+    color: #007d7b;
     font-weight: bold;
     font-size: 1.2em;
 }
@@ -131,6 +131,13 @@ section.conteudo-topo{
     flex-direction: column;
     height: 100%;
 }
+
+.conteudo-topo .overlay{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.605);
+}
+
 .conteudo-topo .txt-topo{
     margin-top: 40px;
     
@@ -139,13 +146,15 @@ section.conteudo-topo{
 .conteudo-topo .txt-topo h1{
     font-family:"Cormorant Garamond", serif;
     font-size: 5em;
-    font-weight: bold;
+    font-weight: 500;
     text-align: center;
+    z-index: 999;
+    color: #fff;
 }
  
 .conteudo-topo .txt-topo h1 span{
     font-family:"Cormorant Garamond", serif;
-    font-weight: bold;
+    font-weight: 500;
     display: block;
 }
 
@@ -440,13 +449,16 @@ footer.rodape{
 }
 
 .rodape .flex{
-    gap: 30px;
+    gap: 150px;
     align-items: flex-start;
 }
 
 .rodape .logo-rodape{
     width: 30%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .rodape .logo-rodape a{
@@ -454,7 +466,11 @@ footer.rodape{
 }
 
 .rodape .logo-rodape h2{
-    font-size: 2em;
+    font-size: 2.5em;
+}
+
+.rodape .logo-rodape img{
+    height: 200px;
 }
 
 .rodape .links-rodape{
