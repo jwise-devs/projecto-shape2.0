@@ -119,6 +119,29 @@ section.informacoes img{
 }
 
 .conteudo-informacoes .flex{
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.conteudo-informacoes .informacoes-direita .flex{
+    flex-direction: column;
+    gap: 70px 0;
+}
+
+.conteudo-informacoes .informacoes-direita h2{
+    margin-bottom: 120px;
+    font-size: 1.7em;
+    color: #007d7b;
+}
+
+.informacoes-direita h3{
+    color: #007d7b;
+    font-size: 1.3em;
+}
+
+/* Estilo do mapa */
+section.localizacao-contacto-mapa{
+    padding: 20px;
+    height: 500px;
 }

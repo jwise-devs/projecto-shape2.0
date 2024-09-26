@@ -25,6 +25,16 @@ body{
     display: grid;
 }
 
+::-webkit-scrollbar{
+    background-color: #807F7D;
+    width: 15px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #007d7b;
+   
+}
+
 a{
     text-decoration: none;
     color: #007d7b;
