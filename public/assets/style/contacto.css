@@ -1,0 +1,124 @@
+@import url("main.css");
+
+/* Estilo do topo do contacto */
+section.conteudo-topo-contacto{
+    padding: 50px;
+    margin: 50px;
+}
+
+
+.conteudo-contacto .flex{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.conteudo-contacto h1{
+    font-size: 3em;
+    color: #007d7b;
+    font-weight: bold;
+}
+
+.conteudo-contacto p{
+    max-width: 800px;
+    font-size: 1.2em;
+}
+
+/* Estilo do formulario e da parte esquerda e direita*/
+section .dados-contacto{
+    padding: 30px;
+    margin: 20px;
+    
+}
+
+.dados-contacto .flex{
+    justify-content: space-between;
+}
+
+.parte-esquerda-contacto{
+    padding: 50px;
+}
+
+.parte-esquerda-contacto .flex{
+    flex-direction: column;
+    padding-left: 4%;
+}
+
+.form-contacto form{
+    width: 500px;
+}
+
+.form-contacto form h2{
+    padding: 20px;
+    font-size: 2em;
+    color: #007d7b;
+}
+
+.form-contacto .btn{
+    margin: 30px 0;
+    text-align: center;
+}
+
+.form-contacto .inputs{
+    padding: 20px;
+
+}
+.form-contacto .inputs .flex{
+    flex-direction: column;
+    gap: 20px 0;
+}
+
+.inputs label{
+    font-size: 1.2em;
+    color: #007d7b;
+    font-weight: bold;
+}
+
+.inputs input, textarea{
+    border: 0;
+    border-bottom: 2px solid #007d7b;
+    width: 100%;
+    outline: 0;
+    resize: none;
+    color: #007d7b;
+}
+
+.inputs textarea{
+    height: 100px;
+}
+
+.img-parte-esquerda img{
+    width: 388px;
+    height: 490px;
+}
+
+.img-parte-direita-contacto img{
+    width: 674.5px;
+    height: 1199px;
+}
+
+/* Estilo das informacoes */
+section.informacoes{
+    margin: 50px 0;
+    padding-top: 50px;
+}
+.informacoes .flex{
+    flex-direction: column;
+    gap: 100px;
+}
+
+.titulo-informacoes h2{
+    text-align: center;
+    font-size: 2em;
+    color: #007d7b;
+}
+section.informacoes img{
+    width: 629px;
+    height: 600px;
+}
+
+.conteudo-informacoes .flex{
+    align-items: center;
+    justify-content: center;
+}
