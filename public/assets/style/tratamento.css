@@ -1,0 +1,76 @@
+@import url('main.css');
+
+/* Estilo do topo do tratamento */
+section.conteudo-topo-tratamento{
+    padding: 50px;
+    margin: 50px;
+}
+
+
+.conteudo-tratamento .flex{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.conteudo-tratamento h1{
+    font-size: 3em;
+    color: #007d7b;
+    font-weight: bold;
+}
+
+.conteudo-tratamento p{
+    max-width: 800px;
+    font-size: 1.2em;
+}
+
+/* Estilo dos botoes */
+section.servicos{
+    margin-top: 50px;
+}
+
+.servicos .tipo-servico .flex{
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+button{
+    padding: 10px;
+    border-radius: 30px;
+    border: 2px solid #2D5661;
+    background-color: white;
+    color: #2D5661;
+    font-size: 1em;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button.ativo{
+    background-color: #2D5661;
+    color: #fff;
+}
+
+button:hover{
+    background-color: #2D5661;
+    color: #fff;
+}
+
+/* Estilo dos Servicos */
+.container-tratamento{
+    margin-top: 50px;
+}
+
+.container-tratamento .flex{
+    flex-direction: column;
+    align-items: center;
+    gap: 20px 0px;
+}
+
+.container-tratamento img{
+    width: 800px;
+    height: 1000px;
+}
+
+
