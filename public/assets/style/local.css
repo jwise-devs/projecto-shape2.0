@@ -14,6 +14,16 @@ section.experiencia div{
     height: 400px;
 }
 
+.experiencia h1{
+    color: #007d7b;
+    font-size: 2.5em;
+}
+
+h2{
+    color: #007d7b;
+    font-size: 2em;
+}
+
 section.sectionright{
     display: flex;
     align-items: center;
