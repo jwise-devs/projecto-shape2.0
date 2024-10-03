@@ -1,0 +1,55 @@
+@import url("main.css");
+section.conteiner1{
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+
+div.item{
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 490px;
+}
+
+div#spa1{
+    padding-left: 150px;
+    font-size: 2em;
+}
+
+div.spa2{
+    margin: 10px 0px 10px 0px;
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+div#txt{
+    justify-items: center;
+    padding: 0px 0px 0px 10px;
+}
+
+div.btn{
+    padding: 30px 0px 0px 20px;
+}
+
+img#imgspa{
+    height:585px;
+    width: 490px; 
+}
+
+h1{
+    margin: 50px;
+    color: #007d7b;
+}
+
+section.container2{
+    margin-top: 150px;
+    background-image: url('../img/space-foto5.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 500px;
+}

@@ -1,0 +1,36 @@
+@import url(main.css);
+
+section.experiencia{
+    text-align: center;
+    font-size: 1em;
+    padding-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section.experiencia div{
+    width: 700px;
+    height: 400px;
+}
+
+section.sectionright{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+section.sectionright img{
+    height: 595px;
+    width: 400px;
+}
+
+section.sectionright .txt{
+    width: 400px;
+    height: 400px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: center;
+}
+
