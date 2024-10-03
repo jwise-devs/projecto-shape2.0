@@ -200,7 +200,6 @@ section.hero{
 }
 
 .hero .flex{
-    align-items: center;
     justify-content: center;
     gap: 30px;
 }
@@ -262,7 +261,6 @@ section.hero{
 }
 
 .hero .img-direita img{
-    width: 490px;
     height: 898px;
     
 }
@@ -360,8 +358,8 @@ section.horarios{
     height: 600px;
     background-color: aqua;
     margin-left: 10%;
-    background-image: url("../img/space-foto6.jpg");
-    background-position: bottom;
+    background-image: url("../img/pexels-gabby-k-6620858.jpg");
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
 }
