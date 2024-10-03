@@ -443,48 +443,48 @@ section.localizacao{
 /* Estilo de footer */
 footer.rodape{
     margin-top: 10%;
-    background-color: #007d7b;
-    color: white;
+    background-color: rgb(226, 224, 224);
+    color: #007d7b;
 }
 
 .rodape .containerfooter{
     max-width: 1280px;
-    padding-inline: 12%;
     padding-top: 50px;
 }
 
 .rodape .flex{
-    gap: 150px;
-    align-items: flex-start;
+    justify-content: space-between;
 }
 
 .rodape .logo-rodape{
-    width: 30%;
-    height: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
 }
 
 .rodape .logo-rodape a{
-    color: white;
+    color: #007d7b;
 }
 
 .rodape .logo-rodape h2{
     font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.rodape .logo-rodape h2 span{
+    display: block;
+    font-size: .5em;
+    color: #807F7D;
 }
 
 .rodape .logo-rodape img{
     height: 200px;
 }
 
-.rodape .links-rodape{
-    width: 70%;
-}
 
 .rodape .links-rodape .grid{
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(1, 1fr);
+    gap: 0px 80px;
 }
 
 .rodape .links-rodape h2{
@@ -497,7 +497,7 @@ footer.rodape{
 }
 
 .rodape .links-rodape ul li a{
-    color: white;
+    color: #007d7b;
     font-size: 1.2em;
     transition: .2s;
 }
