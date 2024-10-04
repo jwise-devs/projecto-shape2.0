@@ -110,13 +110,23 @@
     }
 
 
+    .container-horarios .flex{
+        gap: 70px;
+    }
+
+
     .horarios .container-horarios{
         width: 100%;
         height: 400px;
+        overflow-x: hidden;
     }
 
+
     .horarios .container-horarios .tabela .flex{
-        align-items: start;
+        align-items: center;
+        gap: 5px;
+        width: 500px;
+        padding-left: 5px;
     }
 
     .horarios .titulo{
@@ -126,6 +136,7 @@
     .horarios .container-horarios .tabela{
         align-items: center;
         justify-content: center;
+        padding: 0;
     }
 
     .horarios .container-horarios .titulo h1{
@@ -138,7 +149,10 @@
 
     .horarios .container-horarios .tabela p{
         color: black;
+        text-align: center;
     }
+
+    
 
     /* Estilo de localizacao */
     section.localizacao{
@@ -172,6 +186,7 @@
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
         gap: 20px;
+        padding: 0 5px;
     }
 
     .rodape p{

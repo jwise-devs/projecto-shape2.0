@@ -15,6 +15,7 @@ html{
 
 body{
     background-color: #ffffffb5;
+    overflow-x: hidden;
 }
 
 .flex{
