@@ -33,18 +33,18 @@ section.servicos{
 .servicos .tipo-servico .flex{
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 0 30px;
 }
 
 button{
-    padding: 10px;
+    padding: 15px;
     border-radius: 30px;
     border: 2px solid #2D5661;
     background-color: white;
     color: #2D5661;
     font-size: 1em;
     cursor: pointer;
-    transition: .2s;
+    transition: .5s;
 }
 
 button.ativo{

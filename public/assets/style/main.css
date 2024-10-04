@@ -257,7 +257,7 @@ section.hero{
 }
 
 .hero .hero-direita{
-    padding: 10% 0;
+    padding: 8.5% 0;
 }
 
 .hero .img-direita img{
@@ -306,6 +306,7 @@ section.bem-estar .flex{
 /* Estilo de Serenita */
 section.serenita-casa{
     margin: 50px 0;
+    padding-top: 50px;
 }
 
 .serenita-casa .Serenita-esquerda .flex{
@@ -351,20 +352,24 @@ section.serenita-casa{
 /* Estilo Horarios */
 section.horarios{
     margin-top: 120px;
+    padding-top: 50px;
+}
+
+.horarios .flex{
+    justify-content: flex-end;
 }
 
 .horarios .container-horarios{
     width: 1214px;
     height: 600px;
-    background-color: aqua;
-    margin-left: 10%;
-    background-image: url("../img/pexels-gabby-k-6620858.jpg");
+    background-image: url("../img/pexels-castorlystock-3872899.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    
 }
 
-.horarios .flex{
+.container-horarios .flex{
     height: 100%;
     flex-direction: column;
     justify-content: center;
@@ -411,7 +416,8 @@ section.horarios{
 
 /* Estilo de localizacao */
 section.localizacao{
-    margin-top: 10%;
+    margin-top: 120px;
+    padding-top: 50px;
 }
 
 .localizacao .container-localizacao h1{
@@ -492,6 +498,10 @@ footer.rodape{
 .rodape .links-rodape ul{
     list-style-type: none;
     padding-top: 50px;
+}
+
+.rodape .links-rodape ul li{
+    padding-bottom: 15px;
 }
 
 .rodape .links-rodape ul li a{
