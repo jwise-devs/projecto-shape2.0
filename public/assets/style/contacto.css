@@ -154,15 +154,19 @@ iframe{
     /* Estilo do topo do contacto */
     section.conteudo-topo-contacto{
         margin-top: 50px;
+        max-width: 500px;
+        min-height: 200px;
     }
 
     .conteudo-contacto{
         max-width: 500px;
-        min-height: 500px;
+        min-height: 200px;
     }
 
     .conteudo-contacto .flex{
         gap: 10px 0px;
+        max-width: 500px;
+        min-height: 200px;
     }
 
     /* Estilo do formulario e da parte esquerda e direita*/
@@ -188,6 +192,10 @@ iframe{
 
     .img-parte-direita-contacto img {
         height: 600px;
+        width: 100%;
+    }
+
+    .form-contacto form{
         width: 100%;
     }
 
@@ -230,6 +238,10 @@ iframe{
 
     section.informacoes img{
         width: 100%;
+    }
+
+    .form-contacto .inputs{
+        padding: 20px 0px;
     }
 
     /* Estilo do mapa */
