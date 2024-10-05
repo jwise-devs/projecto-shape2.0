@@ -187,7 +187,8 @@ iframe{
     }
 
     .img-parte-direita-contacto img {
-        height: 800px;
+        height: 600px;
+        width: 100%;
     }
 
     .form-contacto form h2{
@@ -227,13 +228,17 @@ iframe{
         margin-bottom: 50px;
     }
 
+    section.informacoes img{
+        width: 100%;
+    }
+
     /* Estilo do mapa */
     section.localizacao-contacto-mapa{
         margin-bottom: 0px;
     }
 
     iframe{
-        width: 500px;
+        width: 100%;
         height: 550px;
     }
 
