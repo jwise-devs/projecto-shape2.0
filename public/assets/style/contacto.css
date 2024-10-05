@@ -103,6 +103,7 @@ section.informacoes{
     margin: 50px 0;
     padding-top: 50px;
 }
+
 .informacoes .flex{
     flex-direction: column;
     gap: 100px;
@@ -206,17 +207,22 @@ iframe{
 
     /* Estilo das informacoes */
     section.informacoes{
-        margin: 50px 0;
-        padding-top: 50px;
+        margin: 50px 0px;
+        padding: 50px 0px;
+    }
+
+    .informacoes .flex{
+        gap: 100px 0px;
     }
 
     .titulo-informacoes{
-        max-width: 100%;
+        width: 100%;
         text-align: center;
     }
 
     .titulo-informacoes h2{
-        width: 450px;
+        width: 100%;
+        font-size: 1.8em;
     }
 
     .conteudo-informacoes .flex{
