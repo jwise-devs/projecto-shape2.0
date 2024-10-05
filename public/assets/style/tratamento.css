@@ -57,6 +57,7 @@ button:hover{
     color: #fff;
 }
 
+
 /* Estilo dos Servicos */
 .container-tratamento{
     margin-top: 50px;
@@ -71,6 +72,41 @@ button:hover{
 .container-tratamento img{
     width: 800px;
     height: 1000px;
+}
+
+.item-menu {
+    display: inline-block;
+}
+
+#menu-select {
+    display: none;
+}
+
+@media screen and (max-width: 900px) {
+
+    .item-menu {
+        display: none;
+    }
+
+    #menu-select {
+        display: block !important;
+        width: 70%;
+        padding: 10px;
+    }
+
+    .servicos .tipo-servico .flex{
+        gap: 0;
+    }
+
+    .container-tratamento img{
+        width: 100%;
+        height: 800px;
+    }
+
+    .agendar{
+        margin-bottom: 20px;
+    }
+    
 }
 
 
