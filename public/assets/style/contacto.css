@@ -153,9 +153,10 @@ iframe{
 @media screen and (max-width: 900px) {
     /* Estilo do topo do contacto */
     section.conteudo-topo-contacto{
-        margin-top: 50px;
-        max-width: 500px;
-        min-height: 200px;
+        margin: 50px 0px;
+        padding: 0px;
+        max-width: 100%;
+        min-height: 300px;
     }
 
     .conteudo-contacto{
@@ -210,7 +211,7 @@ iframe{
     }
 
     .titulo-informacoes{
-        max-width: 500px;
+        max-width: 100%;
         text-align: center;
     }
 
