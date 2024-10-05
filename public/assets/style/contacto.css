@@ -195,6 +195,7 @@ iframe{
     .img-parte-direita-contacto img {
         height: 600px;
         width: 100%;
+        overflow: hidden;
     }
 
     .form-contacto form{
@@ -245,6 +246,7 @@ iframe{
 
     section.informacoes img{
         width: 100%;
+        overflow: hidden;
     }
 
     .form-contacto .inputs{
@@ -258,6 +260,7 @@ iframe{
 
     iframe{
         width: 100%;
+        overflow: hidden;
         height: 550px;
     }
 
