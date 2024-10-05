@@ -604,6 +604,11 @@ footer.rodape{
         overflow-x: hidden;
     }
 
+    /* Estilo do navbar */
+    header nav ul li a:hover{
+        transform: scale(1);
+    }
+
     /* menu-mobile */
     .btn-abrir-menu i{
         display: block;
@@ -621,11 +626,17 @@ footer.rodape{
     /* Estilo do conteudo topo */
     section.conteudo-topo{
         width: 100vw;
+        background-attachment: local;
     }
 
     .conteudo-topo .txt-topo h1{
         font-size: 4em;
     }
+
+    .conteudo-topo .overlay{
+        background-color: transparent;
+    }
+
 
     /* Estilo do hero */
     .hero .flex{
@@ -739,16 +750,18 @@ footer.rodape{
 
     .horarios .container-horarios .tabela .flex{
         align-items: center;
-        gap: 5px;
-        width: 500px;
+        justify-content: center;
+        gap: 5px 0px;
+        width: 350px;
         flex-direction: column;
         text-align: center;
     }
 
     .horarios .titulo{
         margin-bottom: 0px;
-        padding: 20px 0px;
-        align-self: center;
+        padding: 20px;
+        align-self: flex-start;
+        
     }
 
     .horarios .container-horarios .tabela{

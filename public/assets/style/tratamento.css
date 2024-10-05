@@ -90,16 +90,31 @@ button:hover{
 
     #menu-select {
         display: block !important;
-        width: 70%;
+        width: 95%;
         padding: 10px;
+        color: #fff;
+        background-color: #007d7b;
     }
+
+    section.conteudo-topo-tratamento{
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
 
     .servicos .tipo-servico .flex{
         gap: 0;
     }
 
+    .conteudo-tratamento{
+        min-height: 500px;
+        max-width: 500px;
+    }
+    
+
     .container-tratamento img{
-        width: 100%;
+        width: 90%;
+        margin-inline: 20px;
         height: 800px;
     }
 
