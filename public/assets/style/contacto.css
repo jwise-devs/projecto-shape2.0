@@ -152,6 +152,11 @@ iframe{
 }
 
 @media screen and (max-width: 900px) {
+
+    body{
+        overflow-x: hidden;
+    }
+    
     /* Estilo do topo do contacto */
     section.conteudo-topo-contacto{
         margin: 50px 0px;
@@ -194,6 +199,11 @@ iframe{
 
     .img-parte-direita-contacto img {
         height: 600px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .img-parte-esquerda img{
         width: 100%;
         overflow: hidden;
     }
