@@ -90,7 +90,7 @@ button:hover{
 
     #menu-select {
         display: block !important;
-        width: 95%;
+        width: 85%;
         padding: 10px;
         color: #fff;
         background-color: #007d7b;
@@ -98,7 +98,14 @@ button:hover{
 
     section.conteudo-topo-tratamento{
         padding: 0;
-        margin-bottom: 20px;
+        margin: 20px 0px;
+        max-width: 100%;
+        min-height: 300px;
+    }
+
+    .conteudo-tratamento .flex{
+        max-width: 500px;
+        min-height: 200px;
     }
 
 
