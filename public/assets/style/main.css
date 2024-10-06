@@ -126,7 +126,7 @@ header nav ul li a:hover{
 
 /* Estilo do menu mobile */
 .menu-mobile{
-    background-color: black;
+    background-color: rgb(226, 224, 224);
     height: 100vh;
     position: fixed;
     top: 0;
@@ -180,7 +180,7 @@ header nav ul li a:hover{
 }
 
 .menu-mobile nav ul li a{
-    color: #fff;
+    color: #007d7b;
     font-size: 20px;
     font-weight: 500;
     padding: 20px 8%;
@@ -189,7 +189,10 @@ header nav ul li a:hover{
 
 .menu-mobile nav ul li:hover{
     background-color: #007d7b;
-    color: black;
+}
+
+.menu-mobile nav ul li:hover a{
+    color: #fff;
 }
 
 /* menu-mobile */
