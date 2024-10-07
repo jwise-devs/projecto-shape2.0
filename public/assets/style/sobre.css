@@ -54,6 +54,7 @@ h1{
 }
 
 @media screen and (max-width: 900px) {
+
     body{
         overflow-x: hidden;
     }
@@ -65,10 +66,22 @@ h1{
 
     .spa2{
         flex-direction: column ;
+        width: 100%;
+        max-width: 100%;
     }
 
-    .item .btn {
+    .container1{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    div.item{
         text-align: center;
+    }
+
+    div.item .btn {
+        text-align: center;
+        padding: 0;
     }
 
     #imgspa{

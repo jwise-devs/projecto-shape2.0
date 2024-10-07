@@ -607,6 +607,10 @@ footer.rodape{
         overflow-x: hidden;
     }
 
+    ::-webkit-scrollbar{
+        width: 0px;
+    }
+
     /* Estilo do navbar */
     header nav ul li a:hover{
         transform: scale(1);

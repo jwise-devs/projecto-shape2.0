@@ -50,11 +50,16 @@ h2{
 
     .experiencia{
         margin-bottom: 50px;
+        width: 100%;
+        max-width: 100%;
     }
+
     .sectionlocal {
         flex-direction: column;
         margin-bottom: 20px;
         gap: 20px 0px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .sectionlocal:nth-child(3){
