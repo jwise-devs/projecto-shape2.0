@@ -33,18 +33,18 @@ section.servicos{
 .servicos .tipo-servico .flex{
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 0 30px;
 }
 
 button{
-    padding: 10px;
+    padding: 15px;
     border-radius: 30px;
     border: 2px solid #2D5661;
     background-color: white;
     color: #2D5661;
     font-size: 1em;
     cursor: pointer;
-    transition: .2s;
+    transition: .5s;
 }
 
 button.ativo{
@@ -56,6 +56,7 @@ button:hover{
     background-color: #2D5661;
     color: #fff;
 }
+
 
 /* Estilo dos Servicos */
 .container-tratamento{
@@ -71,6 +72,67 @@ button:hover{
 .container-tratamento img{
     width: 800px;
     height: 1000px;
+}
+
+.item-menu {
+    display: inline-block;
+}
+
+#menu-select {
+    display: none;
+}
+
+@media screen and (max-width: 900px) {
+
+    body{
+        overflow-x: hidden;
+    }
+
+    .item-menu {
+        display: none;
+    }
+
+    #menu-select {
+        display: block !important;
+        width: 85%;
+        padding: 10px;
+        color: #fff;
+        background-color: #007d7b;
+    }
+
+    section.conteudo-topo-tratamento{
+        padding: 0;
+        margin: 20px 0px;
+        max-width: 100%;
+        min-height: 300px;
+    }
+
+    .conteudo-tratamento .flex{
+        max-width: 500px;
+        min-height: 200px;
+    }
+
+
+    .servicos .tipo-servico .flex{
+        gap: 0;
+    }
+
+    .conteudo-tratamento{
+        min-height: 500px;
+        max-width: 500px;
+    }
+    
+
+    .container-tratamento img{
+        width: 90%;
+        margin-inline: 20px;
+        height: 800px;
+    }
+
+    .agendar{
+        margin-bottom: 20px;
+    }
+    
 }
 
 

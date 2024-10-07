@@ -103,6 +103,7 @@ section.informacoes{
     margin: 50px 0;
     padding-top: 50px;
 }
+
 .informacoes .flex{
     flex-direction: column;
     gap: 100px;
@@ -142,6 +143,136 @@ section.informacoes img{
 
 /* Estilo do mapa */
 section.localizacao-contacto-mapa{
-    padding: 20px;
-    height: 500px;
+    height: 600px;
+}
+
+iframe{
+    width: 100vw;
+    height: 600px;
+}
+
+@media screen and (max-width: 900px) {
+
+    body{
+        overflow-x: hidden;
+    }
+    
+    /* Estilo do topo do contacto */
+    section.conteudo-topo-contacto{
+        margin: 50px 0px;
+        padding: 0px;
+        max-width: 100%;
+        min-height: 300px;
+    }
+
+    .conteudo-contacto{
+        max-width: 500px;
+        min-height: 200px;
+    }
+
+    .conteudo-contacto .flex{
+        gap: 10px 0px;
+        max-width: 500px;
+        min-height: 200px;
+    }
+
+    /* Estilo do formulario e da parte esquerda e direita*/
+    section .dados-contacto{
+        margin: 20px 0px;
+        
+    }
+
+    .dados-contacto .flex{
+        flex-direction: column-reverse;
+    }
+
+    .parte-esquerda-contacto{
+        padding: 0;
+    }
+
+    .parte-esquerda-contacto .flex{
+        padding-left: 0px;
+        flex-direction: column;
+        gap: 10px 0;
+        align-items: center;
+    }
+
+    .img-parte-direita-contacto img {
+        height: 600px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .img-parte-esquerda img{
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .form-contacto form{
+        width: 100%;
+    }
+
+    .form-contacto form h2{
+        text-align: center;
+    }
+
+    /* Estilo das informacoes */
+    section.informacoes{
+        margin: 50px 0px;
+        padding: 50px 0px;
+    }
+
+    .informacoes .flex{
+        gap: 100px 0px;
+    }
+
+    .titulo-informacoes{
+        width: 100%;
+        text-align: center;
+    }
+
+    .titulo-informacoes h2{
+        width: 100%;
+        font-size: 1.8em;
+    }
+
+    .conteudo-informacoes .flex{
+        flex-direction: column;
+    }
+
+    .conteudo-informacoes .informacoes-direita .flex{
+        align-items: center;
+        justify-content: center;
+        gap: 30px 0px;
+    }
+
+    .informacoes-direita h3{
+        text-align: center;
+    }
+
+    .conteudo-informacoes .informacoes-direita h2{
+        margin-bottom: 50px;
+    }
+
+    section.informacoes img{
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .form-contacto .inputs{
+        padding: 20px 0px;
+    }
+
+    /* Estilo do mapa */
+    section.localizacao-contacto-mapa{
+        margin-bottom: 0px;
+    }
+
+    iframe{
+        width: 100%;
+        overflow: hidden;
+        height: 550px;
+    }
+
+    
 }

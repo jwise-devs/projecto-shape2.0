@@ -21,7 +21,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- fim -->
     <link rel="stylesheet" href="public/assets/style/main.css">
+   
     <link rel="shortcut icon" href="public/assets/img/favicon2.0.png" type="image/x-icon">
+
+    <!-- script do menu -->
+     <script src="public/assets/js/menu.js" defer></script>
+    <!-- Fim -->
     <title>Shape</title>
 </head>
 
@@ -36,7 +41,7 @@
                     <p>SHAPE <span>Estética e saúde</span></p>
                 </div> <!--img-logo-->
             </a>
-            <nav>
+            <nav class="menu-desktop">
                 <ul>
                     <li><a href="public/pages/sobre.html">Sobre</a></li>
                     <li><a href="public/pages/local.html">Local</a></li>
@@ -45,8 +50,40 @@
     
                 </ul><!--links-->
             </nav><!--lista-->
+
+            <!-- Menu Mobile -->
+            <div class="btn-abrir-menu" id="btn-menu">
+                <i class="bi bi-list"></i>
+            </div><!--btn-abrir-menu-->
+    
+            <div class="menu-mobile" id="menu-mobile">
+                <div class="btn-fechar">
+                    <i class="bi bi-x-lg"></i>
+                </div><!--btn-fechar-->
+    
+                <nav>
+                    <ul>
+                        <li><a href="public/pages/sobre.html" target="_self" rel="next">Sobre</a></li>
+                        <li><a href="public/pages/local.html">Local</a></li>
+                        <li><a href="public/pages/Tratamento.html" target="_self" rel="next">Tratamentos</a></li>
+                        <li><a href="public/pages/contacto.html" target="_self" rel="next">Contacto</a></li>
+                    </ul>
+                </nav>
+                <!-- div do botao de contacto -->
+    
+                
+    
+            </div><!--menu-mobile-->
+    
+            <div class="overlay-menu" id="overlay-menu">
+    
+            </div><!--overlay-menu-->
+            <!--Fim-->
         </div><!--flex-->
+
+
     </header>
+
     <main>
         <section class="conteudo-topo">
             <div class="overlay">
@@ -74,11 +111,12 @@
                         </div><!--txt-esquerda-->
     
                         <div class="img-esquerda">
-                            <img src="public/assets/img/service-img1.jpeg" alt="">
-    
-                            <div class="btn">
-                                <button><a href="#">Agendar</a></button>
-                            </div><!--btn-->
+                            <div class="flex">
+                                <img src="public/assets/img/pexels-olly-3768926.jpg" alt="">
+                                <div class="btn">
+                                    <button><a href="#">Agendar</a></button>
+                                </div><!--btn-->
+                            </div><!--flex-->
                         </div><!--img-esquerda-->
     
                     </div><!--flex-->
@@ -86,7 +124,7 @@
     
                 <div class="hero-direita">
                     <div class="img-direita">
-                        <img src="public/assets/img/service-img4.jpg" alt="">
+                        <img src="public/assets/img/pexels-moose-photos-170195-1586999.jpg" alt="">
                     </div><!--img-direita-->
     
                 </div><!--hero-direita-->
@@ -105,10 +143,10 @@
                     <div class="flex">
                         <div class="bem-estar-img">
                             <div class="img1">
-                                <img src="public/assets/img/space-foto1.jpeg" alt="">
+                                <img src="public/assets/img/pexels-shvetsa-5069397.jpg" alt="">
                             </div><!--img1-->
                             <div class="img2">
-                                <img src="public/assets/img/space-foto2.jpeg" alt="">
+                                <img src="public/assets/img/pexels-sora-shimazaki-5938539.jpg" alt="">
                             </div><!--img12-->
                         </div><!--bem-estar-img-->
                         <div class="btn">
@@ -133,7 +171,7 @@
                         </div><!--btn-->
     
                         <div class="img-serenita-esquerda">
-                            <img src="public/assets/img/service-img3.jpg" alt="img">
+                            <img src="public/assets/img/estoymhrb.jpg" alt="img">
                         </div><!--img-serenita-esquerda-->
     
                     </div><!--flex-->
@@ -143,7 +181,7 @@
                 <div class="serenita-direita">
     
                     <div class="img-serenita-direita">
-                        <img src="public/assets/img/space-foto10.jpg" alt="img">
+                        <img src="public/assets/img/pexels-keegan-checks-1434513-14524385.jpg" alt="img">
                     </div><!--img-serenita-direita-->
     
                 </div><!--serenita-direita-->
@@ -153,32 +191,33 @@
     
         <section class="horarios">
             
-            <div class="container-horarios">
+            <div class="flex">
+                <div class="container-horarios">
                 
-                <div class="flex">
-                    <div class="titulo">
-                        <h1>HORÁRIOS</h1>
-                    </div><!--titulo-->
-                    <div class="tabela">
-                        <div class="flex">
-                            <div class="horario-1">
-                                <h2>Segunda a Sexta</h2>
-                                <p>7:00 às 22:00</p>
-                            </div><!--horario-1-->
-                            <div class="horario-2">
-                                <h2>Sábado</h2>
-                                <p>8:00 às 22:00</p>
-                            </div><!--horario-2-->
-                            <div class="horario-3">
-                                <h2>Domingo</h2>
-                                <p>8:00 às 23:00</p>
-                            </div><!--horario-3-->
-                        </div><!--flex-->
-                    
-                    </div><!--tabela-->
-                </div><!--flex-->
-    
-            </div><!--container-horarios-->
+                    <div class="flex">
+                        <div class="titulo">
+                            <h1>HORÁRIOS</h1>
+                        </div><!--titulo-->
+                        <div class="tabela">
+                            <div class="flex">
+                                <div class="horario-1">
+                                    <h2>Segunda a Sexta</h2>
+                                    <p>7:00 às 22:00</p>
+                                </div><!--horario-1-->
+                                <div class="horario-2">
+                                    <h2>Sábado</h2>
+                                    <p>8:00 às 22:00</p>
+                                </div><!--horario-2-->
+                                <div class="horario-3">
+                                    <h2>Domingo</h2>
+                                    <p>8:00 às 23:00</p>
+                                </div><!--horario-3-->
+                            </div><!--flex-->
+                
+                        </div><!--tabela-->
+                    </div><!--flex-->
+                </div><!--container-horarios-->
+            </div><!--flex-->
             
     
         </section><!--horarios-->
@@ -220,21 +259,18 @@
                         <div class="link-1">
                             <h2>Menu</h2>
                             <ul class="lista-rodape">
-                                <li><a href="#">df</a></li>
-                                <li><a href="#">fwfw</a></li>
-                                <li><a href="#">fwfw</a></li>
-                                <li><a href="#">fwf</a></li>
-                                <li><a href="#">fwf</a></li>
+                                <li><a href="public/pages/sobre.html" target="_self" rel="next">Sobre</a></li>
+                                <li><a href="public/pages/local.html">Local</a></li>
+                                <li><a href="public/pages/Tratamento.html" target="_self" rel="next">Tratamentos</a></li>
+                                <li><a href="public/pages/contacto.html" target="_self" rel="next">Contacto</a></li>
                             </ul>
                         </div><!--link-1-->
     
                         <div class="link-2">
                             <h2>Redes Sociais</h2>
                             <ul class="lista-rodape">
-                                <li><a href="#">dw</a></li>
-                                <li><a href="#">ffw</a></li>
-                                <li><a href="#">fwf</a></li>
-                                <li><a href="#">fwwf</a></li>
+                                <li><a href="#">Facebook</a></li>
+                                <li><a href="#">Instagram</a></li>
                             </ul>
     
                         </div><!--link-2-->
@@ -242,8 +278,8 @@
                         <div class="link-3">
                             <h2>Reservas</h2>
                             <ul class="lista-rodape">
-                                <li><a href="#">ddw</a></li>
-                                <li><a href="#">dwd</a></li>
+                                <li><a href="#">Email: ctinela@gmail.com</a></li>
+                                <li><a href="#">Tel: (+258) 86 840 3781</a></li>
                             </ul>
                         </div><!--link-3-->
                     </div><!--grid-->
@@ -255,6 +291,7 @@
         </div><!--containerfooter-->
     
     </footer><!--rodape-->
+
 </body>
 
 </html>
