@@ -52,6 +52,7 @@ h2{
         margin-bottom: 50px;
         width: 100%;
         max-width: 100%;
+        overflow-x: hidden;
     }
 
     .sectionlocal {
@@ -60,6 +61,7 @@ h2{
         gap: 20px 0px;
         width: 100%;
         max-width: 100%;
+        overflow-x: hidden;
     }
 
     .sectionlocal:nth-child(3){
@@ -76,6 +78,7 @@ h2{
     }
 
     .sectionlocal img{
-        width: 400px;
+        width: 100%;
+        overflow-x: hidden;
     }
 }

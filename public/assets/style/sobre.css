@@ -56,14 +56,14 @@ h1{
 @media screen and (max-width: 900px) {
 
     body{
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     div#txt{
         padding: 0;
         text-align: center;
         align-items: center;
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     div.btn{
@@ -77,14 +77,14 @@ h1{
         width: 100%;
         max-width: 100%;
         align-items: center;
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     .container1{
         width: 100%;
         max-width: 100%;
         align-items: center;
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     div.item{
