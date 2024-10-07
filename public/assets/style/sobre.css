@@ -4,13 +4,6 @@ section.conteiner1{
     flex-flow: column nowrap;
 }
 
-*{
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-}
-
-
 div.item{
     flex-shrink: 0;
     flex-grow: 0;
@@ -65,6 +58,11 @@ h1{
         overflow-x: hidden;
     }
 
+    div#txt{
+        padding: 0;
+        text-align: center;
+    }
+
     .spa2{
         flex-direction: column ;
     }
@@ -75,9 +73,12 @@ h1{
 
     #imgspa{
         width: 100%;
+        max-width: 100%;
     }
 
     .container2 {
+        background-attachment: local;
         width: 100%;
+        max-width: 100%;
     }
 }
