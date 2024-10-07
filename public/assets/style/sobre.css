@@ -4,6 +4,12 @@ section.conteiner1{
     flex-flow: column nowrap;
 }
 
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
 
 div.item{
     flex-shrink: 0;
@@ -16,7 +22,7 @@ div#spa1{
     font-size: 2em;
 }
 
-div.spa2{
+.spa2{
     margin: 10px 0px 10px 0px;
     display: flex;
     flex-flow: row nowrap;
@@ -34,7 +40,7 @@ div.btn{
     padding: 30px 0px 0px 20px;
 }
 
-img#imgspa{
+#imgspa{
     height:585px;
     width: 490px; 
 }
@@ -44,7 +50,7 @@ h1{
     color: #007d7b;
 }
 
-section.container2{
+.container2{
     margin-top: 150px;
     background-image: url('../img/space-foto5.jpg');
     background-position: center;
@@ -52,4 +58,26 @@ section.container2{
     background-size: cover;
     background-attachment: fixed;
     height: 500px;
+}
+
+@media screen and (max-width: 900px) {
+    body{
+        overflow-x: hidden;
+    }
+
+    .spa2{
+        flex-direction: column ;
+    }
+
+    .item .btn {
+        text-align: center;
+    }
+
+    #imgspa{
+        width: 100%;
+    }
+
+    .container2 {
+        width: 100%;
+    }
 }

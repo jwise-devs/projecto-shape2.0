@@ -1,6 +1,6 @@
 @import url('main.css');
 
-section.experiencia{
+.experiencia {
     text-align: center;
     font-size: 1em;
     padding-top: 70px;
@@ -10,12 +10,12 @@ section.experiencia{
     
 }
 
-section.experiencia div{
+.experiencia div {
     width: 700px;
     height: 400px;
 }
 
-.experiencia h1{
+.experiencia h1 {
     color: #007d7b;
     font-size: 2.5em;
 }
@@ -25,7 +25,7 @@ h2{
     font-size: 2em;
 }
 
-section.sectionright{
+.sectionlocal {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,12 +33,12 @@ section.sectionright{
     gap:40px;
 }
 
-section.sectionright img{
+.sectionlocal img{
     height: 595px;
     width: 400px;
 }
 
-section.sectionright .txt{
+.sectionlocal .txt{
     width: 400px;
     height: 400px;
     flex-grow: 0;
@@ -46,3 +46,22 @@ section.sectionright .txt{
     text-align: center;
 }
 
+@media screen and (max-width:900px) {
+    .sectionlocal {
+        flex-direction: column;
+        margin-bottom: 20px;
+        gap: 20px;
+    }
+
+    .sectionlocal:nth-child(3){
+        flex-direction: column-reverse;
+    }
+
+    .sectionlocal:nth-child(5){
+        flex-direction: column-reverse;
+    }
+
+    .sectionlocal .txt {
+        height: 200px;
+    }
+}
