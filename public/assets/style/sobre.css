@@ -87,16 +87,12 @@ h1{
         overflow-x: hidden;
     }
 
-    div.item{
-        text-align: center;
-        align-items: center;
-        overflow: hidden;
-    }
 
     div.item{
         text-align: center;
         align-items: center;
         overflow: hidden;
+        width: 100%;
     }
 
     #imgspa{
