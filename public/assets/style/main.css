@@ -16,7 +16,7 @@ html{
 
 body{
     background-color: #ffffffb5;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .flex{
