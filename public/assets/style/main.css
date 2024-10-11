@@ -472,7 +472,7 @@ section.horarios{
 
 .horarios .titulo h1{
     font-size: 3em;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .horarios .container-horarios .tabela .flex{
@@ -482,15 +482,15 @@ section.horarios{
 }
 
 .horarios .container-horarios .titulo h1{
-    color: white;
+    color: #007d7b;
 }
 
 .horarios .container-horarios .tabela h2{
-    color: white;
+    color: #007d7b;
 }
 
 .horarios .container-horarios .tabela p{
-    color: white;
+    color: black;
     padding: 20px;
     font-weight: bolder;
 }
@@ -605,10 +605,6 @@ footer.rodape{
 
     body{
         overflow-x: hidden;
-    }
-
-    ::-webkit-scrollbar{
-        width: 0px;
     }
 
     /* Estilo do navbar */

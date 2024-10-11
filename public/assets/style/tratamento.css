@@ -88,6 +88,10 @@ button:hover{
         overflow-x: hidden;
     }
 
+    ::-webkit-scrollbar{
+        width: 0px;
+    }
+
     .item-menu {
         display: none;
     }

@@ -48,6 +48,10 @@ h2{
 
 @media screen and (max-width:900px) {
 
+    ::-webkit-scrollbar{
+        width: 0px;
+    }
+    
     .experiencia{
         margin-bottom: 50px;
         width: 100%;

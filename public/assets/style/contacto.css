@@ -156,6 +156,10 @@ iframe{
     body{
         overflow-x: hidden;
     }
+
+    ::-webkit-scrollbar{
+        width: 0px;
+    }
     
     /* Estilo do topo do contacto */
     section.conteudo-topo-contacto{

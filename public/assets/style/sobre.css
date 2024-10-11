@@ -59,6 +59,10 @@ h1{
         overflow-x: hidden;
     }
 
+    ::-webkit-scrollbar{
+        width: 0px;
+    }
+
     div#spa1{
         text-align: center;
         align-items: center;
