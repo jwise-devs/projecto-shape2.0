@@ -156,6 +156,10 @@ iframe{
     body{
         overflow-x: hidden;
     }
+
+    ::-webkit-scrollbar{
+        width: 0px;
+    }
     
     /* Estilo do topo do contacto */
     section.conteudo-topo-contacto{
@@ -174,6 +178,7 @@ iframe{
         gap: 10px 0px;
         max-width: 500px;
         min-height: 200px;
+        text-align: center;
     }
 
     /* Estilo do formulario e da parte esquerda e direita*/

@@ -47,10 +47,25 @@ h2{
 }
 
 @media screen and (max-width:900px) {
+
+    ::-webkit-scrollbar{
+        width: 0px;
+    }
+    
+    .experiencia{
+        margin-bottom: 50px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
     .sectionlocal {
         flex-direction: column;
         margin-bottom: 20px;
-        gap: 20px;
+        gap: 20px 0px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
     }
 
     .sectionlocal:nth-child(3){
@@ -63,5 +78,11 @@ h2{
 
     .sectionlocal .txt {
         height: 200px;
+        margin-top: 30px;
+    }
+
+    .sectionlocal img{
+        width: 100%;
+        overflow-x: hidden;
     }
 }
