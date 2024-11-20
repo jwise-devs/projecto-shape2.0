@@ -1,0 +1,22 @@
+h4{
+    color: #007d7b;
+}
+
+.btn-primary{
+    background-color: #007d7b;
+    border-color: #007d7b;
+}
+
+.btn-primary:hover{
+    background-color: #007d7b;
+    border-color: #007d7b;
+}
+
+a.custom-link {
+    text-decoration: none;
+}
+
+a.custom-link:hover{
+    color: #007d7b;
+    text-decoration: underline;
+}

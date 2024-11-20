@@ -5,6 +5,8 @@ const sobreRoute = require('./src/routes/sobreRoute');
 const localRoute = require('./src/routes/localRoute');
 const tratamentoRoute = require('./src/routes/tratamentoRoute');
 const contactoRoute = require('./src/routes/contactoRoute');
+const loginRoute = require('./src/routes/loginRoute');
+const registroRoute = require('./src/routes/registroRoute');
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(sobreRoute);
 app.use(localRoute);
 app.use(tratamentoRoute);
 app.use(contactoRoute);
+app.use(registroRoute);
+app.use(loginRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {
