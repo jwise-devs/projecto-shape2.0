@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "node server.js"
+    "build": "webpack serve",
+    "dev": "nodemon server.js",
+    "start": "concurrently \"npm run dev\" \"npm run build\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^9.1.0",
     "core-js": "^3.39.0",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
@@ -26,6 +28,7 @@
     "css-loader": "^7.1.2",
     "style-loader": "^4.0.0",
     "webpack": "^5.96.1",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
   }
 }
