@@ -1,29 +1,32 @@
-const express = require("express");
+const express = require('express');
+const path = require('path');
+const homeRoute = require('./src/routes/homeRoute');
+const sobreRoute = require('./src/routes/sobreRoute');
+
 const app = express();
 
-const routes = require('./routes');
+// Configura o EJS como mecanismo de template
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, "src",'views'));
 
-const path = require('path');
+// Serve arquivos estáticos (CSS, JS) da pasta public
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(
-    express.urlencoded(
-        {
-            extended: true,
-        }
-    )
-);
+app.use(express.urlencoded({extended: true}));
 
-app.use(express.static(path.resolve(__dirname,"path")));
+app.use(homeRoute);
+app.use(sobreRoute);
 
-app.set("views",path.resolve(__dirname,"src","views"));
+// // Rota principal renderizando o arquivo index.ejs
+// app.get('/', (req, res) => {
+//   res.render('index', {
+//     title: 'Webpack com Express e EJS',
+//     message: 'Bem-vindo ao meu projeto!',
+//   });
+// });
 
-app.set("view engine","ejs");
-
-app.use(routes);
-
-app.listen(3000, () =>{
-    console.log("Servidor executando na porta: 3000");
-    console.log("Acesse http://localhost:3000");
-})
-
-
+// Inicia o servidor
+const PORT = 3003;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
