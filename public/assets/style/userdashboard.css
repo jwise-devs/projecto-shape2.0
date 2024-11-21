@@ -1,0 +1,15 @@
+nav.navbar{
+    background-color: rgb(226, 224, 224);
+}
+
+div.container-fluid a,li a{
+    color: #007d7b;
+}
+
+.nav-link:hover{
+    color: #007d7b;
+}
+
+h1{
+    color: #007d7b; 
+}

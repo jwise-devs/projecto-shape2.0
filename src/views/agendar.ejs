@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('includes/head') %>
+    <title>Consultas</title>
+    <body>
+    <%- include('includes/navbar') %>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+
+            <div class="col-lg-8 my-3">
+                <h1 class="text-center">Contacto</h1>
+                <p class="text-center lead">Crie ou edite seu contacto logados</p>
+                <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
+                
+
+
+                    <form action="/contacto/edit/" method="post">
+
+                    
+                    <form action="/contacto/register" method="post">  
+                
+
+                    <input type="hidden" name="_csrf" value="">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-control" name="nome" value="">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sobrenome</label>
+                        <input type="text" class="form-control" name="sobrenome" value="">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">E-Mail</label>
+                        <input type="email" class="form-control" name="email" value="">
+                    </div>
+
+                    <div class="form-check d-inline-block">
+                        <input type="checkbox" name="" id="checkbox1" class="form-check-input">
+                        <label for="checkbox1" class="form-check-label">10</label>
+                    </div>
+
+                    <div class="form-check d-inline-block">
+                        <input type="checkbox" name="" id="checkbox2" class="form-check-input">
+                        <label for="checkbox2" class="form-check-label">10</label>
+                    </div>
+
+                    <div class="form-check d-inline-block">
+                        <input type="checkbox" name="" id="checkbox3" class="form-check-input">
+                        <label for="checkbox3" class="form-check-label">10</label>
+                    </div>
+
+                    <div class="form-check d-inline-block">
+                        <input type="checkbox" name="" id="checkbox4" class="form-check-input">
+                        <label for="checkbox4" class="form-check-label">10</label>
+                    </div>
+
+                    <div class="form-check d-inline-block">
+                        <input type="checkbox" name="" id="checkbox5" class="form-check-input">
+                        <label for="checkbox5" class="form-check-label">10</label>
+                    </div>
+
+                    <div class="form-check d-inline-block">
+                        <input type="checkbox" name="" id="checkbox6" class="form-check-input">
+                        <label for="checkbox6" class="form-check-label">10</label>
+                    </div>
+
+                    <div class="form-check d-inline-block">
+                        <input type="checkbox" name="" id="checkbox7" class="form-check-input">
+                        <label for="checkbox7" class="form-check-label">10</label>
+                    </div>
+            
+
+                    <div class="mb-3">
+                        <label class="form-label">Telefone</label>
+                        <input type="tel" class="form-control" name="telefone" value="">
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+
+               
+            </div>
+
+            <div class="col-lg-2"></div>
+        </div>
+    </div>
+        <%- include('includes/script') %>
+</body>
+</html>

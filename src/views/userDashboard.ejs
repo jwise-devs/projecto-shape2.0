@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('includes/head') %>
+    <title>Consultas</title>
+    <body>
+    <%- include('includes/navbar') %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2"></div>
+
+                <div class="col-lg-8 my-3">
+                    <h1 class="text-center">Agenda</h1>
+                    <p class="text-center lead">Seus contactos estao abaixo</p>
+                    <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
+
+
+                       
+
+                    <div class="responsive-table">
+                        <table class="table my-3">
+
+                                <tr>
+                                    <td>nome</td>
+                                    <td>contacto</td>
+                                    <td>email</td>
+                                    <td>telefone</td>
+                                    <td><a href="/contacto/index/">Editar</a></td>
+                                    <td><a class="text-danger" href="/contacto/delete/">Excluir</a></td>
+                                </tr>
+
+                           
+                        </table>
+                    </div>
+                        
+                        <p class="text-center lead">Nao existem contactos na sua agenda</p> 
+                </div>
+
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+        <%- include('includes/script') %>
+</body>
+</html>
