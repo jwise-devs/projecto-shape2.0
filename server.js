@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const homeRoute = require('./src/routes/homeRoute');
@@ -18,6 +19,21 @@ app.set('views', path.join(__dirname, "src",'views'));
 
 // Serve arquivos estáticos (CSS, JS) da pasta public
 app.use(express.static(path.join(__dirname, 'public')));
+
+const csurf = require('csurf');
+const session = require('express-session');
+const flash = require('connect-flash');
+
+const sessionOptions = session({
+  secret: "fefefeffvrgfsfwmimmiminnnnnunuunun",
+  store: new MongoStore({ mongoUrl: process.env.CONNECTSTRING}),
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true
+  }
+});
 
 app.use(express.urlencoded({extended: true}));
 
