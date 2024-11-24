@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const csurf = require('csurf');
 const session = require('express-session');
 const flash = require('connect-flash');
-const sequelize = require('./src/database/index');
+const sequelize = require('./src/database');
 
 const MySQLStore = require("express-mysql-session")(session);
 
