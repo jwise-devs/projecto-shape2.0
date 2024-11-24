@@ -6,6 +6,10 @@ exports.index = (req, res) => {
 
 exports.register = async (req, res) => {
   try {
+    if (!req.body.email || !req.body.password) {
+      req.flash('error', 'Por favor, preencha todos os campos.');
+      return req.session.save(() => res.redirect('back'));
+    }
     // Tenta criar o novo usuário
     const novoUsuario = await Usuario.create(req.body);
 
@@ -13,7 +17,7 @@ exports.register = async (req, res) => {
     req.flash('success', 'Usuário registrado com sucesso!');
     req.session.save(function (){
 
-        return res.redirect('/dashboard'); // Redireciona para o dashboard
+        return res.redirect('back'); // Redireciona para o dashboard
     })
     
   } catch (error) {

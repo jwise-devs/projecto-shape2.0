@@ -23,19 +23,51 @@ app.use(express.static(path.join(__dirname, 'public')));
 const csurf = require('csurf');
 const session = require('express-session');
 const flash = require('connect-flash');
+const sequelize = require('./src/database/index');
 
-const sessionOptions = session({
-  secret: "fefefeffvrgfsfwmimmiminnnnnunuunun",
-  store: new MongoStore({ mongoUrl: process.env.CONNECTSTRING}),
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true
-  }
+const MySQLStore = require("express-mysql-session")(session);
+
+const {middlewareGlobal,checkCsrfError,csrfMiddleware} = require("./src/middlewares/middleware");
+
+// Configuração da conexão com o banco MySQL
+const sessionStore = new MySQLStore({
+  host: process.env.BD_HOST,        // Endereço do servidor MySQL
+  port: process.env.BD_PORT,               // Porta do MySQL (3306 por padrão)
+  user: process.env.BD_USER,      // Nome de usuário do banco de dados
+  password: process.env.BD_PASSWORD,    // Senha do banco de dados
+  database: process.env.BD_NAME// Nome do banco de dados
 });
 
+// Configuração das opções de sessão
+const sessionOptions = session({
+  secret: "fefefeffvrgfsfwmimmiminnnnnunuunun", // Chave secreta
+  store: sessionStore, // Define o MySQL como armazenamento
+  resave: false,       // Não salvar novamente se não houver mudanças
+  saveUninitialized: false, // Não salvar sessões não inicializadas
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7, // Duração: 7 dias
+    httpOnly: true,                  // Torna os cookies acessíveis apenas via HTTP
+  },
+});
+
+// Tratamento de erros na conexão com o banco
+sessionStore.onReady()
+  .then(() => console.log('Conexão com o banco de dados MySQL bem-sucedida!'))
+  .catch((err) => {
+    console.error('Erro ao conectar ao banco de dados MySQL:', err.message);
+    process.exit(1); // Encerra o servidor em caso de erro
+  });
+
 app.use(express.urlencoded({extended: true}));
+
+app.use(sessionOptions);
+app.use(flash());
+
+app.use(csurf());
+
+app.use(middlewareGlobal);
+app.use(checkCsrfError);
+app.use(csrfMiddleware);
 
 app.use(homeRoute);
 app.use(sobreRoute);
@@ -56,7 +88,17 @@ app.use(consultaRoute);
 // });
 
 // Inicia o servidor
-const PORT = 3003;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+sequelize.authenticate()
+  .then(() => {
+    console.log('Conexão com o banco de dados estabelecida com sucesso.');
+    app.listen(3003, () => {
+      console.log('Servidor rodando em http://localhost:3003');
+    });
+  })
+  .catch((err) => {
+    console.error('Erro ao conectar ao banco de dados:', err.message);
+  });
+// const PORT = 3003;
+// app.listen(PORT, () => {
+//   console.log(`Servidor rodando em http://localhost:${PORT}`);
+// });

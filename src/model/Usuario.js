@@ -1,7 +1,7 @@
-import { Model, DataTypes } from "sequelize";
-import bcryptjs from 'bcryptjs';
+const { Model, DataTypes } = require("sequelize");
+const bcryptjs = require("bcryptjs");
 
-export default class Usuario extends Model {
+class Usuario extends Model {
     static init(sequelize) {
         super.init(
             {
@@ -23,11 +23,10 @@ export default class Usuario extends Model {
                     msg: "Email ja existe",
                 },
                 validate: {
-                    len: {
-                        args: [3, 255],
-                        msg: 'campo nome deve ter entre 3 e 255 caracteres',
+                    isEmail: {
+                      msg: 'E-Mail invalido',
                     },
-                },
+                  },
             },
 
             password_hash: {
@@ -53,6 +52,7 @@ export default class Usuario extends Model {
 
         {
             sequelize,
+             modelName: 'Usuario',
         },
     
     );
@@ -71,3 +71,5 @@ export default class Usuario extends Model {
         return bcryptjs.compare(password, this.password_hash);
     }
 }
+
+module.exports = Usuario;
