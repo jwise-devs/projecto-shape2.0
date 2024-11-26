@@ -5,4 +5,5 @@ const {loginRequired} = require('../middlewares/middleware');
 
 route.get('/dashboard',loginRequired,userDashboardController.index);
 
+
 module.exports = route;

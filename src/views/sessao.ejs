@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+    <title>Sessao</title>
+
+    <body>
+        <%- include('includes/navbar') %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2"></div>
+
+                    <div class="col-lg-8 my-3">
+                        <h1 class="text-center">Sessao</h1>
+                        <p class="text-center lead">Preencha os seus dados</p>
+                        <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
+
+
+                        <%- include('includes/messeges') %>
+
+                            <form action="/contacto/register" method="post">
+
+
+                                <div class="container mt-5">
+                                    <label for="smallSelect" class="form-label">Pacote:</label>
+                                    <select class="form-select form-select-sm" id="smallSelect">
+                                      <option selected>Selecione</option>
+                                      <option value="1">Consulta</option>
+                                      <option value="2">Beleza</option>
+                                      <option value="2">Rosto</option>
+                                      <option value="2">Liposhaper</option>
+                                    </select>
+                                  
+                                    <!-- <label for="largeSelect" class="form-label mt-3">Grande:</label>
+                                    <select class="form-select form-select-lg" id="largeSelect">
+                                      <option selected>Selecione</option>
+                                      <option value="1">Opção 1</option>
+                                      <option value="2">Opção 2</option>
+                                    </select> -->
+                                </div>
+
+                                <div class="container mt-5">
+                                    <label for="smallSelect" class="form-label">Tratamento:</label>
+                                    <select class="form-select form-select-sm" id="smallSelect">
+                                      <option selected>Selecione</option>
+                                      <option value="1">Consulta</option>
+                                      <option value="2">Beleza</option>
+                                      <option value="2">Rosto</option>
+                                      <option value="2">Liposhaper</option>
+                                    </select>
+                                  
+                                    <!-- <label for="largeSelect" class="form-label mt-3">Grande:</label>
+                                    <select class="form-select form-select-lg" id="largeSelect">
+                                      <option selected>Selecione</option>
+                                      <option value="1">Opção 1</option>
+                                      <option value="2">Opção 2</option>
+                                    </select> -->
+                                </div>
+
+                                <div class="mb-3 my-3">
+                                    <label class="form-label">Data e Hora de Consulta</label>
+                                    <input type="datetime-local" class="form-control" name="textefone" value="">
+                                </div>
+                                  
+
+                                <button type="submit" class="btn btn-primary my-3">Salvar</button>
+                            </form>
+
+
+                    </div>
+
+                    <div class="col-lg-2"></div>
+                </div>
+            </div>
+            <%- include('includes/script') %>
+    </body>
+
+</html>

@@ -14,307 +14,321 @@
                         <p class="text-center lead">Preencha os seus dados</p>
                         <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
 
+                        <%- include('includes/messeges') %>
+
+                        <form action="/agendar/data" method="post">
 
 
-                        <form action="/contacto/edit/" method="post">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Cintura Umbilical</label>
+                                <input type="text" class="form-control" name="cintura_umbilical" value="">
+                            </div>
 
-                            <form action="/contacto/register" method="post">
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Acima do Umbigo</label>
+                                <input type="text" class="form-control" name="acima_umbigo" value="">
+                            </div>
 
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Abaixo do Umbigo</label>
+                                <input type="text" class="form-control" name="abaixo_umbigo" value="">
+                            </div>
 
-                                <input type="hidden" name="_csrf" value="">
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Alimentacao</label>
+                                <input type="text" class="form-control" name="alimentacao" value="">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Nome</label>
-                                    <input type="text" class="form-control" name="nome" value="">
-                                </div>
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Consumo de Agua</label>
+                                <input type="text" class="form-control" name="consumo_agua" value="">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Sobrenome</label>
-                                    <input type="text" class="form-control" name="sobrenome" value="">
-                                </div>
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Historico de Doencas</label>
+                                <input type="text" class="form-control" name="historico_doencas" value="">
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">E-Mail</label>
-                                    <input type="email" class="form-control" name="email" value="">
-                                </div>
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Queixa Principal</label>
+                                <input type="text" class="form-control" name="queixa_principal" value="">
+                            </div>
 
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Idade</legend>
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Idade</legend>
 
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    >10
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    10-20
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 3 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox3">
-                                                <label class="form-check-label" for="checkbox3">
-                                                    20-30
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 4 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox4">
-                                                <label class="form-check-label" for="checkbox4">
-                                                    30-40
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 5 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox5">
-                                                <label class="form-check-label" for="checkbox5">
-                                                    40-50
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 6 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox6">
-                                                <label class="form-check-label" for="checkbox6">
-                                                    >50
-                                                </label>
-                                            </div>
-
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-idade" type="checkbox" id="checkbox1"
+                                                name="idade" value=">10">
+                                            <label class="form-check-label" for="checkbox1">
+                                                >10
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-
-
-                                <div class="mb-3 my-3">
-                                    <label class="form-label">Alimentacao</label>
-                                    <input type="text" class="form-control" name="telefone" value="">
-                                </div>
-
-                                <div class="mb-3 my-3">
-                                    <label class="form-label">Consumo de Agua</label>
-                                    <input type="text" class="form-control" name="textefone" value="">
-                                </div>
-
-                                <div class="mb-3 my-3">
-                                    <label class="form-label">Historico de Doencas</label>
-                                    <input type="text" class="form-control" name="textefone" value="">
-                                </div>
-
-                                <div class="mb-3 my-3">
-                                    <label class="form-label">Queixa Principal</label>
-                                    <input type="text" class="form-control" name="textefone" value="">
-                                </div>
-
-                                <div class="mb-3 my-3">
-                                    <label class="form-label">Data e Hora de Consulta</label>
-                                    <input type="datetime-local" class="form-control" name="textefone" value="">
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Fumante?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-idade" type="checkbox" id="checkbox2"
+                                                name="idade" value="10-20">
+                                            <label class="form-check-label" for="checkbox2">
+                                                10-20
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Disturbio Circulatorio?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 3 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-idade" type="checkbox" id="checkbox3"
+                                                name="idade" value="20-30">
+                                            <label class="form-check-label" for="checkbox3">
+                                                20-30
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Epiletica?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 4 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-idade" type="checkbox" id="checkbox4"
+                                                name="idade" value="30-40">
+                                            <label class="form-check-label" for="checkbox4">
+                                                30-40
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Ciclo Menstrual Regular?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 5 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-idade" type="checkbox" id="checkbox5"
+                                                name="idade" value="40-50">
+                                            <label class="form-check-label" for="checkbox5">
+                                                40-50
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Funcionamento Intestional Regular?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 6 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-idade" type="checkbox" id="checkbox6"
+                                                name="idade" value=">50">
+                                            <label class="form-check-label" for="checkbox6">
+                                                >50
+                                            </label>
                                         </div>
 
-                                    </fieldset>
+                                    </div>
 
-                                </div>
+                                </fieldset>
 
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Esta em tratamento medico?</legend>
+                            </div>
 
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
 
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
 
+
+
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Fumante?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-fumante" type="checkbox" id="checkbox7"
+                                                name="fumante" value="sim">
+                                            <label class="form-check-label" for="checkbox7">
+                                                SIM
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Diabetes?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
-                                            
-
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-fumante" type="checkbox" id="checkbox8"
+                                                name="fumante" value="nao">
+                                            <label class="form-check-label" for="checkbox8">
+                                                NAO
+                                            </label>
                                         </div>
 
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Disturbio Circulatorio?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-disturbio" type="checkbox"
+                                                id="checkbox9" name="disturbio_circulatorio" value="sim">
+                                            <label class="form-check-label" for="checkbox9">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-disturbio" type="checkbox"
+                                                id="checkbox10" name="disturbio_circulatorio" value="nao">
+                                            <label class="form-check-label" for="checkbox10">
+                                                NAO
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Epiletica?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-epiletica" type="checkbox"
+                                                id="checkbox11" name="epiletica" value="sim">
+                                            <label class="form-check-label" for="checkbox11">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="checkbox12"
+                                                name="epiletica" value="nao">
+                                            <label class="form-check-label" for="checkbox12">
+                                                NAO
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Ciclo Menstrual Regular?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-ciclo" type="checkbox" id="checkbox13"
+                                                name="ciclo_menstrual_regular" value="sim">
+                                            <label class="form-check-label" for="checkbox13">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-ciclo" type="checkbox" id="checkbox14"
+                                                name="ciclo_menstrual_regular" value="nao">
+                                            <label class="form-check-label" for="checkbox14">
+                                                NAO
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Funcionamento Intestional Regular?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-funcionamento" type="checkbox"
+                                                id="checkbox15" name="funcionamento_intestional_regular" value="sim">
+                                            <label class="form-check-label" for="checkbox15">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-funcionamento" type="checkbox"
+                                                id="checkbox16" name="funcionamento_intestional_regular" value="nao">
+                                            <label class="form-check-label" for="checkbox16">
+                                                NAO
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Esta em tratamento medico?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-tratamento" type="checkbox"
+                                                id="checkbox17" name="tratamento_medico" value="sim">
+                                            <label class="form-check-label" for="checkbox17">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-tratamento" type="checkbox"
+                                                id="checkbox18" name="tratamento_medico" value="nao">
+                                            <label class="form-check-label" for="checkbox18">
+                                                NAO
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Diabetes?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-diabetes" type="checkbox"
+                                                id="checkbox19" name="diabetes" value="sim">
+                                            <label class="form-check-label" for="checkbox19">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-diabetes" type="checkbox"
+                                                id="checkbox20" name="diabetes" value="nao">
+                                            <label class="form-check-label" for="checkbox20">
+                                                NAO
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Campos que devem ser exibidos ao selecionar "SIM" -->
+                                    <div id="extra-fields" style="display: none;">
                                         <div class="mb-3 my-3">
                                             <label class="form-label">Tipo</label>
-                                            <input type="text" class="form-control" name="textefone" value="">
+                                            <input type="text" class="form-control" name="tipo_diabetes" value="">
                                         </div>
 
                                         <div class="mb-3 my-3">
@@ -322,180 +336,177 @@
                                             <div class="d-flex flex-wrap gap-3">
                                                 <!-- Checkbox 1 -->
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                    <label class="form-check-label" for="checkbox1">
+                                                    <input class="form-check-input group-controlada" type="checkbox"
+                                                        id="checkbox21" name="diabete_controlada" value="sim">
+                                                    <label class="form-check-label" for="checkbox21">
                                                         SIM
                                                     </label>
                                                 </div>
-    
+
                                                 <!-- Checkbox 2 -->
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                    <label class="form-check-label" for="checkbox2">
+                                                    <input class="form-check-input group-controlada" type="checkbox"
+                                                        id="checkbox22" name="diabete_controlada" value="nao">
+                                                    <label class="form-check-label" for="checkbox22">
                                                         NAO
                                                     </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Alteracoes Cardiacas?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-alteracoes" type="checkbox"
+                                                id="checkbox23" name="alteracoes_cardiacas" value="sim">
+                                            <label class="form-check-label" for="checkbox23">
+                                                SIM
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Alteracoes Cardiacas?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-alteracoes" type="checkbox"
+                                                id="checkbox24" name="alteracoes_cardiacas" value="nao">
+                                            <label class="form-check-label" for="checkbox24">
+                                                NAO
+                                            </label>
                                         </div>
 
-                                    </fieldset>
+                                    </div>
 
-                                </div>
+                                </fieldset>
 
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Disturbio Hormonal?</legend>
+                            </div>
 
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Disturbio Hormonal?</legend>
 
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-hormonal" type="checkbox"
+                                                id="checkbox25" name="disturbio_hormonal" value="sim">
+                                            <label class="form-check-label" for="checkbox25">
+                                                SIM
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Tem Hipo/Hipertensao?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-hormonal" type="checkbox"
+                                                id="checkbox26" name="disturbio_hormonal" value="nao">
+                                            <label class="form-check-label" for="checkbox26">
+                                                NAO
+                                            </label>
                                         </div>
 
-                                    </fieldset>
+                                    </div>
 
-                                </div>
-                                
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Disturbio Renal?</legend>
+                                </fieldset>
 
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
+                            </div>
 
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Tem Hipo/Hipertensao?</legend>
 
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-hipo" type="checkbox" id="checkbox27"
+                                                name="hipo" value="sim">
+                                            <label class="form-check-label" for="checkbox27">
+                                                SIM
+                                            </label>
                                         </div>
 
-                                    </fieldset>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    <fieldset class="border p-3">
-                                        <legend class="w-auto px-1 mb-3">Alguma Alergia?</legend>
-
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <!-- Checkbox 1 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox1">
-                                                <label class="form-check-label" for="checkbox1">
-                                                    SIM
-                                                </label>
-                                            </div>
-
-                                            <!-- Checkbox 2 -->
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkbox2">
-                                                <label class="form-check-label" for="checkbox2">
-                                                    NAO
-                                                </label>
-                                            </div>
-
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-hipo" type="checkbox" id="checkbox28"
+                                                name="hipo" value="nao">
+                                            <label class="form-check-label" for="checkbox28">
+                                                NAO
+                                            </label>
                                         </div>
 
-                                    </fieldset>
+                                    </div>
 
-                                </div>
+                                </fieldset>
 
-                                <div class="container mt-5">
-                                    <label for="smallSelect" class="form-label">Tratamento:</label>
-                                    <select class="form-select form-select-sm" id="smallSelect">
-                                      <option selected>Selecione</option>
-                                      <option value="1">Consulta</option>
-                                      <option value="2">Beleza</option>
-                                      <option value="2">Rosto</option>
-                                      <option value="2">Liposhaper</option>
-                                    </select>
-                                  
-                                    <!-- <label for="largeSelect" class="form-label mt-3">Grande:</label>
-                                    <select class="form-select form-select-lg" id="largeSelect">
-                                      <option selected>Selecione</option>
-                                      <option value="1">Opção 1</option>
-                                      <option value="2">Opção 2</option>
-                                    </select> -->
-                                  </div>
-                                  
+                            </div>
 
-                                <button type="submit" class="btn btn-primary my-3">Salvar</button>
-                            </form>
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Disturbio Renal?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-renal" type="checkbox" id="checkbox29"
+                                                name="disturbio_renal" value="sim">
+                                            <label class="form-check-label" for="checkbox29">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-renal" type="checkbox" id="checkbox30"
+                                                name="disturbio_renal" value="nao">
+                                            <label class="form-check-label" for="checkbox30">
+                                                NAO
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+                            <div class="container mt-3">
+                                <fieldset class="border p-3">
+                                    <legend class="w-auto px-1 mb-3">Alguma Alergia?</legend>
+
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <!-- Checkbox 1 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-alergia" type="checkbox"
+                                                id="checkbox31" name="alguma_alergia" value="sim">
+                                            <label class="form-check-label" for="checkbox31">
+                                                SIM
+                                            </label>
+                                        </div>
+
+                                        <!-- Checkbox 2 -->
+                                        <div class="form-check">
+                                            <input class="form-check-input group-alergia" type="checkbox"
+                                                id="checkbox32" name="alguma_alergia" value="nao">
+                                            <label class="form-check-label" for="checkbox32">
+                                                NAO
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </div>
+
+
+
+
+                            <button type="submit" class="btn btn-primary my-3">Salvar</button>
+                        </form>
 
 
                     </div>
@@ -504,6 +515,72 @@
                 </div>
             </div>
             <%- include('includes/script') %>
+                <script>
+                    // Seleciona grupos de checkboxes
+                    const idadeCheckboxes = document.querySelectorAll('.group-idade'); // Grupo de "Idade"
+                    const fumanteCheckboxes = document.querySelectorAll('.group-fumante'); // Grupo de "Fumante?"
+                    const disturbioCheckboxes = document.querySelectorAll('.group-disturbio'); // Grupo de "Fumante?"
+                    const epileticaCheckboxes = document.querySelectorAll('.group-epiletica'); // Grupo de "Fumante?"
+                    const cicloCheckboxes = document.querySelectorAll('.group-ciclo'); // Grupo de "Fumante?"
+                    const funcionamentoCheckboxes = document.querySelectorAll('.group-funcionamento'); // Grupo de "Fumante?"
+                    const tratamentoCheckboxes = document.querySelectorAll('.group-tratamento'); // Grupo de "Fumante?"
+                    const diabetesCheckboxes = document.querySelectorAll('.group-diabetes'); // Grupo de "Fumante?"
+                    const controladaCheckboxes = document.querySelectorAll('.group-controlada'); // Grupo de "Fumante?"
+                    const alteracoesCheckboxes = document.querySelectorAll('.group-alteracoes'); // Grupo de "Fumante?"
+                    const hormonalCheckboxes = document.querySelectorAll('.group-hormonal'); // Grupo de "Fumante?"
+                    const hipoCheckboxes = document.querySelectorAll('.group-hipo'); // Grupo de "Fumante?"
+                    const renalCheckboxes = document.querySelectorAll('.group-renal'); // Grupo de "Fumante?"
+                    const alergiaCheckboxes = document.querySelectorAll('.group-alergia'); // Grupo de "Fumante?"
+
+                    // Função para garantir que apenas um checkbox seja selecionado
+                    function handleCheckboxSelection(group) {
+                        group.forEach((checkbox) => {
+                            checkbox.addEventListener('click', () => {
+                                group.forEach((cb) => {
+                                    if (cb !== checkbox) cb.checked = false; // Desmarca os outros checkboxes
+                                });
+                            });
+                        });
+                    }
+
+                    // Aplica a lógica para os dois grupos
+                    handleCheckboxSelection(idadeCheckboxes);
+                    handleCheckboxSelection(fumanteCheckboxes);
+                    handleCheckboxSelection(alergiaCheckboxes);
+                    handleCheckboxSelection(alteracoesCheckboxes);
+                    handleCheckboxSelection(cicloCheckboxes);
+                    handleCheckboxSelection(controladaCheckboxes);
+                    handleCheckboxSelection(diabetesCheckboxes);
+                    handleCheckboxSelection(disturbioCheckboxes);
+                    handleCheckboxSelection(epileticaCheckboxes);
+                    handleCheckboxSelection(funcionamentoCheckboxes);
+                    handleCheckboxSelection(hipoCheckboxes);
+                    handleCheckboxSelection(hormonalCheckboxes);
+                    handleCheckboxSelection(renalCheckboxes);
+                    handleCheckboxSelection(tratamentoCheckboxes);
+                </script>
+
+                <script>
+                    // Seleciona os checkboxes do grupo "diabetes"
+                    const diabetesCheckbox = document.querySelectorAll('.group-diabetes');
+
+                    // Seleciona o div que contém os campos adicionais
+                    const extraFields = document.getElementById('extra-fields');
+
+                    // Adiciona um evento de clique para todos os checkboxes do grupo
+                    diabetesCheckbox.forEach(checkbox => {
+                        checkbox.addEventListener('change', () => {
+                            if (checkbox.value === 'sim' && checkbox.checked) {
+                                // Se "SIM" for selecionado, mostra os campos adicionais
+                                extraFields.style.display = 'block';
+                            } else if (checkbox.value === 'nao' && checkbox.checked) {
+                                // Se "NÃO" for selecionado, esconde os campos adicionais
+                                extraFields.style.display = 'none';
+                            }
+                        });
+                    });
+
+                </script>
     </body>
 
 </html>

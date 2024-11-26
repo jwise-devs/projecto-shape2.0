@@ -1,9 +1,11 @@
 const Sequelize = require('sequelize');
 const databaseConfig = require('../config/database');
 const Usuario = require('../model/Usuario');
+const Ficha = require('../model/Ficha_De_Dados');
 
 const connection = new Sequelize(databaseConfig);
 Usuario.init(connection);
+Ficha.init(connection);
 
 connection.sync({ force: false }) // Sincroniza o banco de dados (force: true recria as tabelas)
   .then(() => {
