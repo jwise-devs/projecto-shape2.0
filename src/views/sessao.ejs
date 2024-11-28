@@ -21,33 +21,33 @@
 
 
                                 <div class="container mt-5">
-                                    <label for="smallSelect" class="form-label">Pacote:</label>
-                                    <select class="form-select form-select-sm" id="smallSelect">
-                                      <option selected>Selecione</option>
-                                      <option value="1">Consulta</option>
-                                      <option value="2">Beleza</option>
-                                      <option value="2">Rosto</option>
-                                      <option value="2">Liposhaper</option>
+                                    <label for="pacote" class="form-label">Pacote</label>
+                                    <select class="form-select" id="pacote" name="pacote">
+                                        <option value="" disabled selected>Selecione uma categoria</option>
+                                        <option value="consulta">Consulta</option>
+                                        <option value="corpo">Corpo</option>
+                                        <option value="beleza">Beleza</option>
+                                        <option value="rosto">Rosto</option>
+                                        <option value="metodo">Metodo Renata Franca Drenagem/Modeladora</option>
+                                        <option value="liposhaper">Liposhaper</option>
                                     </select>
-                                  
-                                    <!-- <label for="largeSelect" class="form-label mt-3">Grande:</label>
-                                    <select class="form-select form-select-lg" id="largeSelect">
-                                      <option selected>Selecione</option>
-                                      <option value="1">Opção 1</option>
-                                      <option value="2">Opção 2</option>
-                                    </select> -->
+                                </div>
+
+                                <!-- Subcategoria (aparece somente para "Frutas") -->
+                                <div class="mb-3 d-none container mt-4" id="subpacote-container">
+                                    <label for="subpacote" class="form-label">Subpacote</label>
+                                    <select class="form-select" id="subpacote" name="subpacote">
+                                        <option value="" disabled selected>Selecione uma subcategoria</option>
+                                    </select>
                                 </div>
 
                                 <div class="container mt-5">
-                                    <label for="smallSelect" class="form-label">Tratamento:</label>
-                                    <select class="form-select form-select-sm" id="smallSelect">
-                                      <option selected>Selecione</option>
-                                      <option value="1">Consulta</option>
-                                      <option value="2">Beleza</option>
-                                      <option value="2">Rosto</option>
-                                      <option value="2">Liposhaper</option>
+                                    <label for="tratamentos" class="form-label">Tratamento</label>
+                                    <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
+                                        <option value="" disabled>Selecione um pacote primeiro</option>
                                     </select>
-                                  
+                                    <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+
                                     <!-- <label for="largeSelect" class="form-label mt-3">Grande:</label>
                                     <select class="form-select form-select-lg" id="largeSelect">
                                       <option selected>Selecione</option>
@@ -60,7 +60,7 @@
                                     <label class="form-label">Data e Hora de Consulta</label>
                                     <input type="datetime-local" class="form-control" name="textefone" value="">
                                 </div>
-                                  
+
 
                                 <button type="submit" class="btn btn-primary my-3">Salvar</button>
                             </form>
@@ -72,6 +72,127 @@
                 </div>
             </div>
             <%- include('includes/script') %>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const categoriaSelect = document.getElementById("pacote");
+                        const subcategoriaContainer = document.getElementById("subpacote-container");
+                        const subcategoriaSelect = document.getElementById("subpacote");
+                        const produtosSelect = document.getElementById("tratamentos");
+
+                        // Dados: Subcategorias e produtos
+                        const dados = {
+                            beleza: {
+                                limpezas_de_pele: [
+                                    { value: "abacaxi", text: "Abacaxi" },
+                                    { value: "manga", text: "Manga" },
+                                    { value: "coco", text: "Coco" }
+                                ],
+                                peeling_algae: [
+                                    { value: "laranja", text: "Laranja" },
+                                    { value: "limao", text: "Limão" },
+                                    { value: "tangerina", text: "Tangerina" }
+                                ],
+
+                                depilacao: [
+                                    { value: "laranja", text: "Laranja" },
+                                    { value: "limao", text: "Limão" },
+                                    { value: "tangerina", text: "Tangerina" }
+                                ],
+                            },
+                            consulta: [
+                                { value: "iphone", text: "iPhone" },
+                                { value: "samsung", text: "Samsung Galaxy" },
+                                { value: "notebook", text: "Notebook" }
+                            ],
+
+                            corpo: [
+                                { value: "camiseta", text: "Camiseta" },
+                                { value: "calca", text: "Calça" },
+                                { value: "sapatos", text: "Sapatos" }
+                            ],
+
+                            rosto: [
+                                { value: "camiseta", text: "Camiseta" },
+                                { value: "calca", text: "Calça" },
+                                { value: "sapatos", text: "Sapatos" }
+                            ],
+
+                            metodo: [
+                                { value: "camiseta", text: "Camiseta" },
+                                { value: "calca", text: "Calça" },
+                                { value: "sapatos", text: "Sapatos" }
+                            ],
+
+                            liposhaper: [
+                                { value: "camiseta", text: "Camiseta" },
+                                { value: "calca", text: "Calça" },
+                                { value: "sapatos", text: "Sapatos" }
+                            ],
+                        };
+
+                        // Atualiza as subcategorias e produtos com base na categoria selecionada
+                        categoriaSelect.addEventListener("change", () => {
+                            const categoriaSelecionada = categoriaSelect.value;
+
+                            // Limpa subcategoria e produtos
+                            subcategoriaSelect.innerHTML = "";
+                            produtosSelect.innerHTML = "";
+
+                            if (categoriaSelecionada === "beleza") {
+                                // Exibe o campo de subcategorias e preenche
+                                subcategoriaContainer.classList.remove("d-none");
+                                subcategoriaSelect.disabled = false;
+                                produtosSelect.disabled = true;
+                                subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
+
+                                // Adiciona as subcategorias de frutas
+                                const subcategorias = Object.keys(dados[categoriaSelecionada]);
+                                subcategorias.forEach(subcategoria => {
+                                    const option = document.createElement("option");
+                                    option.value = subcategoria;
+                                    option.textContent = subcategoria.charAt(0).toUpperCase() + subcategoria.slice(1);
+                                    subcategoriaSelect.appendChild(option);
+                                });
+                            } else {
+                                // Esconde o campo de subcategorias e exibe produtos diretamente
+                                subcategoriaContainer.classList.add("d-none");
+                                subcategoriaSelect.disabled = true;
+                                produtosSelect.disabled = false;
+
+                                // Preenche os produtos da categoria selecionada
+                                const produtos = dados[categoriaSelecionada];
+                                produtos.forEach(produto => {
+                                    const option = document.createElement("option");
+                                    option.value = produto.value;
+                                    option.textContent = produto.text;
+                                    produtosSelect.appendChild(option);
+                                });
+                            }
+                        });
+
+                        // Atualiza os produtos com base na subcategoria selecionada
+                        subcategoriaSelect.addEventListener("change", () => {
+                            const categoriaSelecionada = categoriaSelect.value;
+                            const subcategoriaSelecionada = subcategoriaSelect.value;
+
+                            // Limpa os produtos
+                            produtosSelect.innerHTML = "";
+
+                            if (subcategoriaSelecionada && dados[categoriaSelecionada][subcategoriaSelecionada]) {
+                                produtosSelect.disabled = false;
+
+                                // Adiciona os produtos da subcategoria selecionada
+                                dados[categoriaSelecionada][subcategoriaSelecionada].forEach(produto => {
+                                    const option = document.createElement("option");
+                                    option.value = produto.value;
+                                    option.textContent = produto.text;
+                                    produtosSelect.appendChild(option);
+                                });
+                            }
+                        });
+                    });
+                </script>
     </body>
 
 </html>

@@ -12,6 +12,7 @@ module.exports = {
         underscoredAll: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        underscored: false, // Desativa a conversão automática
     },
     dialectOptions: {
         timezone: '+02:00',

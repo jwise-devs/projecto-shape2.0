@@ -7,6 +7,9 @@ const connection = new Sequelize(databaseConfig);
 Usuario.init(connection);
 Ficha.init(connection);
 
+Usuario.associate( connection.models );
+Ficha.associate( connection.models );
+
 connection.sync({ force: false }) // Sincroniza o banco de dados (force: true recria as tabelas)
   .then(() => {
     console.log('Banco de dados sincronizado com sucesso!');

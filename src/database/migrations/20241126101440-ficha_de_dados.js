@@ -1,146 +1,162 @@
 'use strict';
 
 module.exports = {
-  async up (queryInterface, DataTypes) {
-     await queryInterface.createTable('ficha_de_dados', { 
+  async up(queryInterface, DataTypes) {
+    await queryInterface.createTable('ficha_de_dados', {
       id: {
         type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-      }, 
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
 
       cintura_umbilical: {
         type: DataTypes.STRING,
-          allowNull: false,
+        allowNull: false,
       },
 
       acima_umbigo: {
         type: DataTypes.STRING,
-          allowNull: false,
+        allowNull: false,
       },
 
       abaixo_umbigo: {
         type: DataTypes.STRING,
-          allowNull: false,
+        allowNull: false,
       },
 
       alimentacao: {
         type: DataTypes.STRING,
-          allowNull: false,
+        allowNull: false,
       },
 
       consumo_agua: {
         type: DataTypes.STRING,
-          allowNull: false,
+        allowNull: false,
       },
 
       historico_doencas: {
         type: DataTypes.STRING,
-          allowNull: false,
+        allowNull: false,
       },
 
       queixa_principal: {
         type: DataTypes.STRING,
-          allowNull: false,
+        allowNull: false,
       },
 
       idade: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
+        type: DataTypes.ENUM('>10', '10-20', '20-30', '30-40', '40-50', '>50'), // Apenas aceita 'sim' ou 'nao'
+        allowNull: false, // Define que o campo é obrigatório
+        defaultValue: '>10', // Valor padrão
       },
 
       fumante: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       disturbio_circulatorio: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       epiletica: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       ciclo_menstrual_regular: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       funcionamento_intestional_regular: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       tratamento_medico: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       diabetes: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       tipo_diabetes: {
         type: DataTypes.STRING,
-          allowNull: false,
-          defaultValue: 'nenhum',
+        allowNull: false,
+        defaultValue: 'nenhum',
       },
 
       diabete_controlada: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       alteracoes_cardiacas: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       disturbio_hormonal: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       hipo: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       disturbio_renal: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
       },
 
       alguma_alergia: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('sim', 'nao'),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'nao',
+      },
+
+      formulario_preenchido: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false, // Por padrão, o formulário não foi preenchido
+      },
+
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Usuario',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
 
     });
-     
+
   },
 
-  async down (queryInterface, DataTypes) {
-     await queryInterface.dropTable('ficha_de_dados');
-     
+  async down(queryInterface, DataTypes) {
+    await queryInterface.dropTable('ficha_de_dados');
+
   }
 };

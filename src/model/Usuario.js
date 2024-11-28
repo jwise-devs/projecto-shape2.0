@@ -53,6 +53,7 @@ class Usuario extends Model {
         {
             sequelize,
              modelName: 'Usuario',
+             tableName: 'usuario',
         },
     
     );
@@ -65,6 +66,14 @@ class Usuario extends Model {
         });
 
         return this;
+    }
+
+    static associate(models) {
+        // Um usuário possui uma ficha de dados
+        this.hasOne(models.Ficha_De_Dados, {
+            foreignKey: 'userId', // Nome da chave estrangeira
+            as: 'fichaDeDados', // Alias para acessar o relacionamento
+        });
     }
 
     passwordIsValid(password) {
