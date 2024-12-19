@@ -74,6 +74,13 @@ class Usuario extends Model {
             foreignKey: 'userId', // Nome da chave estrangeira
             as: 'fichaDeDados', // Alias para acessar o relacionamento
         });
+
+        this.belongsToMany(models.Sessao, {
+            through: 'tratamentos',// Nome da tabela intermediária
+            foreignKey: 'userId', // Nome da chave estrangeira que aponta para o usuario
+            otherKey: 'sessaoId',// FK que aponta para a sessao
+            as: 'sessao',
+        });
     }
 
     passwordIsValid(password) {

@@ -61,6 +61,8 @@ sessionStore.onReady()
 
 app.use(express.urlencoded({extended: true}));
 
+app.use(express.json());
+
 app.use(sessionOptions);
 app.use(flash());
 

@@ -17,10 +17,11 @@
 
                         <%- include('includes/messeges') %>
 
-                            <form action="/contacto/register" method="post">
+                            <form action="/sessao/data" method="post">
 
 
                                 <div class="container mt-5">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <label for="pacote" class="form-label">Pacote</label>
                                     <select class="form-select" id="pacote" name="pacote">
                                         <option value="" disabled selected>Selecione uma categoria</option>
@@ -58,7 +59,8 @@
 
                                 <div class="mb-3 my-3">
                                     <label class="form-label">Data e Hora de Consulta</label>
-                                    <input type="datetime-local" class="form-control" name="textefone" value="">
+                                    <input type="datetime-local" class="form-control" name="data_hora_consulta"
+                                        value="">
                                 </div>
 
 
@@ -93,45 +95,37 @@
                                     { value: "limao", text: "Limão" },
                                     { value: "tangerina", text: "Tangerina" }
                                 ],
-
                                 depilacao: [
-                                    { value: "laranja", text: "Laranja" },
-                                    { value: "limao", text: "Limão" },
-                                    { value: "tangerina", text: "Tangerina" }
-                                ],
+                                    { value: "cerinha", text: "Cerinha" },
+                                    { value: "cera_quente", text: "Cera Quente" },
+                                    { value: "cera_fria", text: "Cera Fria" }
+                                ]
                             },
                             consulta: [
                                 { value: "iphone", text: "iPhone" },
                                 { value: "samsung", text: "Samsung Galaxy" },
                                 { value: "notebook", text: "Notebook" }
                             ],
-
                             corpo: [
-                                { value: "camiseta", text: "Camiseta" },
-                                { value: "calca", text: "Calça" },
-                                { value: "sapatos", text: "Sapatos" }
+                                { value: "massagem", text: "Massagem" },
+                                { value: "drenagem", text: "Drenagem Linfática" },
+                                { value: "relaxamento", text: "Relaxamento" }
                             ],
-
                             rosto: [
-                                { value: "camiseta", text: "Camiseta" },
-                                { value: "calca", text: "Calça" },
-                                { value: "sapatos", text: "Sapatos" }
+                                { value: "hidratacao", text: "Hidratação" },
+                                { value: "limpeza", text: "Limpeza de Pele" }
                             ],
-
                             metodo: [
-                                { value: "camiseta", text: "Camiseta" },
-                                { value: "calca", text: "Calça" },
-                                { value: "sapatos", text: "Sapatos" }
+                                { value: "hidratacao", text: "Hidratação" },
+                                { value: "limpeza", text: "Limpeza de Pele" }
                             ],
-
                             liposhaper: [
-                                { value: "camiseta", text: "Camiseta" },
-                                { value: "calca", text: "Calça" },
-                                { value: "sapatos", text: "Sapatos" }
-                            ],
+                                { value: "hidratacao", text: "Hidratação" },
+                                { value: "limpeza", text: "Limpeza de Pele" }
+                            ]
                         };
 
-                        // Atualiza as subcategorias e produtos com base na categoria selecionada
+                        // Atualiza subcategorias e produtos com base na categoria selecionada
                         categoriaSelect.addEventListener("change", () => {
                             const categoriaSelecionada = categoriaSelect.value;
 
@@ -140,29 +134,31 @@
                             produtosSelect.innerHTML = "";
 
                             if (categoriaSelecionada === "beleza") {
-                                // Exibe o campo de subcategorias e preenche
+                                // Exibe o campo de subcategorias
                                 subcategoriaContainer.classList.remove("d-none");
                                 subcategoriaSelect.disabled = false;
                                 produtosSelect.disabled = true;
-                                subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
 
-                                // Adiciona as subcategorias de frutas
+                                // Adiciona as opções de subcategorias
+                                subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
                                 const subcategorias = Object.keys(dados[categoriaSelecionada]);
                                 subcategorias.forEach(subcategoria => {
                                     const option = document.createElement("option");
                                     option.value = subcategoria;
-                                    option.textContent = subcategoria.charAt(0).toUpperCase() + subcategoria.slice(1);
+                                    option.textContent = subcategoria
+                                        .replace(/_/g, " ") // Substitui underscores por espaços
+                                        .replace(/\b\w/g, char => char.toUpperCase()); // Capitaliza cada palavra
                                     subcategoriaSelect.appendChild(option);
                                 });
-                            } else {
-                                // Esconde o campo de subcategorias e exibe produtos diretamente
+                            } else if (dados[categoriaSelecionada]) {
+                                // Esconde o campo de subcategorias
                                 subcategoriaContainer.classList.add("d-none");
                                 subcategoriaSelect.disabled = true;
                                 produtosSelect.disabled = false;
 
-                                // Preenche os produtos da categoria selecionada
-                                const produtos = dados[categoriaSelecionada];
-                                produtos.forEach(produto => {
+                                // Adiciona os produtos diretamente
+                                produtosSelect.innerHTML = `<option value="" disabled selected>Selecione um produto</option>`;
+                                dados[categoriaSelecionada].forEach(produto => {
                                     const option = document.createElement("option");
                                     option.value = produto.value;
                                     option.textContent = produto.text;
@@ -171,12 +167,12 @@
                             }
                         });
 
-                        // Atualiza os produtos com base na subcategoria selecionada
+                        // Atualiza produtos com base na subcategoria selecionada
                         subcategoriaSelect.addEventListener("change", () => {
                             const categoriaSelecionada = categoriaSelect.value;
                             const subcategoriaSelecionada = subcategoriaSelect.value;
 
-                            // Limpa os produtos
+                            // Limpa produtos
                             produtosSelect.innerHTML = "";
 
                             if (subcategoriaSelecionada && dados[categoriaSelecionada][subcategoriaSelecionada]) {
@@ -191,7 +187,16 @@
                                 });
                             }
                         });
+
+                        // Log dos dados do formulário antes de enviar
+                        document.querySelector("form").addEventListener("submit", () => {
+                            const tratamentosValues = Array.from(produtosSelect.selectedOptions).map(option => option.value);
+                            console.log("Tratamentos Selecionados:", tratamentosValues); // Verifique os valores que estão sendo enviados
+                        });
                     });
+
+
+
                 </script>
     </body>
 
