@@ -25,10 +25,22 @@ class Sessao extends Model {
                     type: DataTypes.JSON,
                     allowNull: true,
                 },
-                
+
                 data_hora_consulta: {
                     type: DataTypes.DATE,
                     allowNull: false,
+                },
+
+                created_at: {
+                    type: DataTypes.DATE,
+                    allowNull: false,
+                    defaultValue: DataTypes.NOW,
+                },
+
+                updated_at: {
+                    type: DataTypes.DATE,
+                    allowNull: false,
+                    defaultValue: DataTypes.NOW,
                 },
             },
 
@@ -36,7 +48,7 @@ class Sessao extends Model {
                 sequelize,
                 modelName: 'Sessao',
                 tableName: 'sessao',
-                timestamps: false,
+                timestamps: true,
             },
 
         );
@@ -44,12 +56,10 @@ class Sessao extends Model {
 
     static associate(models) {
         // Ficha_De_Dados pertence a um Usuário
-        this.belongsToMany(models.Usuario, {
-            through: 'tratamentos',// Nome da tabela intermediária
-            foreignKey: 'sessaoId', // Nome da chave estrangeira que aponta para a sessao
-            otherKey: 'userId',// FK que aponta para o usuario
-            as: 'usuario',
+        this.hasMany(models.Tratamentos, {
+            foreignKey: 'sessaoId', as: 'sessaotratamentos'
         });
+
     }
 
 }

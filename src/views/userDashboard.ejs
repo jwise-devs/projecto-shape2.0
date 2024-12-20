@@ -1,43 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('includes/head') %>
+<%- include('includes/head') %>
     <title>Consultas</title>
+
     <body>
-    <%- include('includes/navbar') %>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2"></div>
+        <%- include('includes/navbar') %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2"></div>
 
-                <div class="col-lg-8 my-3">
-                    <h1 class="text-center">Agenda</h1>
-                    <p class="text-center lead">Seus contactos estao abaixo</p>
-                    <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
+                    <div class="col-lg-8 my-3">
+                        <h1 class="text-center">Consultas</h1>
+                        <p class="text-center lead">Suas consultas estao abaixo</p>
+                        <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
+
+                        <%- include('includes/messeges') %>
 
 
-                       
+                            <div class="responsive-table">
+                                <table class="table my-3">
 
-                    <div class="responsive-table">
-                        <table class="table my-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Data da Consulta</th>
+                                            <th>Tratamentos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (tratamentos && tratamentos.length > 0) { %>
+                                            <% tratamentos.forEach(tratamento => { %>
+                                                <tr>
+                                                    <!-- Data da consulta -->
+                                                    <td><%= new Date(tratamento.sessao.data_hora_consulta).toLocaleString() %></td>
+                            
+                            
+                                                    <!-- Lista de tratamentos -->
+                                                    <td>
+                                                        <% if (tratamento.sessao.tratamentos) { %>
+                                                            <% 
+                                                                // Verificar se tratamentos está em formato JSON e converter
+                                                                let tratamentosList = Array.isArray(tratamento.sessao.tratamentos) 
+                                                                    ? tratamento.sessao.tratamentos 
+                                                                    : JSON.parse(tratamento.sessao.tratamentos); 
+                                                            %>
+                                                            <ul>
+                                                                <% tratamentosList.forEach(item => { %>
+                                                                    <li><%= item %></li>
+                                                                <% }); %>
+                                                            </ul>
+                                                        <% } else { %>
+                                                            Nenhum tratamento
+                                                        <% } %>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <!-- Caso não existam tratamentos -->
+                                            <tr>
+                                                <td colspan="4" class="text-center">Nenhuma consulta encontrada</td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
 
-                                <tr>
-                                    <td>nome</td>
-                                    <td>contacto</td>
-                                    <td>email</td>
-                                    <td>telefone</td>
-                                    <td><a href="/contacto/index/">Editar</a></td>
-                                    <td><a class="text-danger" href="/contacto/delete/">Excluir</a></td>
-                                </tr>
 
-                           
-                        </table>
+                                </table>
+                            </div>
+
+                            
                     </div>
-                        
-                        <p class="text-center lead">Nao existem contactos na sua agenda</p> 
-                </div>
 
-                <div class="col-lg-2"></div>
+                    <div class="col-lg-2"></div>
+                </div>
             </div>
-        </div>
-        <%- include('includes/script') %>
-</body>
+            <%- include('includes/script') %>
+    </body>
+
 </html>

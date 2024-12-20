@@ -17,8 +17,8 @@ exports.data = async (req, res) => {
         const tratamentosJSON = Array.isArray(tratamentos) ? tratamentos : [tratamentos];
 
         // Obter o ID do usuário logado (da variável global res.locals.user)
-        const usuaioId = res.locals.user.id;
-        console.log('User ID:', userId); // Verifica se o ID está correto
+        const usuarioId = res.locals.user.id;
+        console.log('User ID:', usuarioId); // Verifica se o ID está correto
 
        
         
@@ -34,7 +34,7 @@ exports.data = async (req, res) => {
 
         // Inserir na tabela intermediária (Tratamentos) associando o usuário logado
         await Tratamentos.create({
-            userId: usuaioId,             // ID do usuário logado
+            userId: usuarioId,             // ID do usuário logado
             sessaoId: sessao.id, // ID da sessão recém-criada
             status: 'marcado',   // Status padrão
         });

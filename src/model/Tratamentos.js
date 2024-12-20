@@ -42,11 +42,18 @@ class Tratamentos extends Model {
                 sequelize,
                 modelName: 'Tratamentos',
                 tableName: 'tratamentos',
-                timestamps: false,
+                timestamps: true,
             },
 
         );
+        
     }
+
+    static associate(models) {
+        this.belongsTo(models.Usuario, { foreignKey: 'userId', as: 'usuario' });
+        this.belongsTo(models.Sessao, { foreignKey: 'sessaoId', as: 'sessao' });
+    }
+    
 
     
 
