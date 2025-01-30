@@ -1,78 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('includes/head') %>
-    <title>Consultas</title>
+<title>Consultas</title>
 
-    <body>
-        <%- include('includes/navbar') %>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2"></div>
+<body>
+    <%- include('includes/navbar') %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2"></div>
 
-                    <div class="col-lg-8 my-3">
-                        <h1 class="text-center">Consultas</h1>
-                        <p class="text-center lead">Suas consultas estao abaixo</p>
-                        <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
+                <div class="col-lg-8 my-3">
+                    <h1 class="text-center">Consultas</h1>
+                    <p class="text-center lead">Suas consultas estão abaixo</p>
 
-                        <%- include('includes/messeges') %>
+                    <%- include('includes/messeges') %>
 
+                    <div class="responsive-table">
+                        <table class="table my-3">
+                            <thead>
+                                <tr>
+                                    <th>Data da Consulta</th>
+                                    <th>Tratamentos</th>
+                                    <th>Preço</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (tratamentos && tratamentos.length > 0) { %>
 
-                            <div class="responsive-table">
-                                <table class="table my-3">
+                                    <% var totalPreco = 0; %> <!-- Inicializa o total -->
 
-                                    <thead>
+                                    <% tratamentos.forEach(tratamento => { %>
                                         <tr>
-                                            <th>Data da Consulta</th>
-                                            <th>Tratamentos</th>
+                                            <!-- Data da consulta -->
+                                            <td>
+                                                <%= new Date(tratamento.sessao.data_hora_consulta).toLocaleString() %>
+                                            </td>
+
+                                            <!-- Lista de tratamentos e preços -->
+                                            <td>
+                                                <% 
+                                                    var tratamentosList = [];
+                                                    try {
+                                                        tratamentosList = Array.isArray(tratamento.sessao.tratamentos) 
+                                                            ? tratamento.sessao.tratamentos 
+                                                            : JSON.parse(tratamento.sessao.tratamentos);
+                                                    } catch (error) {
+                                                        console.error("Erro ao parsear tratamentos:", error);
+                                                        tratamentosList = []; // Se falhar no parse, fica vazio
+                                                    }
+                                                %>
+                                                <ul>
+                                                    <% tratamentosList.forEach((item) => { %>
+                                                        <li><%= item %> - R$ 50.00</li> <!-- Aqui colocamos o preço fixo, mas pode ser alterado conforme necessário -->
+                                                        <% totalPreco += 50.00; %> <!-- Adiciona o preço de cada tratamento ao total -->
+                                                    <% }); %>
+                                                </ul>
+                                            </td>
+
+                                            <!-- Preço Total da Sessão -->
+                                            <td>
+                                                R$ <%= tratamentosList.length * 50.00 ? (tratamentosList.length * 50.00).toFixed(2) : "0.00" %>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (tratamentos && tratamentos.length > 0) { %>
-                                            <% tratamentos.forEach(tratamento => { %>
-                                                <tr>
-                                                    <!-- Data da consulta -->
-                                                    <td><%= new Date(tratamento.sessao.data_hora_consulta).toLocaleString() %></td>
-                            
-                            
-                                                    <!-- Lista de tratamentos -->
-                                                    <td>
-                                                        <% if (tratamento.sessao.tratamentos) { %>
-                                                            <% 
-                                                                // Verificar se tratamentos está em formato JSON e converter
-                                                                let tratamentosList = Array.isArray(tratamento.sessao.tratamentos) 
-                                                                    ? tratamento.sessao.tratamentos 
-                                                                    : JSON.parse(tratamento.sessao.tratamentos); 
-                                                            %>
-                                                            <ul>
-                                                                <% tratamentosList.forEach(item => { %>
-                                                                    <li><%= item %></li>
-                                                                <% }); %>
-                                                            </ul>
-                                                        <% } else { %>
-                                                            Nenhum tratamento
-                                                        <% } %>
-                                                    </td>
-                                                </tr>
-                                            <% }); %>
-                                        <% } else { %>
-                                            <!-- Caso não existam tratamentos -->
-                                            <tr>
-                                                <td colspan="4" class="text-center">Nenhuma consulta encontrada</td>
-                                            </tr>
-                                        <% } %>
-                                    </tbody>
+                                    <% }); %>
 
+                                    <!-- Linha para mostrar o total geral -->
+                                    <tr>
+                                        <td colspan="2" class="text-right"><strong>Total Geral:</strong></td>
+                                        <td><strong>R$ <%= totalPreco.toFixed(2) %></strong></td>
+                                    </tr>
 
-                                </table>
-                            </div>
-
-                            
+                                <% } else { %>
+                                    <!-- Caso não existam tratamentos -->
+                                    <tr>
+                                        <td colspan="3" class="text-center">Nenhuma consulta encontrada</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <div class="col-lg-2"></div>
                 </div>
+
+                <div class="col-lg-2"></div>
             </div>
-            <%- include('includes/script') %>
-    </body>
+        </div>
+        <%- include('includes/script') %>
+</body>
 
 </html>

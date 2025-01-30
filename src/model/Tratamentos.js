@@ -20,17 +20,25 @@ class Tratamentos extends Model {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                 },
+
+                preco: {
+                    type: DataTypes.DECIMAL(10, 2), // Campo para armazenar o preço do tratamento
+                    allowNull: false,
+                    defaultValue: 0.00,
+                },
                 
                 status: {
                     type: DataTypes.STRING,
                     allowNull: false,
                     defaultValue: "marcado",
                 },
+
                 created_at: {
                     type: DataTypes.DATE,
                     allowNull: false,
                     defaultValue: DataTypes.NOW,
                 },
+                
                 updated_at: {
                     type: DataTypes.DATE,
                     allowNull: false,
