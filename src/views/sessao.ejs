@@ -12,62 +12,49 @@
                     <div class="col-lg-8 my-3">
                         <h1 class="text-center">Sessao</h1>
                         <p class="text-center lead">Preencha os seus dados</p>
-                        <!-- pode se criar varias divs com o comando "div.classe>div.classe>div.classe>etc..." -->
-
 
                         <%- include('includes/messeges') %>
 
-                            <form action="/sessao/data" method="post">
+                        <form action="/sessao/data" method="post">
+                            <div class="container mt-5">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <label for="pacote" class="form-label">Pacote</label>
+                                <select class="form-select" id="pacote" name="pacote">
+                                    <option value="" disabled selected>Selecione uma categoria</option>
+                                    <option value="consulta">Consulta</option>
+                                    <option value="corpo">Corpo</option>
+                                    <option value="beleza">Beleza</option>
+                                    <option value="rosto">Rosto</option>
+                                    <option value="metodo">Metodo Renata Franca Drenagem/Modeladora</option>
+                                    <option value="liposhaper">Liposhaper</option>
+                                </select>
+                            </div>
 
+                            <div class="mb-3 d-none container mt-4" id="subpacote-container">
+                                <label for="subpacote" class="form-label">Subpacote</label>
+                                <select class="form-select" id="subpacote" name="subpacote">
+                                    <option value="" disabled selected>Selecione uma subcategoria</option>
+                                </select>
+                            </div>
 
-                                <div class="container mt-5">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                    <label for="pacote" class="form-label">Pacote</label>
-                                    <select class="form-select" id="pacote" name="pacote">
-                                        <option value="" disabled selected>Selecione uma categoria</option>
-                                        <option value="consulta">Consulta</option>
-                                        <option value="corpo">Corpo</option>
-                                        <option value="beleza">Beleza</option>
-                                        <option value="rosto">Rosto</option>
-                                        <option value="metodo">Metodo Renata Franca Drenagem/Modeladora</option>
-                                        <option value="liposhaper">Liposhaper</option>
-                                    </select>
-                                </div>
+                            <div class="container mt-5">
+                                <label for="tratamentos" class="form-label">Tratamento</label>
+                                <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
+                                    <option value="" disabled>Selecione um pacote primeiro</option>
+                                </select>
+                                <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+                            </div>
 
-                                <!-- Subcategoria (aparece somente para "Frutas") -->
-                                <div class="mb-3 d-none container mt-4" id="subpacote-container">
-                                    <label for="subpacote" class="form-label">Subpacote</label>
-                                    <select class="form-select" id="subpacote" name="subpacote">
-                                        <option value="" disabled selected>Selecione uma subcategoria</option>
-                                    </select>
-                                </div>
+                            <div class="mb-3 my-3">
+                                <label class="form-label">Data e Hora de Consulta</label>
+                                <input type="datetime-local" class="form-control" name="data_hora_consulta" value="">
+                            </div>
 
-                                <div class="container mt-5">
-                                    <label for="tratamentos" class="form-label">Tratamento</label>
-                                    <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
-                                        <option value="" disabled>Selecione um pacote primeiro</option>
-                                    </select>
-                                    <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+                            <!-- Campo oculto para armazenar preços -->
+                            <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
 
-                                    <!-- <label for="largeSelect" class="form-label mt-3">Grande:</label>
-                                    <select class="form-select form-select-lg" id="largeSelect">
-                                      <option selected>Selecione</option>
-                                      <option value="1">Opção 1</option>
-                                      <option value="2">Opção 2</option>
-                                    </select> -->
-                                </div>
-
-                                <div class="mb-3 my-3">
-                                    <label class="form-label">Data e Hora de Consulta</label>
-                                    <input type="datetime-local" class="form-control" name="data_hora_consulta"
-                                        value="">
-                                </div>
-
-
-                                <button type="submit" class="btn btn-primary my-3">Salvar</button>
-                            </form>
-
-
+                            <button type="submit" class="btn btn-primary my-3">Salvar</button>
+                        </form>
                     </div>
 
                     <div class="col-lg-2"></div>
@@ -75,129 +62,79 @@
             </div>
             <%- include('includes/script') %>
 
-                <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                        const categoriaSelect = document.getElementById("pacote");
-                        const subcategoriaContainer = document.getElementById("subpacote-container");
-                        const subcategoriaSelect = document.getElementById("subpacote");
-                        const produtosSelect = document.getElementById("tratamentos");
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const categoriaSelect = document.getElementById("pacote");
+                    const subcategoriaContainer = document.getElementById("subpacote-container");
+                    const subcategoriaSelect = document.getElementById("subpacote");
+                    const produtosSelect = document.getElementById("tratamentos");
+                    const precoInput = document.getElementById("preco_tratamentos");
 
-                        // Dados: Subcategorias e produtos
-                        const dados = {
-                            beleza: {
-                                limpezas_de_pele: [
-                                    { value: "hidratacao facial", text: "Hidratacao Facial" },
-                                    { value: "esfoliacao completa facial", text: "Esfoliacao Completa Facial" },
-                                    { value: "revitalizacao facial", text: "Revitalizacao Facial" }
-                                ],
-                                peeling_algae: [
-                                    { value: "rosto", text: "Rosto" },
-                                    { value: "axilas", text: "Axilas" },
-                                    { value: "virilha", text: "Virilha" }
-                                ],
-                                depilacao: [
-                                    { value: "cera - bikini line", text: "Cera - Bikini Line" },
-                                    { value: "cera - axilas", text: "Cera - Axilas" },
-                                    { value: "cera buco", text: "Cera Buco" }
-                                ]
-                            },
-                            consulta: [
-                                { value: "estetica corporal", text: "Estetica Corporal" },
-                                { value: "nutricional + guia", text: "Nutricional + Guia" },
-                                { value: "estetica facial", text: "Estetica Facial" }
+                    const dados = {
+                        beleza: {
+                            limpezas_de_pele: [
+                                { value: "hidratacao_facial", text: "Hidratacao Facial", preco: 300 },
+                                { value: "esfoliacao_completa_facial", text: "Esfoliacao Completa Facial", preco: 250 },
+                                { value: "revitalizacao_facial", text: "Revitalizacao Facial", preco: 350 }
                             ],
-                            corpo: [
-                                { value: "espoliacao", text: "Espoliacao" },
-                                { value: "massagem relaxante", text: "Massagem Relaxante" },
-                                { value: "massagem modeladora", text: "Massagem Modeladora" }
-                            ],
-                            rosto: [
-                                { value: "mesolift", text: "Mesolift" },
-                                { value: "skin boost", text: "Skin Boost" }
-                            ],
-                            metodo: [
-                                { value: "pernas", text: "Pernas" },
-                                { value: "gluteo", text: "Gluteo" }
-                            ],
-                            liposhaper: [
-                                { value: "costas", text: "Costas" },
-                                { value: "cervical", text: "Cervical" }
+                            peeling_algae: [
+                                { value: "rosto", text: "Rosto", preco: 500 },
+                                { value: "axilas", text: "Axilas", preco: 200 },
+                                { value: "virilha", text: "Virilha", preco: 250 }
                             ]
-                        };
+                        },
+                        consulta: [
+                            { value: "estetica_corporal", text: "Estetica Corporal", preco: 150 },
+                            { value: "nutricional_guia", text: "Nutricional + Guia", preco: 200 }
+                        ]
+                    };
 
-                        // Atualiza subcategorias e produtos com base na categoria selecionada
-                        categoriaSelect.addEventListener("change", () => {
-                            const categoriaSelecionada = categoriaSelect.value;
+                    categoriaSelect.addEventListener("change", () => {
+                        const categoriaSelecionada = categoriaSelect.value;
+                        subcategoriaSelect.innerHTML = "";
+                        produtosSelect.innerHTML = "";
 
-                            // Limpa subcategoria e produtos
-                            subcategoriaSelect.innerHTML = "";
-                            produtosSelect.innerHTML = "";
+                        if (categoriaSelecionada === "beleza") {
+                            subcategoriaContainer.classList.remove("d-none");
+                            subcategoriaSelect.disabled = false;
+                            produtosSelect.disabled = true;
+                            subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
+                            
 
-                            if (categoriaSelecionada === "beleza") {
-                                // Exibe o campo de subcategorias
-                                subcategoriaContainer.classList.remove("d-none");
-                                subcategoriaSelect.disabled = false;
-                                produtosSelect.disabled = true;
-
-                                // Adiciona as opções de subcategorias
-                                subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
-                                const subcategorias = Object.keys(dados[categoriaSelecionada]);
-                                subcategorias.forEach(subcategoria => {
-                                    const option = document.createElement("option");
-                                    option.value = subcategoria;
-                                    option.textContent = subcategoria
-                                        .replace(/_/g, " ") // Substitui underscores por espaços
-                                        .replace(/\b\w/g, char => char.toUpperCase()); // Capitaliza cada palavra
-                                    subcategoriaSelect.appendChild(option);
-                                });
-                            } else if (dados[categoriaSelecionada]) {
-                                // Esconde o campo de subcategorias
-                                subcategoriaContainer.classList.add("d-none");
-                                subcategoriaSelect.disabled = true;
-                                produtosSelect.disabled = false;
-
-                                // Adiciona os produtos diretamente
-                                produtosSelect.innerHTML = `<option value="" disabled selected>Selecione um produto</option>`;
-                                dados[categoriaSelecionada].forEach(produto => {
-                                    const option = document.createElement("option");
-                                    option.value = produto.value;
-                                    option.textContent = produto.text;
-                                    produtosSelect.appendChild(option);
-                                });
-                            }
-                        });
-
-                        // Atualiza produtos com base na subcategoria selecionada
-                        subcategoriaSelect.addEventListener("change", () => {
-                            const categoriaSelecionada = categoriaSelect.value;
-                            const subcategoriaSelecionada = subcategoriaSelect.value;
-
-                            // Limpa produtos
-                            produtosSelect.innerHTML = "";
-
-                            if (subcategoriaSelecionada && dados[categoriaSelecionada][subcategoriaSelecionada]) {
-                                produtosSelect.disabled = false;
-
-                                // Adiciona os produtos da subcategoria selecionada
-                                dados[categoriaSelecionada][subcategoriaSelecionada].forEach(produto => {
-                                    const option = document.createElement("option");
-                                    option.value = produto.value;
-                                    option.textContent = produto.text;
-                                    produtosSelect.appendChild(option);
-                                });
-                            }
-                        });
-
-                        // Log dos dados do formulário antes de enviar
-                        document.querySelector("form").addEventListener("submit", () => {
-                            const tratamentosValues = Array.from(produtosSelect.selectedOptions).map(option => option.value);
-                            console.log("Tratamentos Selecionados:", tratamentosValues); // Verifique os valores que estão sendo enviados
-                        });
+                            Object.keys(dados[categoriaSelecionada]).forEach(subcategoria => {
+                                const option = document.createElement("option");
+                                option.value = subcategoria;
+                                option.textContent = subcategoria.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+                                subcategoriaSelect.appendChild(option);
+                            });
+                        } else if (dados[categoriaSelecionada]) {
+                            subcategoriaContainer.classList.add("d-none");
+                            subcategoriaSelect.disabled = true;
+                            produtosSelect.disabled = false;
+                            dados[categoriaSelecionada].forEach(produto => {
+                                const option = document.createElement("option");
+                                option.value = produto.value;
+                                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                option.dataset.preco = produto.preco;
+                                produtosSelect.appendChild(option);
+                            });
+                        }
                     });
 
+                    produtosSelect.addEventListener("change", () => {
+                        let precosTratamentos = [];  // Array para armazenar os preços individuais
 
+const selectedOptions = Array.from(produtosSelect.selectedOptions);
 
-                </script>
+selectedOptions.forEach(option => {
+    const preco = parseFloat(option.dataset.preco); // Preço associado ao tratamento
+    precosTratamentos.push(preco);  // Armazena cada preço individualmente
+});
+
+// Atualiza o campo oculto com os preços dos tratamentos selecionados
+precoInput.value = JSON.stringify(precosTratamentos);  // Aqui você envia como string para o backend
+                    });
+                });
+            </script>
     </body>
-
 </html>

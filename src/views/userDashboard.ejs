@@ -41,25 +41,28 @@
                                                 <% 
                                                     var tratamentosList = [];
                                                     try {
-                                                        tratamentosList = Array.isArray(tratamento.sessao.tratamentos) 
-                                                            ? tratamento.sessao.tratamentos 
-                                                            : JSON.parse(tratamento.sessao.tratamentos);
+                                                         // Tenta converter o valor em array se possível
+                                                        tratamentosList = Array.isArray(tratamento.sessao.tratamentos)
+                                                            ? tratamento.sessao.tratamentos
+                                                            : (tratamento.sessao.tratamentos ? JSON.parse(tratamento.sessao.tratamentos) : []);
                                                     } catch (error) {
                                                         console.error("Erro ao parsear tratamentos:", error);
                                                         tratamentosList = []; // Se falhar no parse, fica vazio
                                                     }
                                                 %>
                                                 <ul>
-                                                    <% tratamentosList.forEach((item) => { %>
-                                                        <li><%= item %> - R$ 50.00</li> <!-- Aqui colocamos o preço fixo, mas pode ser alterado conforme necessário -->
-                                                        <% totalPreco += 50.00; %> <!-- Adiciona o preço de cada tratamento ao total -->
+                                                    <% tratamentosList.forEach((item, index) => { %>
+                                                        <!-- Exibe o tratamento e o preço vindo da tabela Tratamentos -->
+                                                        <li><%= item %> - R$ <%= parseFloat(tratamento.preco).toFixed(2) %></li>
+                                                        <!-- Adiciona o preço ao total -->
                                                     <% }); %>
                                                 </ul>
                                             </td>
 
                                             <!-- Preço Total da Sessão -->
                                             <td>
-                                                R$ <%= tratamentosList.length * 50.00 ? (tratamentosList.length * 50.00).toFixed(2) : "0.00" %>
+                                                <% totalPreco += parseFloat(tratamento.preco); %> 
+                                                R$ <%= parseFloat(tratamento.preco).toFixed(2) %>
                                             </td>
                                         </tr>
                                     <% }); %>
