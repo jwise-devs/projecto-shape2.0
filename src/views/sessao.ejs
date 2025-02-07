@@ -15,46 +15,47 @@
 
                         <%- include('includes/messeges') %>
 
-                        <form action="/sessao/data" method="post">
-                            <div class="container mt-5">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <label for="pacote" class="form-label">Pacote</label>
-                                <select class="form-select" id="pacote" name="pacote">
-                                    <option value="" disabled selected>Selecione uma categoria</option>
-                                    <option value="consulta">Consulta</option>
-                                    <option value="corpo">Corpo</option>
-                                    <option value="beleza">Beleza</option>
-                                    <option value="rosto">Rosto</option>
-                                    <option value="metodo">Metodo Renata Franca Drenagem/Modeladora</option>
-                                    <option value="liposhaper">Liposhaper</option>
-                                </select>
-                            </div>
+                            <form action="/sessao/data" method="post">
+                                <div class="container mt-5">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <label for="pacote" class="form-label">Pacote</label>
+                                    <select class="form-select" id="pacote" name="pacote">
+                                        <option value="" disabled selected>Selecione uma categoria</option>
+                                        <option value="consulta">Consulta</option>
+                                        <option value="corpo">Corpo</option>
+                                        <option value="beleza">Beleza</option>
+                                        <option value="rosto">Rosto</option>
+                                        <option value="metodo">Metodo Renata Franca Drenagem/Modeladora</option>
+                                        <option value="liposhaper">Liposhaper</option>
+                                    </select>
+                                </div>
 
-                            <div class="mb-3 d-none container mt-4" id="subpacote-container">
-                                <label for="subpacote" class="form-label">Subpacote</label>
-                                <select class="form-select" id="subpacote" name="subpacote">
-                                    <option value="" disabled selected>Selecione uma subcategoria</option>
-                                </select>
-                            </div>
+                                <div class="mb-3 d-none container mt-4" id="subpacote-container">
+                                    <label for="subpacote" class="form-label">Subpacote</label>
+                                    <select class="form-select" id="subpacote" name="subpacote">
+                                        <option value="" disabled selected>Selecione uma subcategoria</option>
+                                    </select>
+                                </div>
 
-                            <div class="container mt-5">
-                                <label for="tratamentos" class="form-label">Tratamento</label>
-                                <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
-                                    <option value="" disabled>Selecione um pacote primeiro</option>
-                                </select>
-                                <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
-                            </div>
+                                <div class="container mt-5">
+                                    <label for="tratamentos" class="form-label">Tratamento</label>
+                                    <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
+                                        <option value="" disabled>Selecione um pacote primeiro</option>
+                                    </select>
+                                    <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+                                </div>
 
-                            <div class="mb-3 my-3">
-                                <label class="form-label">Data e Hora de Consulta</label>
-                                <input type="datetime-local" class="form-control" name="data_hora_consulta" value="">
-                            </div>
+                                <div class="mb-3 my-3">
+                                    <label class="form-label">Data e Hora de Consulta</label>
+                                    <input type="datetime-local" class="form-control" name="data_hora_consulta"
+                                        value="">
+                                </div>
 
-                            <!-- Campo oculto para armazenar preços -->
-                            <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
+                                <!-- Campo oculto para armazenar preços -->
+                                <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
 
-                            <button type="submit" class="btn btn-primary my-3">Salvar</button>
-                        </form>
+                                <button type="submit" class="btn btn-primary my-3">Salvar</button>
+                            </form>
                     </div>
 
                     <div class="col-lg-2"></div>
@@ -62,79 +63,130 @@
             </div>
             <%- include('includes/script') %>
 
-            <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    const categoriaSelect = document.getElementById("pacote");
-                    const subcategoriaContainer = document.getElementById("subpacote-container");
-                    const subcategoriaSelect = document.getElementById("subpacote");
-                    const produtosSelect = document.getElementById("tratamentos");
-                    const precoInput = document.getElementById("preco_tratamentos");
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const categoriaSelect = document.getElementById("pacote");
+                        const subcategoriaContainer = document.getElementById("subpacote-container");
+                        const subcategoriaSelect = document.getElementById("subpacote");
+                        const produtosSelect = document.getElementById("tratamentos");
+                        const precoInput = document.getElementById("preco_tratamentos");
 
-                    const dados = {
-                        beleza: {
-                            limpezas_de_pele: [
-                                { value: "hidratacao_facial", text: "Hidratacao Facial", preco: 300 },
-                                { value: "esfoliacao_completa_facial", text: "Esfoliacao Completa Facial", preco: 250 },
-                                { value: "revitalizacao_facial", text: "Revitalizacao Facial", preco: 350 }
+                        const dados = {
+                            beleza: {
+                                limpezas_de_pele: [
+                                    { value: "hidratacao_facial", text: "Hidratacao Facial", preco: 300 },
+                                    { value: "esfoliacao_completa_facial", text: "Esfoliacao Completa Facial", preco: 250 },
+                                    { value: "revitalizacao_facial", text: "Revitalizacao Facial", preco: 350 }
+                                ],
+                                peeling_algae: [
+                                    { value: "rosto", text: "Rosto", preco: 500 },
+                                    { value: "axilas", text: "Axilas", preco: 200 },
+                                    { value: "virilha", text: "Virilha", preco: 250 }
+                                ],
+
+                                depilacao: [
+                                    { value: "cera_bikini_line", text: "Cera - Bikini Line", preco: 500 },
+                                    { value: "cera_axilas", text: "Cera - Axilas", preco: 200 },
+                                    { value: "cera_virilha_comleta", text: "Cera - Virilha Comleta", preco: 250 }
+                                ]
+                            },
+                            consulta: [
+                                { value: "estetica_corporal", text: "Estetica Corporal", preco: 150 },
+                                { value: "nutricional_guia", text: "Nutricional + Guia", preco: 200 },
+                                { value: "estetica_facial", text: "Estetica Facial", preco: 200 }
                             ],
-                            peeling_algae: [
-                                { value: "rosto", text: "Rosto", preco: 500 },
-                                { value: "axilas", text: "Axilas", preco: 200 },
-                                { value: "virilha", text: "Virilha", preco: 250 }
+
+                            corpo: [
+                                { value: "esfoliacao", text: "Esfoliacao", preco: 150 },
+                                { value: "massagem_relaxante", text: "Massagem Relaxante", preco: 200 },
+                                { value: "massagem_relaxante_esfoliacao", text: "Massagem Relaxante Esfoliacao", preco: 200 }
+                            ],
+
+                            metodo: [
+                                { value: "pernas", text: "Pernas", preco: 150 },
+                                { value: "gluteo", text: "Gluteo", preco: 200 },
+                                { value: "abdomen", text: "Abdomen", preco: 200 }
+                            ],
+
+                            liposhaper: [
+                                { value: "abdomen_inferior", text: "Abdomen Inferior", preco: 150 },
+                                { value: "abdomen_superior", text: "Abdomen Superior", preco: 200 },
+                                { value: "cervical", text: "Cervical", preco: 200 }
+                            ],
+
+                            rosto: [
+                                { value: "mesolift(rugas,linhas_de_expressao)", text: "Mesolift(rugas, linhas de expressao)", preco: 150 },
+                                { value: "skin_boost(rugas&linhas_de_expressao)", text: "Skin Boost(rugas & linhas de expressao)", preco: 200 },
+                                { value: "radio_frequencia(flacidez&gordura_em_baixo_do_queixo)", text: "Radio Frequencia(flacidez & gordura em baixo do queixo)", preco: 200 }
                             ]
-                        },
-                        consulta: [
-                            { value: "estetica_corporal", text: "Estetica Corporal", preco: 150 },
-                            { value: "nutricional_guia", text: "Nutricional + Guia", preco: 200 }
-                        ]
-                    };
+                        };
 
-                    categoriaSelect.addEventListener("change", () => {
-                        const categoriaSelecionada = categoriaSelect.value;
-                        subcategoriaSelect.innerHTML = "";
-                        produtosSelect.innerHTML = "";
+                        categoriaSelect.addEventListener("change", () => {
+                            const categoriaSelecionada = categoriaSelect.value;
+                            subcategoriaSelect.innerHTML = "";
+                            produtosSelect.innerHTML = ""; // Limpa apenas se for necessário
 
-                        if (categoriaSelecionada === "beleza") {
-                            subcategoriaContainer.classList.remove("d-none");
-                            subcategoriaSelect.disabled = false;
-                            produtosSelect.disabled = true;
-                            subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
-                            
+                            if (categoriaSelecionada === "beleza") {
+                                subcategoriaContainer.classList.remove("d-none");
+                                subcategoriaSelect.disabled = false;
+                                produtosSelect.disabled = true;
+                                subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
 
-                            Object.keys(dados[categoriaSelecionada]).forEach(subcategoria => {
-                                const option = document.createElement("option");
-                                option.value = subcategoria;
-                                option.textContent = subcategoria.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
-                                subcategoriaSelect.appendChild(option);
+                                Object.keys(dados[categoriaSelecionada]).forEach(subcategoria => {
+                                    const option = document.createElement("option");
+                                    option.value = subcategoria;
+                                    option.textContent = subcategoria.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+                                    subcategoriaSelect.appendChild(option);
+                                });
+
+                                // Garante que os tratamentos da categoria "beleza" só sejam carregados após a escolha do subpacote
+                                subcategoriaSelect.addEventListener("change", () => {
+                                    produtosSelect.innerHTML = ""; // Limpa antes de adicionar novos tratamentos
+                                    produtosSelect.disabled = false;
+                                    const subcategoriaSelecionada = subcategoriaSelect.value;
+
+                                    if (dados[categoriaSelecionada][subcategoriaSelecionada]) {
+                                        dados[categoriaSelecionada][subcategoriaSelecionada].forEach(produto => {
+                                            const option = document.createElement("option");
+                                            option.value = produto.value;
+                                            option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                            option.dataset.preco = produto.preco;
+                                            produtosSelect.appendChild(option);
+                                        });
+                                    }
+                                });
+                            } else if (dados[categoriaSelecionada]) {
+                                subcategoriaContainer.classList.add("d-none");
+                                subcategoriaSelect.disabled = true;
+                                produtosSelect.disabled = false;
+                                produtosSelect.innerHTML = ""; // Limpa antes de adicionar os tratamentos
+
+                                dados[categoriaSelecionada].forEach(produto => {
+                                    const option = document.createElement("option");
+                                    option.value = produto.value;
+                                    option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                    option.dataset.preco = produto.preco;
+                                    produtosSelect.appendChild(option);
+                                });
+                            }
+                        });
+
+
+                        produtosSelect.addEventListener("change", () => {
+                            let precosTratamentos = [];  // Array para armazenar os preços individuais
+
+                            const selectedOptions = Array.from(produtosSelect.selectedOptions);
+
+                            selectedOptions.forEach(option => {
+                                const preco = parseFloat(option.dataset.preco); // Preço associado ao tratamento
+                                precosTratamentos.push(preco);  // Armazena cada preço individualmente
                             });
-                        } else if (dados[categoriaSelecionada]) {
-                            subcategoriaContainer.classList.add("d-none");
-                            subcategoriaSelect.disabled = true;
-                            produtosSelect.disabled = false;
-                            dados[categoriaSelecionada].forEach(produto => {
-                                const option = document.createElement("option");
-                                option.value = produto.value;
-                                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
-                                option.dataset.preco = produto.preco;
-                                produtosSelect.appendChild(option);
-                            });
-                        }
+
+                            // Atualiza o campo oculto com os preços dos tratamentos selecionados
+                            precoInput.value = JSON.stringify(precosTratamentos);  // Aqui você envia como string para o backend
+                        });
                     });
-
-                    produtosSelect.addEventListener("change", () => {
-                        let precosTratamentos = [];  // Array para armazenar os preços individuais
-
-const selectedOptions = Array.from(produtosSelect.selectedOptions);
-
-selectedOptions.forEach(option => {
-    const preco = parseFloat(option.dataset.preco); // Preço associado ao tratamento
-    precosTratamentos.push(preco);  // Armazena cada preço individualmente
-});
-
-// Atualiza o campo oculto com os preços dos tratamentos selecionados
-precoInput.value = JSON.stringify(precosTratamentos);  // Aqui você envia como string para o backend
-                    });
-                });
-            </script>
+                </script>
     </body>
+
 </html>

@@ -9,14 +9,15 @@ exports.index = async (req, res) => {
 
 exports.data = async (req, res) => {
     try {
+        // Dividir o preço em um array para associar a cada tratamento
+        const precosTratamentos = JSON.parse(req.body.preco_tratamentos).map(price => parseFloat(price.toFixed(2)));
+
         // Receber os dados do formulário
         const { pacote, subpacote, tratamentos, data_hora_consulta, preco_tratamentos } = req.body;
 
+        console.log(req.body);
         // Se tratamentos for uma string, converta-a para um array
         const tratamentosJSON = Array.isArray(tratamentos) ? tratamentos : [tratamentos];
-
-        // Dividir o preço em um array para associar a cada tratamento
-        const precosTratamentos = preco_tratamentos.split(',').map(price => parseFloat(price.trim()));
 
         // Obter o ID do usuário logado (da variável global res.locals.user)
         const usuarioId = res.locals.user.id;
@@ -34,24 +35,15 @@ exports.data = async (req, res) => {
 
         // Inserir os tratamentos na tabela intermediária (Tratamentos) associando o usuário logado
         for (let i = 0; i < tratamentosJSON.length; i++) {
-            // Verificar se o tratamento já foi inserido para o mesmo usuário e a mesma sessão
-            const existingTratamento = await Tratamentos.findOne({
-                where: {
-                    userId: usuarioId,
-                    sessaoId: sessao.id,
-                }
+            // Criar o tratamento sem verificar a existência, pois pode haver vários
+            await Tratamentos.create({
+                userId: usuarioId,
+                sessaoId: sessao.id,
+                preco: parseFloat(precosTratamentos[i]).toFixed(2), // Converte para decimal com 2 casas
+                status: 'marcado',
             });
-
-            // Se o tratamento não existir, então insira-o
-            if (!existingTratamento) {
-                await Tratamentos.create({
-                    userId: usuarioId,              // ID do usuário logado
-                    sessaoId: sessao.id,            // ID da sessão recém-criada
-                    preco: precosTratamentos[i],    // Preço do tratamento
-                    status: 'marcado',              // Status padrão
-                });
-            }
         }
+        
 
         // Mensagem de sucesso e redirecionamento
         req.flash('success', 'Sessão e tratamentos registrados com sucesso!');
