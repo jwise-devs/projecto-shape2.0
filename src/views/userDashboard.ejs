@@ -40,23 +40,30 @@
                                             <td>
                                                 <% 
                                                     var tratamentosList = [];
-                                                    try {
-                                                         // Tenta converter o valor em array se possível
-                                                        tratamentosList = Array.isArray(tratamento.sessao.tratamentos)
-                                                            ? tratamento.sessao.tratamentos
-                                                            : (tratamento.sessao.tratamentos ? JSON.parse(tratamento.sessao.tratamentos) : []);
-                                                    } catch (error) {
-                                                        console.error("Erro ao parsear tratamentos:", error);
-                                                        tratamentosList = []; // Se falhar no parse, fica vazio
+                                                    if (tratamento.sessao && tratamento.sessao.tratamentos) {
+                                                        try {
+                                                            // Se for string JSON, tente converter para array
+                                                            if (typeof tratamento.sessao.tratamentos === "string") {
+                                                                tratamentosList = JSON.parse(tratamento.sessao.tratamentos);
+                                                            } else if (Array.isArray(tratamento.sessao.tratamentos)) {
+                                                                tratamentosList = tratamento.sessao.tratamentos;
+                                                            }
+                                                        } catch (error) {
+                                                            console.error("Erro ao parsear tratamentos:", error);
+                                                            tratamentosList = []; // Se falhar no parse, evita erro
+                                                        }
                                                     }
                                                 %>
-                                                <ul>
-                                                    <% tratamentosList.forEach((item, index) => { %>
-                                                        <!-- Exibe o tratamento e o preço vindo da tabela Tratamentos -->
-                                                        <li><%= item %> - R$ <%= parseFloat(tratamento.preco).toFixed(2) %></li>
-                                                        <!-- Adiciona o preço ao total -->
-                                                    <% }); %>
-                                                </ul>
+
+                                                <% if (Array.isArray(tratamentosList) && tratamentosList.length > 0) { %>
+                                                    <ul>
+                                                        <% tratamentosList.forEach((item) => { %>
+                                                            <li><%= item %></li>
+                                                        <% }); %>
+                                                    </ul>
+                                                <% } else { %>
+                                                    <p>Sem tratamentos registrados.</p>
+                                                <% } %>
                                             </td>
 
                                             <!-- Preço Total da Sessão -->

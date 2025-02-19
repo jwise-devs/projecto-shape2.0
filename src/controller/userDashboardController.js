@@ -16,6 +16,7 @@ exports.index = async (req, res) => {
         });
 
         // Renderizar a view e enviar os dados
+        
         res.render('userDashboard', { tratamentos });
     } catch (error) {
         console.error('Erro ao buscar tratamentos:', error);

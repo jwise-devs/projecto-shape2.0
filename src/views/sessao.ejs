@@ -54,6 +54,9 @@
                                 <!-- Campo oculto para armazenar preços -->
                                 <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
 
+                                <!-- Exibição do preço total -->
+                                <p class="mt-3"><strong>Total:  <span id="precoTotal">0.00</span></strong> MT</p>
+
                                 <button type="submit" class="btn btn-primary my-3">Salvar</button>
                             </form>
                     </div>
@@ -174,16 +177,21 @@
 
                         produtosSelect.addEventListener("change", () => {
                             let precosTratamentos = [];  // Array para armazenar os preços individuais
+                            let total = 0;
 
                             const selectedOptions = Array.from(produtosSelect.selectedOptions);
 
                             selectedOptions.forEach(option => {
-                                const preco = parseFloat(option.dataset.preco); // Preço associado ao tratamento
+                                const preco = parseFloat(option.dataset.preco); // Obtém o preço do dataset
                                 precosTratamentos.push(preco);  // Armazena cada preço individualmente
+                                total += preco;  // Soma ao total
                             });
 
                             // Atualiza o campo oculto com os preços dos tratamentos selecionados
-                            precoInput.value = JSON.stringify(precosTratamentos);  // Aqui você envia como string para o backend
+                            precoInput.value = JSON.stringify(precosTratamentos);
+
+                            // Atualiza o total no HTML
+                            document.getElementById("precoTotal").textContent = total.toFixed(2);
                         });
                     });
                 </script>

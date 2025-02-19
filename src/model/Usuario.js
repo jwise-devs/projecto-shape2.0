@@ -45,6 +45,11 @@ class Usuario extends Model {
                     },
                 },
 
+                localizacao: {
+                    type: DataTypes.STRING,
+                    allowNull: true, // Permite que seja nulo, se necessário
+                  },
+
 
 
 

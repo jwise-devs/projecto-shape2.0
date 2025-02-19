@@ -9,19 +9,25 @@ exports.index = async (req, res) => {
 
 exports.data = async (req, res) => {
     try {
-        // Dividir o preço em um array para associar a cada tratamento
+        // Receber os dados do formulário
+        const { pacote, subpacote, tratamentos, data_hora_consulta } = req.body;
+
+        // Verificar se a data e hora da consulta foi fornecida
+        if (!data_hora_consulta) {
+            req.flash('error', 'Por favor, forneça a data e hora da consulta.');
+            return res.redirect('back'); // Redireciona para trás (na mesma página)
+        }
+
+        console.log(data_hora_consulta)
+
+        // Converter os preços recebidos para um array de números com duas casas decimais
         const precosTratamentos = JSON.parse(req.body.preco_tratamentos).map(price => parseFloat(price.toFixed(2)));
 
-        // Receber os dados do formulário
-        const { pacote, subpacote, tratamentos, data_hora_consulta, preco_tratamentos } = req.body;
-
-        console.log(req.body);
         // Se tratamentos for uma string, converta-a para um array
         const tratamentosJSON = Array.isArray(tratamentos) ? tratamentos : [tratamentos];
 
         // Obter o ID do usuário logado (da variável global res.locals.user)
         const usuarioId = res.locals.user.id;
-        console.log('User ID:', usuarioId); // Verifica se o ID está correto
 
         // Criar a sessão no banco de dados
         const sessao = await Sessao.create({
@@ -31,19 +37,30 @@ exports.data = async (req, res) => {
             data_hora_consulta,
         });
 
-        console.log('Sessao ID:', sessao.id);
+        // Verificar se já existe um tratamento para este usuário e sessão
+        let tratamentoExistente = await Tratamentos.findOne({
+            where: {
+                userId: usuarioId,
+                sessaoId: sessao.id
+            }
+        });
 
-        // Inserir os tratamentos na tabela intermediária (Tratamentos) associando o usuário logado
-        for (let i = 0; i < tratamentosJSON.length; i++) {
-            // Criar o tratamento sem verificar a existência, pois pode haver vários
+        const totalPreco = precosTratamentos.reduce((acc, curr) => acc + curr, 0).toFixed(2); // Soma dos preços
+
+        if (tratamentoExistente) {
+            // Se já existir um tratamento, atualiza o preço somando o novo valor
+            await tratamentoExistente.update({
+                preco: (parseFloat(tratamentoExistente.preco) + parseFloat(totalPreco)).toFixed(2)
+            });
+        } else {
+            // Se não existir, cria um novo
             await Tratamentos.create({
                 userId: usuarioId,
                 sessaoId: sessao.id,
-                preco: parseFloat(precosTratamentos[i]).toFixed(2), // Converte para decimal com 2 casas
+                preco: totalPreco, // Salvar o total dos preços
                 status: 'marcado',
             });
         }
-        
 
         // Mensagem de sucesso e redirecionamento
         req.flash('success', 'Sessão e tratamentos registrados com sucesso!');
@@ -67,3 +84,4 @@ exports.data = async (req, res) => {
         });
     }
 }
+
