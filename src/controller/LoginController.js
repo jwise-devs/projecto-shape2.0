@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
     // Busca o usuário no banco pelo e-mail
     const user = await Usuario.findOne({ where: { email } });
 
-    const role = await Usuario.findOne({ where: { role: 'admin' } });
+    const role = await Usuario.findOne({ where: { role: 'admin',email } });
 
     // Verifica se o usuário existe e se a senha é válida
     if (!user || !(await user.passwordIsValid(password))) {

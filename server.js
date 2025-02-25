@@ -12,6 +12,7 @@ const userDashboardRoute = require('./src/routes/userDashboardRoute');
 const adminDashboardRoute = require('./src/routes/adminDashboardRoute');
 const consultaRoute = require('./src/routes/consultaRoute');
 const sessaoRoute = require('./src/routes/sessaoRoute');
+const clientesRoute = require('./src/routes/clientesRoute');
 const concasaRoute = require('./src/routes/concasaRoute');
 
 const User = require('./src/model/Usuario');
@@ -109,6 +110,7 @@ app.use(loginRoute);
 app.use(userDashboardRoute);
 app.use(consultaRoute);
 app.use(sessaoRoute);
+app.use(clientesRoute);
 app.use(concasaRoute);
 app.use(adminDashboardRoute);
 
