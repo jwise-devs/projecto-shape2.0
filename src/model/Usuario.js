@@ -48,8 +48,13 @@ class Usuario extends Model {
                 localizacao: {
                     type: DataTypes.STRING,
                     allowNull: true, // Permite que seja nulo, se necessário
-                  },
+                },
 
+                role: {
+                    type: DataTypes.ENUM('usuario', 'admin'), // Pode ser um string, pois você estará armazenando o link
+                    allowNull: false,
+                    defaultValue: 'usuario',
+                },
 
 
 
@@ -81,8 +86,8 @@ class Usuario extends Model {
         });
 
 
-        this.hasMany(models.Tratamentos, { 
-            foreignKey: 'userId', as: 'tratamentos' 
+        this.hasMany(models.Tratamentos, {
+            foreignKey: 'userId', as: 'tratamentos'
         });
 
     }

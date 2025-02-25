@@ -14,8 +14,12 @@ exports.register = async (req, res) => {
     // Tenta criar o novo usuário
     const novoUsuario = await Usuario.create(req.body);
 
+    const role = await Usuario.findAll({ where: { role: 'usuario' } });
+
     //Cria a ficha de dados associada ao usuário, com valores iniciais ou vazios
     console.log('ID do novo usuário:', novoUsuario.id);
+
+    console.log(role);
 
     await Ficha_De_Dados.create({
       userId: novoUsuario.id, // Associa o ID do usuário
@@ -30,6 +34,7 @@ exports.register = async (req, res) => {
       formulario_preenchido: false,// Exemplo de valor default
       // Outros campos da ficha, com valores iniciais vazios ou padrões
     });
+
 
     // Flash message de sucesso
     req.flash('success', 'Usuário registrado com sucesso!');

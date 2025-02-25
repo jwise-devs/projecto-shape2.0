@@ -9,9 +9,12 @@ const contactoRoute = require('./src/routes/contactoRoute');
 const loginRoute = require('./src/routes/loginRoute');
 const registroRoute = require('./src/routes/registroRoute');
 const userDashboardRoute = require('./src/routes/userDashboardRoute');
+const adminDashboardRoute = require('./src/routes/adminDashboardRoute');
 const consultaRoute = require('./src/routes/consultaRoute');
 const sessaoRoute = require('./src/routes/sessaoRoute');
 const concasaRoute = require('./src/routes/concasaRoute');
+
+const User = require('./src/model/Usuario');
 
 const app = express();
 
@@ -52,6 +55,29 @@ const sessionOptions = session({
   },
 });
 
+// Função para criar o administrador ao iniciar o programa
+const createAdminUser = async () => {
+  try {
+      const [admin, created] = await User.findOrCreate({
+          where: { role: 'admin' }, // Verifica se já existe um administrador
+          defaults: {
+              nome: 'Willton',
+              email: 'willton@gmail.com',
+              role: 'admin',
+              password: '123456',
+          }
+      });
+
+      if (created) {
+          console.log("Administrador criado com sucesso!");
+      } else {
+          console.log("Administrador já existe.");
+      }
+  } catch (error) {
+      console.error("Erro ao criar administrador:", error);
+  }
+};
+
 // Tratamento de erros na conexão com o banco
 sessionStore.onReady()
   .then(() => console.log('Conexão com o banco de dados MySQL bem-sucedida!'))
@@ -84,6 +110,7 @@ app.use(userDashboardRoute);
 app.use(consultaRoute);
 app.use(sessaoRoute);
 app.use(concasaRoute);
+app.use(adminDashboardRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {
@@ -95,11 +122,12 @@ app.use(concasaRoute);
 
 // Inicia o servidor
 sequelize.authenticate()
-  .then(() => {
+  .then(async () => {
     console.log('Conexão com o banco de dados estabelecida com sucesso.');
     app.listen(3003, () => {
       console.log('Servidor rodando em http://localhost:3003');
     });
+    await createAdminUser(); // Chama a função para criar o admin
   })
   .catch((err) => {
     console.error('Erro ao conectar ao banco de dados:', err.message);
