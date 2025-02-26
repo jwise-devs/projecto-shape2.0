@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+<title>Procedimentos</title>
+
+<body>
+    <%- include('includes/navbar') %>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+
+            <div class="col-lg-8 my-2">
+                <h1 class="text-center">Procedimentos</h1>
+                <p class="text-center lead">Lista de tratamentos e seus pacientes</p>
+
+                <%- include('includes/messeges') %>
+
+                <div class="row">
+                    <% if (tratamentos.length > 0) { %>
+                        <% tratamentos.forEach(tratamento => { %>
+                            <div class="col-md-6 mb-4">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            Tratamento: 
+                                            <% if (tratamento.sessao && tratamento.sessao.tratamentos) { %>
+                                                <% JSON.parse(tratamento.sessao.tratamentos).forEach(nomeTratamento => { %>
+                                                    <span class="badge bg-primary"><%= nomeTratamento %></span>
+                                                <% }) %>
+                                            <% } else { %>
+                                                <span class="text-muted">Sem informação</span>
+                                            <% } %>
+                                        </h5>
+                                        <p class="card-text">
+                                            <strong>Paciente:</strong> <%= tratamento.usuario ? tratamento.usuario.nome : "Desconhecido" %> <br>
+                                            <strong>Email:</strong> <%= tratamento.usuario ? tratamento.usuario.email : "N/A" %> <br>
+                                            <strong>Preço:</strong> R$ <%= tratamento.preco %> <br>
+                                            <strong>Status:</strong> <%= tratamento.status %> <br>
+                                            <strong>Data:</strong> <%= tratamento.created_at.toLocaleDateString() %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="text-center text-muted">Nenhum tratamento encontrado.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="col-lg-2"></div>
+        </div>
+    </div>
+
+    <%- include('includes/script') %>
+</body>
+
+</html>

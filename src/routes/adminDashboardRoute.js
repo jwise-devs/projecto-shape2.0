@@ -4,6 +4,7 @@ const adminDashboardController = require('../controller/adminDashboardController
 const {loginRequired} = require('../middlewares/middleware');
 
 route.get('/admindashboard',loginRequired,adminDashboardController.index);
+route.get('/admincadastro/create/:verificador',adminDashboardController.createIndex);
 
 
 module.exports = route;

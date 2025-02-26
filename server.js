@@ -14,6 +14,7 @@ const consultaRoute = require('./src/routes/consultaRoute');
 const sessaoRoute = require('./src/routes/sessaoRoute');
 const clientesRoute = require('./src/routes/clientesRoute');
 const concasaRoute = require('./src/routes/concasaRoute');
+const procedimentosRoute = require('./src/routes/procedimentosRoute');
 
 const User = require('./src/model/Usuario');
 
@@ -113,6 +114,7 @@ app.use(sessaoRoute);
 app.use(clientesRoute);
 app.use(concasaRoute);
 app.use(adminDashboardRoute);
+app.use(procedimentosRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {

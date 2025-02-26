@@ -1,6 +1,3 @@
-const { where } = require('sequelize');
-const Sessao = require('../model/Sessao');
-const Tratamentos = require('../model/Tratamentos');
 const Usuario = require("../model/Usuario");
 
 exports.index = async (req, res) => {
@@ -138,5 +135,16 @@ exports.edit = async (req, res) => {
     }
 
 
+}
+
+exports.delete = async (req, res) =>{
+    const userId = req.params.id;
+    const usuario = await Usuario.destroy({where: {id: userId}})
+    if(!usuario) return res.render("404");
+   
+
+    req.flash('success', "Contacto apagado com sucesso");
+    req.session.save(() => res.redirect(`back`));
+    return;
 }
 
