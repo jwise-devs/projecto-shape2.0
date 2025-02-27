@@ -27,15 +27,20 @@
                                                 <td>
                                                     <%= usuario.nome %>
                                                 </td>
+
                                                 <td>
                                                     <%= usuario.email %>
                                                 </td>
+
                                                 <td>
-                                                    <%= usuario.localizacao %>
+                                                    <%= usuario.telefone || "nenhum contacto adicionado" %>
                                                 </td>
+
                                                 <td><a href="/clientes/index/<%= usuario.id %>">Editar</a></td>
+
                                                 <td><a class="text-danger"
                                                         href="/clientes/delete/<%= usuario.id %>">Excluir</a></td>
+
                                             </tr>
 
                                             <% }) %>

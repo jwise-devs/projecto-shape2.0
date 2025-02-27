@@ -3,6 +3,61 @@
 <%- include('includes/head') %>
 <title>Procedimentos</title>
 
+<style>
+    /* Evita que as cards ultrapassem a largura */
+    .card {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
+    /* Garante que as colunas fiquem responsivas */
+    .col-md-6 {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    /* Corrige os spans (badges) para não vazarem */
+    .badge-custom {
+        background-color: #007d7b !important;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: inline-block;
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Estilização do botão sem hover */
+    .btn-custom {
+        background-color: #007d7b !important;
+        color: white !important;
+        border: 1px solid #007d7b !important;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        display: block;
+        width: fit-content; /* Define o tamanho do botão de acordo com o texto */
+        text-align: center;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    /* Remove qualquer efeito ao passar o mouse */
+    .btn-custom:hover, 
+    .btn-custom:focus, 
+    .btn-custom:active {
+        background-color: #007d7b !important;
+        color: white !important;
+        border: 1px solid #007d7b !important;
+        box-shadow: none !important;
+    }
+</style>
+
+
 <body>
     <%- include('includes/navbar') %>
     <div class="container">
@@ -19,13 +74,13 @@
                     <% if (tratamentos.length > 0) { %>
                         <% tratamentos.forEach(tratamento => { %>
                             <div class="col-md-6 mb-4">
-                                <div class="card shadow-sm">
+                                <div class="card shadow-sm p-3">
                                     <div class="card-body">
                                         <h5 class="card-title">
                                             Tratamento: 
                                             <% if (tratamento.sessao && tratamento.sessao.tratamentos) { %>
                                                 <% JSON.parse(tratamento.sessao.tratamentos).forEach(nomeTratamento => { %>
-                                                    <span class="badge bg-primary"><%= nomeTratamento %></span>
+                                                    <span class="badge badge-custom"><%= nomeTratamento %></span>
                                                 <% }) %>
                                             <% } else { %>
                                                 <span class="text-muted">Sem informação</span>
@@ -38,6 +93,11 @@
                                             <strong>Status:</strong> <%= tratamento.status %> <br>
                                             <strong>Data:</strong> <%= tratamento.created_at.toLocaleDateString() %>
                                         </p>
+
+                                        <!-- Botão para verificar progresso -->
+                                        <a class="btn btn-custom">
+                                            <strong>Verificar Progresso</strong>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -51,6 +111,8 @@
             <div class="col-lg-2"></div>
         </div>
     </div>
+
+   
 
     <%- include('includes/script') %>
 </body>

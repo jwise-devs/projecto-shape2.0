@@ -1,66 +1,80 @@
 const Usuario = require("../model/Usuario");
+const nodemailer = require("nodemailer");
+require('dotenv').config();
 
+let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS  // Senha de aplicativo
+    }
+});
 
 exports.index = async (req, res) => {
     try {
-        // Obter o ID do usuário logado
         const usuarioId = res.locals.user.id;
-
-        // Verificar se a localização já foi registrada para este usuário
         const usuario = await Usuario.findByPk(usuarioId);
 
-        // Se a localização estiver registrada, mostra o botão "Solicitar Serviço"
-        if (usuario.localizacao) {
-            res.render('consultaemcasa', {
-                locationSaved: true,  // Variável para verificar se a localização está salva
-                localizacao: usuario.localizacao,  // Passa a localização salva
-                csrfToken: req.csrfToken()
-            });
-        } else {
-            // Caso contrário, exibe o formulário para o usuário enviar a localização
-            res.render('consultaemcasa', {
-                locationSaved: false,  // Variável para mostrar o formulário
-                localizacao: '',  // Define a variável `localizacao` como vazia
-                csrfToken: req.csrfToken()
-            });
-        }
+        res.render('consultaemcasa', {
+            locationSaved: !!usuario.localizacao,  
+            localizacao: usuario.localizacao || '',  
+            csrfToken: req.csrfToken()
+        });
+
     } catch (error) {
         console.error(error);
         req.flash('error', 'Erro inesperado. Tente novamente!');
-        req.session.save(() => {
-            res.redirect('back');
-        });
+        req.session.save(() => res.redirect('back'));
     }
 };
 
-
-
 exports.data = async (req, res) => {
     try {
-        const { localizacao } = req.body;  // Captura o valor enviado pelo formulário
-
-        // Obter o ID do usuário logado
+        const { localizacao } = req.body;
         const usuarioId = res.locals.user.id;
 
-        // Atualizar o usuário com a localização (link do Google Maps)
-        await Usuario.update(
-            { localizacao },  // Atualiza o campo de localização
-            { where: { id: usuarioId } }  // Filtra pelo ID do usuário logado
-        );
+        await Usuario.update({ localizacao }, { where: { id: usuarioId } });
 
-        // Mensagem de sucesso e redirecionamento
         req.flash('success', 'Localização registrada com sucesso!');
-        req.session.save(() => {
-            return res.redirect('/consultaemcasa');  // Volta para a mesma página
-        });
+        req.session.save(() => res.redirect('/consultaemcasa'));
 
     } catch (error) {
         console.error(error);
         req.flash('error', 'Erro inesperado. Tente novamente!');
-        req.session.save(function () {
-            return res.redirect('back');
-        });
+        req.session.save(() => res.redirect('back'));
     }
-}
+};
 
+exports.solicitarServico = async (req, res) => {
+    try {
+        const usuarioId = res.locals.user.id;
+        const usuario = await Usuario.findByPk(usuarioId);
 
+        if (!usuario) {
+            req.flash('error', 'Usuário não encontrado!');
+            return res.redirect('/consultaemcasa');
+        }
+
+        let mailOptions = {
+            from: `"Consulta em Casa" <${process.env.EMAIL_USER}>`,
+            to: `${process.env.EMAIL_DEST}`, 
+            subject: 'Nova Solicitação de Serviço',
+            html: `
+                <h3>Nova Solicitação de Consulta</h3>
+                <p><strong>Nome:</strong> ${usuario.nome}</p>
+                <p><strong>Telefone:</strong> ${usuario.telefone || 'Não informado'}</p>
+                <p><strong>Localização:</strong> <a href="${usuario.localizacao}" target="_blank">Abrir no Google Maps</a></p>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        req.flash('success', 'Solicitação enviada com sucesso!');
+        res.redirect('/consultaemcasa');
+
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Erro ao enviar solicitação.');
+        res.redirect('/consultaemcasa');
+    }
+};

@@ -54,6 +54,7 @@ class Registro {
         this.body = {
             email: this.body.email,
             password: this.body.password,
+            telefone: this.body.telefone,
         }
     }
 }

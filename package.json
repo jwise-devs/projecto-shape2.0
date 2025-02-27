@@ -24,6 +24,7 @@
     "express-mysql-session": "^3.0.3",
     "express-session": "^1.18.1",
     "mysql2": "^3.11.4",
+    "nodemailer": "^6.10.0",
     "nodemon": "^3.1.7",
     "projecto-shape2.0": "file:",
     "regenerator-runtime": "^0.14.1",

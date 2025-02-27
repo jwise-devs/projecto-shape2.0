@@ -56,6 +56,11 @@ class Usuario extends Model {
                     defaultValue: 'usuario',
                 },
 
+                telefone: {
+                    type: DataTypes.STRING,
+                    allowNull: true,
+                },
+
 
 
             },

@@ -114,10 +114,11 @@ exports.edit = async (req, res) => {
 
     try {
 
-        const { nome, email } = req.body; // Pega os dados do formulário de login
+        const { nome, email, telefone } = req.body; // Pega os dados do formulário de login
         const atualizacao = await Usuario.update({
             nome,
             email,
+            telefone,
         },
             {
                 where : {id: req.params.id}

@@ -1,80 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('includes/head') %>
-<title>Consulta Em Casa</title>
+    <title>Consulta Em Casa</title>
 
-<body>
-    <%- include('includes/navbar') %>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2"></div>
-
-            <div class="col-lg-8 my-2">
-                <a href="/">
-                    <h1 class="text-center"><img src="/assets/img/house.png" alt="" class="img-fluid"
-                        style='width: 250px; height: 250px; object-fit: cover;'></h1>
-                </a>
-
-                <%- include('includes/messeges') %>
-
+    <body>
+        <%- include('includes/navbar') %>
+            <div class="container">
                 <div class="row">
-                    <div class="col-lg my-5">
-                        <% if (!locationSaved) { %>
-                            <!-- Se a localização não foi salva, exibe o formulário com o botão para usar a localização -->
-                            <form action="/consultaemcasa/dados" method="post" class="form-login">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <div class="mb-3">
-                                    <label class="form-label">Sua Localização</label>
-                                    <input type="text" class="form-control" name="localizacao" id="localizacao" readonly 
-                                           value="<%= localizacao || '' %>">
+                    <div class="col-lg-2"></div>
+
+                    <div class="col-lg-8 my-2">
+                        <a href="/">
+                            <h1 class="text-center"><img src="/assets/img/house.png" alt="" class="img-fluid"
+                                    style='width: 250px; height: 250px; object-fit: cover;'></h1>
+                        </a>
+
+                        <%- include('includes/messeges') %>
+
+                            <div class="row">
+                                <div class="col-lg my-5">
+                                    <% if (!locationSaved) { %>
+                                        <!-- Se a localização não foi salva, exibe o formulário com o botão para usar a localização -->
+                                        <form action="/consultaemcasa/dados" method="post" class="form-login">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <div class="mb-3">
+                                                <label class="form-label">Sua Localização</label>
+                                                <input type="text" class="form-control" name="localizacao"
+                                                    id="localizacao" readonly value="<%= localizacao || '' %>">
+                                            </div>
+
+                                            <!-- Botão que chama a função para pegar a localização do navegador -->
+                                            <button type="button" class="btn btn-primary mt-3" onclick="getLocation()"
+                                                style="background-color: #007d7b; border-color: #007d7b;">
+                                                Usar Localização
+                                            </button>
+
+                                            <button type="submit" class="btn btn-success mt-3"
+                                                style="background-color: #007d7b; border-color: #007d7b;">
+                                                Mandar Localização
+                                            </button>
+                                        </form>
+                                        <% } else { %>
+                                            <!-- Se a localização foi salva, exibe o botão "Solicitar Serviço" -->
+                                            <form action="/consultaemcasa/solicitar" method="post">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <button type="submit" class="btn btn-success"
+                                                    style="background-color: #007d7b; border-color: #007d7b;">
+                                                    Solicitar Serviço
+                                                </button>
+                                            </form>
+                                            <% } %>
                                 </div>
-
-                                <!-- Botão que chama a função para pegar a localização do navegador -->
-                                <button type="button" class="btn btn-primary mt-3" onclick="getLocation()" style="background-color: #007d7b; border-color: #007d7b;">
-                                    Usar Localização
-                                </button>
-
-                                <button type="submit" class="btn btn-success mt-3" style="background-color: #007d7b; border-color: #007d7b;">
-                                    Mandar Localização
-                                </button>
-                            </form>
-                        <% } else { %>
-                            <!-- Se a localização foi salva, exibe o botão "Solicitar Serviço" -->
-                            <button class="btn btn-success" style="background-color: #007d7b; border-color: #007d7b;">
-                                Solicitar Serviço
-                            </button>
-                        <% } %>
+                            </div>
                     </div>
+
+                    <div class="col-lg-2"></div>
                 </div>
             </div>
+            <%- include('includes/script') %>
 
-            <div class="col-lg-2"></div>
-        </div>
-    </div>
-    <%- include('includes/script') %>
+                <!-- Script para pegar a localização via JavaScript -->
+                <script>
+                    function getLocation() {
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function (position) {
+                                // Pega as coordenadas de latitude e longitude
+                                const latitude = position.coords.latitude;
+                                const longitude = position.coords.longitude;
 
-    <!-- Script para pegar a localização via JavaScript -->
-    <script>
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    // Pega as coordenadas de latitude e longitude
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
+                                // Cria o link do Google Maps com base nas coordenadas
+                                const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
-                    // Cria o link do Google Maps com base nas coordenadas
-                    const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
-
-                    // Insere o link no campo de input de localização
-                    document.getElementById("localizacao").value = mapsLink;
-                }, function(error) {
-                    alert("Erro ao obter a localização. Tente novamente.");
-                });
-            } else {
-                alert("Geolocalização não é suportada neste navegador.");
-            }
-        }
-    </script>
-</body>
+                                // Insere o link no campo de input de localização
+                                document.getElementById("localizacao").value = mapsLink;
+                            }, function (error) {
+                                alert("Erro ao obter a localização. Tente novamente.");
+                            });
+                        } else {
+                            alert("Geolocalização não é suportada neste navegador.");
+                        }
+                    }
+                </script>
+    </body>
 
 </html>

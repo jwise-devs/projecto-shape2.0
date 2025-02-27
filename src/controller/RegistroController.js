@@ -7,7 +7,7 @@ exports.index = (req, res) => {
 
 exports.register = async (req, res) => {
   try {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password || !req.body.telefone) {
       req.flash('error', 'Por favor, preencha todos os campos.');
       return req.session.save(() => res.redirect('back'));
     }
