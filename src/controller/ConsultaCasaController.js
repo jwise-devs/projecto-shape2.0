@@ -18,7 +18,9 @@ exports.index = async (req, res) => {
         res.render('consultaemcasa', {
             locationSaved: !!usuario.localizacao,  
             localizacao: usuario.localizacao || '',  
-            csrfToken: req.csrfToken()
+            csrfToken: req.csrfToken(),
+            success: req.flash('success')[0] || null, // Garante que sempre tenha um valor
+            error: req.flash('error')[0] || null  // Garante que sempre tenha um valor
         });
 
     } catch (error) {
@@ -27,6 +29,7 @@ exports.index = async (req, res) => {
         req.session.save(() => res.redirect('back'));
     }
 };
+
 
 exports.data = async (req, res) => {
     try {
@@ -51,14 +54,26 @@ exports.solicitarServico = async (req, res) => {
         const usuario = await Usuario.findByPk(usuarioId);
 
         if (!usuario) {
-            req.flash('error', 'Usuário não encontrado!');
-            return res.redirect('/consultaemcasa');
+            return res.status(400).json({ success: false, message: 'Usuário não encontrado!' });
         }
 
+        // Obtém a data atual sem a hora (apenas ano, mês e dia)
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
+        // Verifica se o usuário já solicitou serviço hoje
+        const ultimaSolicitacao = usuario.ultimaSolicitacao;
+        if (ultimaSolicitacao && new Date(ultimaSolicitacao).getTime() >= hoje.getTime()) {
+            return res.status(400).json({ success: false, message: 'Você já solicitou um serviço hoje. Tente novamente amanhã!' });
+        }
+
+        // Atualiza a data da última solicitação para a data atual
+        await Usuario.update({ ultimaSolicitacao: new Date() }, { where: { id: usuarioId } });
+
         let mailOptions = {
-            from: `"Consulta em Casa" <${process.env.EMAIL_USER}>`,
+            from: `"Shape" <${process.env.EMAIL_USER}>`,
             to: `${process.env.EMAIL_DEST}`, 
-            subject: 'Nova Solicitação de Serviço',
+            subject: 'Consulta em casa',
             html: `
                 <h3>Nova Solicitação de Consulta</h3>
                 <p><strong>Nome:</strong> ${usuario.nome}</p>
@@ -69,12 +84,12 @@ exports.solicitarServico = async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
-        req.flash('success', 'Solicitação enviada com sucesso!');
-        res.redirect('/consultaemcasa');
+        return res.json({ success: true, message: 'Solicitação enviada com sucesso!' });
 
     } catch (error) {
         console.error(error);
-        req.flash('error', 'Erro ao enviar solicitação.');
-        res.redirect('/consultaemcasa');
+        return res.status(500).json({ success: false, message: 'Erro ao enviar solicitação.' });
     }
 };
+
+

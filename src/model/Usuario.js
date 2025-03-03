@@ -61,6 +61,10 @@ class Usuario extends Model {
                     allowNull: true,
                 },
 
+                ultimaSolicitacao: {
+                    type: DataTypes.DATE, // Guarda a data da última solicitação
+                    allowNull: true
+                },
 
 
             },
