@@ -15,6 +15,8 @@ const sessaoRoute = require('./src/routes/sessaoRoute');
 const clientesRoute = require('./src/routes/clientesRoute');
 const concasaRoute = require('./src/routes/concasaRoute');
 const procedimentosRoute = require('./src/routes/procedimentosRoute');
+const criarProcedimentosRoute = require('./src/routes/criarProcedimentosRoute');
+const verificarProcedimentosRoute = require('./src/routes/verificarProcedimentosRoute');
 
 const User = require('./src/model/Usuario');
 
@@ -97,6 +99,8 @@ app.use(flash());
 
 app.use(csurf());
 
+app.set('view cache', false); // Desabilita o cache de views
+
 app.use(middlewareGlobal);
 app.use(checkCsrfError);
 app.use(csrfMiddleware);
@@ -115,6 +119,8 @@ app.use(clientesRoute);
 app.use(concasaRoute);
 app.use(adminDashboardRoute);
 app.use(procedimentosRoute);
+app.use(criarProcedimentosRoute);
+app.use(verificarProcedimentosRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {

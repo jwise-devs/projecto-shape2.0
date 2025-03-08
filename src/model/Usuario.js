@@ -99,6 +99,11 @@ class Usuario extends Model {
             foreignKey: 'userId', as: 'tratamentos'
         });
 
+        this.hasMany(models.Sessao, {
+            foreignKey: 'userId',
+            as: 'sessoes'
+        });
+
     }
 
     passwordIsValid(password) {

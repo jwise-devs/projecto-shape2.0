@@ -1,27 +1,20 @@
 const Sessao = require('../model/Sessao');
-const Tratamentos = require('../model/Tratamentos');
+
 
 exports.index = async (req, res) => {
     try {
-        // Buscar tratamentos do usuário logado e incluir dados da sessão
-        const tratamentos = await Tratamentos.findAll({
+        // Buscar todas as sessões do usuário logado
+        const sessoes = await Sessao.findAll({
             where: { userId: res.locals.user.id }, // Filtra pelo usuário logado
-            include: [
-                {
-                    model: Sessao, // Inclui a tabela Sessao
-                    as: 'sessao',  // Usa o alias definido no modelo
-                    attributes: ['pacote', 'subpacote', 'tratamentos', 'data_hora_consulta'], // Campos necessários
-                },
-            ],
+            attributes: ['id', 'pacote', 'subpacote', 'data_hora_consulta', 'precoSessao', 'status', 'tratamentosArray'], // Campos necessários
         });
 
         // Renderizar a view e enviar os dados
-        
-        res.render('userDashboard', { tratamentos });
+        res.render('userDashboard', { sessoes });
     } catch (error) {
-        console.error('Erro ao buscar tratamentos:', error);
-        req.flash('error', 'Erro ao carregar os tratamentos.');
+        console.error('Erro ao buscar sessões:', error);
+        req.flash('error', 'Erro ao carregar as sessões.');
         return res.redirect('back');
     }
-}
+};
 

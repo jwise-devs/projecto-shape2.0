@@ -2,8 +2,8 @@
 
 
 module.exports = {
-  async up (queryInterface, DataTypes) {
-     await queryInterface.createTable('tratamentos', {
+  async up(queryInterface, DataTypes) {
+    await queryInterface.createTable('tratamentos', {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -11,20 +11,36 @@ module.exports = {
         primaryKey: true,
       },
 
-      userId: {
-        type: DataTypes.INTEGER,
+      // userId: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      //   references: { model: 'usuario', key: 'id' }, // FK para tabela usuario
+      //   onUpdate: 'CASCADE',
+      //   onDelete: 'CASCADE',
+      // },
+
+      // sessaoId: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      //   references: { model: 'sessao', key: 'id' }, // FK para tabela sessao
+      //   onUpdate: 'CASCADE',
+      //   onDelete: 'CASCADE',
+      // },
+
+      nome: {
+        type: DataTypes.STRING,
         allowNull: false,
-        references: { model: 'usuario', key: 'id' }, // FK para tabela usuario
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       },
 
-      sessaoId: {
-        type: DataTypes.INTEGER,
+      pacote: {
+        type: DataTypes.STRING,
         allowNull: false,
-        references: { model: 'sessao', key: 'id' }, // FK para tabela sessao
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+      },
+
+
+      subpacote: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
 
       created_at: {
@@ -39,17 +55,17 @@ module.exports = {
         defaultValue: DataTypes.NOW,
       },
 
-      status: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "marcado",
-      }
+      // status: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   defaultValue: "marcado",
+      // }
     });
-     
+
   },
 
-  async down (queryInterface, DataTypes) {
-     await queryInterface.dropTable('tratamentos');
-     
+  async down(queryInterface, DataTypes) {
+    await queryInterface.dropTable('tratamentos');
+
   }
 };

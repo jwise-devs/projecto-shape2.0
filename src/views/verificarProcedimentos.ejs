@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+    <title>Tratamentos</title>
+
+
+
+    <body>
+
+
+        <%- include('includes/navbar') %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2"></div>
+
+                    <div class="col-lg-8 my-3">
+                        <h1 class="text-center">Tratamentos</h1>
+
+
+                        <%- include('includes/messeges') %>
+
+
+
+
+                            <div class="responsive-table">
+                                <table class="table my-4">
+
+                                    <thead>
+                                        <tr>
+                                            <th>tratamento</th>
+                                            <th>pacote</th>
+                                            <th>subpacote</th>
+                                            <th>preco</th>
+                                            <th colspan="2">Accoes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if(tratamentos.length> 0) {%>
+                                            <% tratamentos.forEach(tratamento=> { %>
+
+                                                <tr>
+                                                    <td>
+                                                        <%= tratamento.nome || 'Nome não disponível' %>
+                                                    </td>
+
+                                                    <td>
+                                                        <%= tratamento.pacote %>
+                                                    </td>
+
+                                                    <td>
+                                                        <%= tratamento.subpacote %>
+                                                    </td>
+
+                                                    <td>
+                                                        <%= tratamento.preco %>
+                                                    </td>
+
+                                                    <td><a href="/clientes/index/<%= tratamento.id %>">Editar</a></td>
+
+                                                    <td><a class="text-danger"
+                                                            href="/clientes/delete/<%= tratamento.id %>">Excluir</a></td>
+
+
+                                                </tr>
+
+                                                <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% }else { %>
+
+                                <p class="text-center lead">Nao existem clientes cadastrados</p>
+
+
+                                <% } %>
+
+
+                    </div>
+
+                    <div class="col-lg-2"></div>
+                </div>
+            </div>
+            <%- include('includes/script') %>
+
+
+    </body>
+
+</html>

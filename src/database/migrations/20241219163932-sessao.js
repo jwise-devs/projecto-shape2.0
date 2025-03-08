@@ -1,8 +1,7 @@
 'use strict';
 
 module.exports = {
-  async up (queryInterface, DataTypes) {
-
+  async up(queryInterface, DataTypes) {
     await queryInterface.createTable('sessao', {
       id: {
         type: DataTypes.INTEGER,
@@ -10,18 +9,34 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+
+
+      tratamentosArray: {  // Adicionando o campo de nome do tratamento
+        type: DataTypes.JSON,
+        allowNull: true,
+      },
+
       pacote: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+
       subpacote: {
         type: DataTypes.STRING,
-        allowNull: true, // Opcional para pacotes sem subpacote
-      },
-      tratamentos: {
-        type: DataTypes.JSON, // Usamos JSON para armazenar múltiplos valores
         allowNull: true,
       },
+
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "marcado",
+      },
+
       data_hora_consulta: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -38,12 +53,9 @@ module.exports = {
         defaultValue: DataTypes.NOW,
       },
     });
-     
   },
 
-  async down (queryInterface, DataTypes) {
-    
+  async down(queryInterface, DataTypes) {
     await queryInterface.dropTable('sessao');
-     
   }
 };

@@ -71,30 +71,28 @@
                 <%- include('includes/messeges') %>
 
                 <div class="row">
-                    <% if (tratamentos.length > 0) { %>
-                        <% tratamentos.forEach(tratamento => { %>
+                    <% if (sessoes.length > 0) { %>
+                        <% sessoes.forEach(sessao => { %>
                             <div class="col-md-6 mb-4">
                                 <div class="card shadow-sm p-3">
                                     <div class="card-body">
                                         <h5 class="card-title">
-                                            Tratamento: 
-                                            <% if (tratamento.sessao && tratamento.sessao.tratamentos) { %>
-                                                <% JSON.parse(tratamento.sessao.tratamentos).forEach(nomeTratamento => { %>
-                                                    <span class="badge badge-custom"><%= nomeTratamento %></span>
+                                            Tratamentos:
+                                            <% if (sessao.tratamentosArray) { %>
+                                                <% JSON.parse(sessao.tratamentosArray).forEach(tratamento => { %>
+                                                    <span class="badge badge-custom"><%= tratamento %></span>
                                                 <% }) %>
                                             <% } else { %>
                                                 <span class="text-muted">Sem informação</span>
                                             <% } %>
                                         </h5>
                                         <p class="card-text">
-                                            <strong>Paciente:</strong> <%= tratamento.usuario ? tratamento.usuario.nome : "Desconhecido" %> <br>
-                                            <strong>Email:</strong> <%= tratamento.usuario ? tratamento.usuario.email : "N/A" %> <br>
-                                            <strong>Preço:</strong> R$ <%= tratamento.preco %> <br>
-                                            <strong>Status:</strong> <%= tratamento.status %> <br>
-                                            <strong>Data:</strong> <%= tratamento.created_at.toLocaleDateString() %>
+                                            <strong>Paciente:</strong> <%= sessao.usuario ? sessao.usuario.nome : "Desconhecido" %> <br>
+                                            <strong>Email:</strong> <%= sessao.usuario ? sessao.usuario.email : "N/A" %> <br>
+                                            <strong>Preço:</strong> R$ <%= sessao.preco ? sessao.preco.toFixed(2) : "0.00" %> <br>
+                                            <strong>Data:</strong> <%= new Date(sessao.data_hora_consulta).toLocaleDateString() %>
                                         </p>
-
-                                        <!-- Botão para verificar progresso -->
+                    
                                         <a class="btn btn-custom">
                                             <strong>Verificar Progresso</strong>
                                         </a>
@@ -103,8 +101,9 @@
                             </div>
                         <% }) %>
                     <% } else { %>
-                        <p class="text-center text-muted">Nenhum tratamento encontrado.</p>
+                        <p class="text-center text-muted">Nenhuma sessão encontrada.</p>
                     <% } %>
+                    
                 </div>
             </div>
 

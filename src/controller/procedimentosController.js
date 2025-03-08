@@ -1,27 +1,23 @@
-const Tratamentos = require("../model/Tratamentos");
 const Usuario = require("../model/Usuario");
 const Sessao = require("../model/Sessao");
 
 exports.index = async (req, res) => {
     try {
-        const tratamentos = await Tratamentos.findAll({
+        const sessoes = await Sessao.findAll({
             include: [
                 {
                     model: Usuario,
                     as: "usuario",
                     attributes: ["id", "nome", "email"],
-                },
-                {
-                    model: Sessao,
-                    as: "sessao",
-                    attributes: ["tratamentos"], // Pegamos o campo que contém os nomes dos tratamentos
                 }
             ],
         });
 
-        res.render("procedimentos", { tratamentos });
+        console.log("Sessões encontradas:", JSON.stringify(sessoes, null, 2)); // <-- Verifica os dados no console
+
+        res.render("procedimentos", { sessoes });
     } catch (error) {
-        console.error("Erro ao buscar tratamentos:", error);
-        res.render("procedimentos", { tratamentos: [] });
+        console.error("Erro ao buscar sessões:", error);
+        res.render("procedimentos", { sessoes: [] });
     }
 };

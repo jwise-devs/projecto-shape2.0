@@ -11,6 +11,11 @@ class Sessao extends Model {
                     primaryKey: true,
                 },
 
+                userId: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                },
+
                 pacote: {
                     type: DataTypes.STRING,
                     allowNull: false,
@@ -21,13 +26,18 @@ class Sessao extends Model {
                     allowNull: true,
                 },
 
-                tratamentos: {
+                tratamentosArray: {  // Agora armazenamos os tratamentos como um JSON
                     type: DataTypes.JSON,
-                    allowNull: true,
+                    allowNull: false,
                 },
 
                 data_hora_consulta: {
                     type: DataTypes.DATE,
+                    allowNull: false,
+                },
+
+                precoSessao: {
+                    type: DataTypes.DECIMAL(10, 2),
                     allowNull: false,
                 },
 
@@ -49,21 +59,16 @@ class Sessao extends Model {
                 modelName: 'Sessao',
                 tableName: 'sessao',
                 timestamps: true,
-            },
-
+            }
         );
     }
 
     static associate(models) {
-        // Ficha_De_Dados pertence a um Usuário
-        this.hasMany(models.Tratamentos, {
-            foreignKey: 'sessaoId', as: 'sessaotratamentos'
-        });
+        // Associação de Sessao com Tratamentos: Cada Sessao pode ter muitos Tratamentos
+        this.hasMany(models.Tratamentos, { foreignKey: 'sessaoId', as: 'tratamentos' });
 
+        this.belongsTo(models.Usuario, { foreignKey: 'userId', as: 'usuario' });
     }
-
 }
-
-
 
 module.exports = Sessao;

@@ -30,6 +30,7 @@
                                 </a>
                                 <a href="/admincadastro/create/verificador" class="btn btn-primary">Cadastrar
                                     usuario</a>
+                                <a href="/procedimentos/list" class="btn btn-primary">Verificar Procedimentos</a>
                             </div>
 
                     </div>
@@ -40,25 +41,25 @@
 
             <%- include('includes/script') %>
 
-            <script>
-                function fetchEmailCount() {
-                    fetch("/emails/count")
-                        .then(response => response.json())
-                        .then(data => {
-                            const emailCountSpan = document.getElementById("emailCount");
-                            if (data.success && data.count > 0) {
-                                emailCountSpan.textContent = data.count;
-                                emailCountSpan.style.display = "inline-block";
-                            } else {
-                                emailCountSpan.style.display = "none";
-                            }
-                        })
-                        .catch(error => console.error("Erro ao buscar e-mails:", error));
-                }
-            
-                setInterval(fetchEmailCount, 30000);
-                fetchEmailCount();
-            </script>
+                <script>
+                    function fetchEmailCount() {
+                        fetch("/emails/count")
+                            .then(response => response.json())
+                            .then(data => {
+                                const emailCountSpan = document.getElementById("emailCount");
+                                if (data.success && data.count > 0) {
+                                    emailCountSpan.textContent = data.count;
+                                    emailCountSpan.style.display = "inline-block";
+                                } else {
+                                    emailCountSpan.style.display = "none";
+                                }
+                            })
+                            .catch(error => console.error("Erro ao buscar e-mails:", error));
+                    }
+
+                    setInterval(fetchEmailCount, 30000);
+                    fetchEmailCount();
+                </script>
     </body>
 
 </html>
