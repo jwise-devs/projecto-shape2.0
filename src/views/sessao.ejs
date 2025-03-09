@@ -21,13 +21,13 @@
                                     <label for="pacote" class="form-label">Pacote</label>
                                     <select class="form-select" id="pacote" name="pacote">
                                         <option value="" disabled selected>Selecione uma categoria</option>
-                                        <option value="consulta">Consulta</option>
-                                        <option value="corpo">Corpo</option>
-                                        <option value="beleza">Beleza</option>
-                                        <option value="rosto">Rosto</option>
-                                        <option value="metodo">Metodo Renata Franca Drenagem/Modeladora</option>
-                                        <option value="liposhaper">Liposhaper</option>
+                                        <% pacotes.forEach(pacote=> { %>
+                                            <option value="<%= pacote %>">
+                                                <%= pacote %>
+                                            </option>
+                                            <% }); %>
                                     </select>
+
                                 </div>
 
                                 <div class="mb-3 d-none container mt-4" id="subpacote-container">
@@ -54,6 +54,10 @@
                                 <!-- Campo oculto para armazenar preços -->
                                 <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
 
+                                <div id="tratamentosData" data-tratamentos='<%= JSON.stringify(tratamentos) %>'
+                                    style="display: none;"></div>
+
+
                                 <!-- Exibição do preço total -->
                                 <p class="mt-3"><strong>Total: <span id="precoTotal">0.00</span></strong> MT</p>
 
@@ -74,61 +78,39 @@
                         const produtosSelect = document.getElementById("tratamentos");
                         const precoInput = document.getElementById("preco_tratamentos");
 
-                        const dados = {
-                            beleza: {
-                                limpezas_de_pele: [
-                                    { value: "hidratacao facial", text: "Hidratacao Facial", preco: 300 },
-                                    { value: "esfoliacao_completa_facial", text: "Esfoliacao Completa Facial", preco: 250 },
-                                    { value: "revitalizacao_facial", text: "Revitalizacao Facial", preco: 350 },
-                                    { value: "controlo_da_acne_facial", text: "controlo da acne facial", preco: 3500 },
-                                    { value: "foliculte_virilha", text: "Foliculte - Virilha", preco: 2500 },
-                                    { value: "acne_nas_costas_braco", text: "Acne nas costas/braco", preco: 3500 }
-                                ],
-                                peeling_algae: [
-                                    { value: "rosto", text: "Rosto", preco: 500 },
-                                    { value: "axilas", text: "Axilas", preco: 200 },
-                                    { value: "virilha", text: "Virilha", preco: 250 },
-                                    { value: "barriga", text: "Barriga", preco: 10000 },
-                                    { value: "gluteos", text: "Gluteos", preco: 12500 },
-                                    { value: "costas", text: "Costas", preco: 12500 },
-                                    { value: "combo/costas_e_gluteos", text: "Combo/Costas e Gluteos", preco: 15000 }
-                                ],
-                                depilacao: [
-                                    { value: "cera_bikini_line", text: "Cera - Bikini Line", preco: 500 },
-                                    { value: "cera_axilas", text: "Cera - Axilas", preco: 200 },
-                                    { value: "cera_virilha_comleta", text: "Cera - Virilha Comleta", preco: 250 },
-                                    { value: "cera_buco", text: "Cera - Buco", preco: 300 },
-                                    { value: "cera_sobrancelhas", text: "Cera - Sobrancelhas", preco: 300 },
-                                    { value: "lamina_sobrancelhas", text: "Lamina - Sobrancelhas", preco: 150 },
-                                    { value: "pinca_sobrancelhas", text: "Pinca - Sobrancelhas", preco: 250 }
-                                ]
-                            },
-                            consulta: [
-                                { value: "estetica_corporal", text: "Estetica Corporal", preco: 150 },
-                                { value: "nutricional_guia", text: "Nutricional + Guia", preco: 200 },
-                                { value: "estetica_facial", text: "Estetica Facial", preco: 200 }
-                            ],
-                            corpo: [
-                                { value: "esfoliacao", text: "Esfoliacao", preco: 150 },
-                                { value: "massagem_relaxante", text: "Massagem Relaxante", preco: 200 },
-                                { value: "massagem_relaxante_esfoliacao", text: "Massagem Relaxante Esfoliacao", preco: 200 },
-                                { value: "massagem_modeladora", text: "Massagem Modeladora", preco: 3000 },
-                                { value: "drenagem_linfatica", text: "Drenagem Linfatica", preco: 2000 },
-                                { value: "lipomassagem", text: "Lipomassagem", preco: 4000 }
-                            ],
-                            metodo: [
-                                { value: "pernas", text: "Pernas", preco: 150 },
-                                { value: "gluteo", text: "Gluteo", preco: 200 }
-                            ],
-                            liposhaper: [
-                                { value: "abdomen_inferior", text: "Abdomen Inferior", preco: 150 },
-                                { value: "abdomen_superior", text: "Abdomen Superior", preco: 200 }
-                            ],
-                            rosto: [
-                                { value: "mesolift(rugas,linhas_de_expressao)", text: "Mesolift(rugas, linhas de expressao)", preco: 150 },
-                                { value: "skin_boost(rugas&linhas_de_expressao)", text: "Skin Boost(rugas & linhas de expressao)", preco: 200 }
-                            ]
-                        };
+                        const tratamentosDataElement = document.getElementById("tratamentosData");
+                        const tratamentosData = JSON.parse(tratamentosDataElement.getAttribute("data-tratamentos"));
+
+                        console.log("Tratamentos passados para o frontend:", tratamentosData);
+
+                        // Organize os tratamentos para facilitar o uso
+                        const dados = {};
+
+                        tratamentosData.forEach(tratamento => {
+                            if (!dados[tratamento.pacote]) {
+                                dados[tratamento.pacote] = {};
+                            }
+
+                            if (tratamento.subpacote) {
+                                if (!dados[tratamento.pacote][tratamento.subpacote]) {
+                                    dados[tratamento.pacote][tratamento.subpacote] = [];
+                                }
+                                dados[tratamento.pacote][tratamento.subpacote].push({
+                                    value: tratamento.nome,
+                                    text: tratamento.nome,
+                                    preco: parseFloat(tratamento.preco) || 0 // Forçando a conversão para número
+                                });
+                            } else {
+                                if (!dados[tratamento.pacote].produtos) {
+                                    dados[tratamento.pacote].produtos = [];
+                                }
+                                dados[tratamento.pacote].produtos.push({
+                                    value: tratamento.nome,
+                                    text: tratamento.nome,
+                                    preco: parseFloat(tratamento.preco) || 0 // Forçando a conversão para número
+                                });
+                            }
+                        });
 
                         categoriaSelect.addEventListener("change", () => {
                             const categoriaSelecionada = categoriaSelect.value;
@@ -143,16 +125,15 @@
 
                                 Object.keys(dados[categoriaSelecionada]).forEach(subcategoria => {
                                     const option = document.createElement("option");
-                                    option.value = subcategoria.replace(/_/g, " ");
-                                    option.textContent = subcategoria.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+                                    option.value = subcategoria;
+                                    option.textContent = subcategoria.replace(/\b\w/g, char => char.toUpperCase());
                                     subcategoriaSelect.appendChild(option);
                                 });
 
                                 subcategoriaSelect.addEventListener("change", () => {
                                     produtosSelect.innerHTML = "";
                                     produtosSelect.disabled = false;
-                                    // Corrigir nome da subcategoria para corresponder à chave do objeto
-                                    const subcategoriaSelecionada = subcategoriaSelect.value.replace(/ /g, "_"); // Substitui espaços por "_"
+                                    const subcategoriaSelecionada = subcategoriaSelect.value;
 
                                     if (dados[categoriaSelecionada][subcategoriaSelecionada]) {
                                         dados[categoriaSelecionada][subcategoriaSelecionada].forEach(produto => {
@@ -170,13 +151,15 @@
                                 produtosSelect.disabled = false;
                                 produtosSelect.innerHTML = "";
 
-                                dados[categoriaSelecionada].forEach(produto => {
-                                    const option = document.createElement("option");
-                                    option.value = produto.value;
-                                    option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
-                                    option.dataset.preco = produto.preco;
-                                    produtosSelect.appendChild(option);
-                                });
+                                if (dados[categoriaSelecionada].produtos) {
+                                    dados[categoriaSelecionada].produtos.forEach(produto => {
+                                        const option = document.createElement("option");
+                                        option.value = produto.value;
+                                        option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                        option.dataset.preco = produto.preco;
+                                        produtosSelect.appendChild(option);
+                                    });
+                                }
                             }
                         });
 
@@ -188,8 +171,14 @@
 
                             selectedOptions.forEach(option => {
                                 const preco = parseFloat(option.dataset.preco);
-                                precosTratamentos.push(preco);
-                                total += preco;
+
+                                // Garantir que preco é um número válido
+                                if (isNaN(preco)) {
+                                    console.error("Preço inválido:", option.dataset.preco);
+                                } else {
+                                    precosTratamentos.push(preco);
+                                    total += preco;
+                                }
                             });
 
                             precoInput.value = JSON.stringify(precosTratamentos);

@@ -4,5 +4,6 @@ const criarProcedimentosController = require('../controller/CriarProcedimentosCo
 const route = express.Router();
 
 route.get('/procedimentos/create',criarProcedimentosController.index);
+route.post('/procedimentos/create/data',criarProcedimentosController.create);
 
 module.exports = route;

@@ -1,16 +1,24 @@
-const Usuario = require('../model/Usuario');
-const Ficha_De_Dados = require('../model/Ficha_De_Dados');
+const Tratamentos = require('../model/Tratamentos');
 
 exports.index = (req, res) => {
   res.render('criarProcedimentos');
 };
 
-exports.register = async (req, res) => {
+exports.create = async (req, res) => {
   try {
     
+    const {pacote,subpacote,procedimentos,valor} = req.body;
+    const precoTrat = parseFloat(valor).toFixed(2);
+
+    const tratamentos = await Tratamentos.create({
+      nome: procedimentos,
+      pacote: pacote,
+      subpacote: subpacote || "Nenhum subpacote",
+      preco: precoTrat,
+    })
 
     // Flash message de sucesso
-    req.flash('success', 'Usuário registrado com sucesso!');
+    req.flash('success', 'Procedimento criado com sucesso!');
     req.session.save(function (){
 
         return res.redirect('back'); // Redireciona para o dashboard

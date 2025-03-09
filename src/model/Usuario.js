@@ -95,10 +95,6 @@ class Usuario extends Model {
         });
 
 
-        this.hasMany(models.Tratamentos, {
-            foreignKey: 'userId', as: 'tratamentos'
-        });
-
         this.hasMany(models.Sessao, {
             foreignKey: 'userId',
             as: 'sessoes'

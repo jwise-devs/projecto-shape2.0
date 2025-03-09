@@ -1,11 +1,28 @@
 const Sessao = require('../model/Sessao'); 
 const Tratamentos = require('../model/Tratamentos');
-const Usuario = require("../model/Usuario");
+
 
 exports.index = async (req, res) => {
-    res.render('sessao');
-    return;
+    try {
+        // Busca os tratamentos do banco de dados
+        const tratamentosData = await Tratamentos.findAll(); 
+        
+        // Converte as instâncias para dados puros
+        const tratamentos = tratamentosData.map(tratamento => tratamento.get({ plain: true }));
+
+        // Obter os pacotes únicos a partir dos tratamentos (assumindo que o campo pacote existe)
+        const pacotes = [...new Set(tratamentos.map(t => t.pacote))];  // Remove pacotes duplicados
+
+        res.render('sessao', { tratamentos: tratamentos, pacotes: pacotes, csrfToken: req.csrfToken() });
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Erro ao carregar tratamentos.');
+        return res.redirect('back');
+    }
 };
+
+
+
 
 exports.data = async (req, res) => {
     try {
