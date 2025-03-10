@@ -3,86 +3,61 @@
 <%- include('includes/head') %>
     <title>Tratamentos</title>
 
-
-
     <body>
 
-
         <%- include('includes/navbar') %>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2"></div>
 
-                    <div class="col-lg-8 my-3">
-                        <h1 class="text-center">Tratamentos</h1>
+                <div class="col-lg-8 my-3">
+                    <h1 class="text-center">Tratamentos</h1>
 
+                    <%- include('includes/messeges') %>
 
-                        <%- include('includes/messeges') %>
+                    <!-- Formulário de Pesquisa -->
+                    <form method="GET" action="/procedimentos/search" class="d-flex mb-4">
+                        <input type="text" name="search" placeholder="Pesquisar por nome, pacote ou preço" class="form-control me-2" aria-label="Pesquisar">
+                        <button type="submit" class="btn btn-primary">Pesquisar</button>
+                    </form>
 
+                    <div class="responsive-table">
+                        <table class="table my-4">
 
-
-
-                            <div class="responsive-table">
-                                <table class="table my-4">
-
-                                    <thead>
+                            <thead>
+                                <tr>
+                                    <th>tratamento</th>
+                                    <th>pacote</th>
+                                    <th>subpacote</th>
+                                    <th>preco</th>
+                                    <th colspan="2">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(tratamentos.length > 0) { %>
+                                    <% tratamentos.forEach(tratamento => { %>
                                         <tr>
-                                            <th>tratamento</th>
-                                            <th>pacote</th>
-                                            <th>subpacote</th>
-                                            <th>preco</th>
-                                            <th colspan="2">Accoes</th>
+                                            <td><%= tratamento.nome || 'Nome não disponível' %></td>
+                                            <td><%= tratamento.pacote %></td>
+                                            <td><%= tratamento.subpacote || 'Nenhum subpacote' %></td>
+                                            <td><%= tratamento.preco %></td>
+                                            <td><a href="/procedimentos/index/<%= tratamento.id %>">Editar</a></td>
+                                            <td><a class="text-danger" href="/procedimentos/delete/<%= tratamento.id %>">Excluir</a></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if(tratamentos.length> 0) {%>
-                                            <% tratamentos.forEach(tratamento=> { %>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } else { %>
+                        <p class="text-center lead">Não existem tratamentos cadastrados</p>
+                    <% } %>
 
-                                                <tr>
-                                                    <td>
-                                                        <%= tratamento.nome || 'Nome não disponível' %>
-                                                    </td>
-
-                                                    <td>
-                                                        <%= tratamento.pacote %>
-                                                    </td>
-
-                                                    <td>
-                                                        <%= tratamento.subpacote || 'Nenhum subpacote' %>
-                                                    </td>
-
-                                                    <td>
-                                                        <%= tratamento.preco %>
-                                                    </td>
-
-                                                    <td><a href="/clientes/index/<%= tratamento.id %>">Editar</a></td>
-
-                                                    <td><a class="text-danger"
-                                                            href="/clientes/delete/<%= tratamento.id %>">Excluir</a></td>
-
-
-                                                </tr>
-
-                                                <% }) %>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <% }else { %>
-
-                                <p class="text-center lead">Nao existem clientes cadastrados</p>
-
-
-                                <% } %>
-
-
-                    </div>
-
-                    <div class="col-lg-2"></div>
                 </div>
-            </div>
-            <%- include('includes/script') %>
 
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+        <%- include('includes/script') %>
 
     </body>
-
 </html>

@@ -11,48 +11,39 @@
 
                     <div class="col-lg-8 my-3">
                         <h1 class="text-center">Clientes</h1>
-                        
 
                         <%- include('includes/messeges') %>
 
-                            <% if(usuarios.length> 0) {%>
+                        <!-- Formulário de Pesquisa -->
+                        <form method="GET" action="/clientes" class="d-flex">
+                            <input type="text" name="search" placeholder="Pesquisar por nome, email ou telefone" class="form-control me-2" aria-label="Pesquisar">
+                            <button type="submit" class="btn btn-primary">Pesquisar</button>
+                        </form>
+                        
 
+                        <% if(usuarios.length > 0) { %>
 
+                            <div class="responsive-table">
+                                <table class="table my-3">
+                                    <% usuarios.forEach(usuario => { %>
 
-                                <div class="responsive-table">
-                                    <table class="table my-3">
-                                        <% usuarios.forEach(usuario => { %>
+                                        <tr>
+                                            <td><%= usuario.nome %></td>
+                                            <td><%= usuario.email %></td>
+                                            <td><%= usuario.telefone || "nenhum contacto adicionado" %></td>
+                                            <td><a href="/clientes/index/<%= usuario.id %>">Editar</a></td>
+                                            <td><a class="text-danger" href="/clientes/delete/<%= usuario.id %>">Excluir</a></td>
+                                        </tr>
 
-                                            <tr>
-                                                <td>
-                                                    <%= usuario.nome %>
-                                                </td>
+                                    <% }) %>
+                                </table>
+                            </div>
 
-                                                <td>
-                                                    <%= usuario.email %>
-                                                </td>
+                        <% } else { %>
 
-                                                <td>
-                                                    <%= usuario.telefone || "nenhum contacto adicionado" %>
-                                                </td>
+                            <p class="text-center lead">Não existem clientes cadastrados</p>
 
-                                                <td><a href="/clientes/index/<%= usuario.id %>">Editar</a></td>
-
-                                                <td><a class="text-danger"
-                                                        href="/clientes/delete/<%= usuario.id %>">Excluir</a></td>
-
-                                            </tr>
-
-                                            <% }) %>
-
-                                    </table>
-                                </div>
-                                <% }else { %>
-
-                                    <p class="text-center lead">Nao existem clientes cadastrados</p>
-
-
-                                    <% } %>
+                        <% } %>
 
                     </div>
 
@@ -61,7 +52,5 @@
             </div>
             <%- include('includes/script') %>
 
-
     </body>
-
 </html>

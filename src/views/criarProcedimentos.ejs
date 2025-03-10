@@ -34,38 +34,73 @@
 
                         <div class="col-lg my-5">
 
-                            <h4>Procedimento</h4>
-                            <form action="/procedimentos/create/data" method="post" class="form-cadastro"
-                                onsubmit="return validateForm()">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <% if (typeof tratamento !=='undefined' && tratamento && tratamento.id) {%>
+                                <h4>Editar Procedimentos</h4>
+                                <form action="/procedimentos/edit/<%= tratamento.id %>" method="post" class="form-cadastro"
+                                    onsubmit="return validateForm()">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                                <div class="mb-3">
-                                    <label class="form-label">Pacote</label>
-                                    <input type="name" class="form-control" name="pacote">
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Pacote</label>
+                                        <input type="name" class="form-control" name="pacote" value="<%= tratamento.pacote  %>">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Subpacote</label>
-                                    <input type="name" class="form-control" name="subpacote" placeholder="Se nao tiver um subpacote pode deixar em branco">
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Subpacote</label>
+                                        <input type="name" class="form-control" name="subpacote"
+                                            placeholder="Se nao tiver um subpacote pode deixar em branco" value="<%= tratamento.subpacote  %>">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Procedimento</label>
-                                    <input type="name" class="form-control" name="procedimentos">
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Procedimento</label>
+                                        <input type="name" class="form-control" name="procedimentos" value="<%= tratamento.nome  %>">
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Valor</label>
-                                    <input type="number" class="form-control" name="valor" id="valor" required>
-                                </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Valor</label>
+                                        <input type="text" class="form-control" name="valor" id="valor" value="<%= tratamento.preco  %>">
+                                    </div>
 
 
-                                <button type="submit" class="btn btn-primary">Criar Procedimento</button>
+                                    <button type="submit" class="btn btn-primary">Editar</button>
 
-                                
-                                <a href="/admindashboard" class="btn btn-primary">Voltar</a>
-                            </form>
 
+                                    <a href="/procedimentos/list" class="btn btn-primary">Voltar</a>
+                                </form>
+                                <% }else{%>
+                                    <h4>Procedimento</h4>
+                                <form action="/procedimentos/create/data" method="post" class="form-cadastro"
+                                    onsubmit="return validateForm()">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Pacote</label>
+                                        <input type="name" class="form-control" name="pacote" value="">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Subpacote</label>
+                                        <input type="name" class="form-control" name="subpacote"
+                                            placeholder="Se nao tiver um subpacote pode deixar em branco">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Procedimento</label>
+                                        <input type="name" class="form-control" name="procedimentos">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Valor</label>
+                                        <input type="text" class="form-control" name="valor" id="valor">
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-primary">Criar Procedimento</button>
+
+
+                                    <a href="/admindashboard" class="btn btn-primary">Voltar</a>
+                                </form>
+                                    <% } %>
 
                         </div>
 
@@ -82,17 +117,15 @@
         crossorigin="anonymous"></script>
 
     <script>
-        function validateForm() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
+        document.getElementById('valor').addEventListener('input', function (e) {
+            // Remove caracteres não numéricos, exceto ponto e vírgula
+            let valor = e.target.value.replace(/[^0-9.,]/g, '');
 
-            if (!email || !password) {
-                alert('Por favor, preencha todos os campos.');
-                return false;
-            }
+            // Substitui vírgula por ponto para manter um formato padrão de número decimal
+            valor = valor.replace(',', '.');
 
-            return true;
-        }
+            e.target.value = valor;
+        });
     </script>
 </body>
 

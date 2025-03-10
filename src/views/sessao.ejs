@@ -91,14 +91,17 @@
                                 dados[tratamento.pacote] = {};
                             }
 
-                            if (tratamento.subpacote) {
-                                if (!dados[tratamento.pacote][tratamento.subpacote]) {
-                                    dados[tratamento.pacote][tratamento.subpacote] = [];
+                            if (tratamento.subpacote && tratamento.subpacote !== "Nenhum subpacote" && tratamento.subpacote.trim() !== "") {
+                                if (!dados[tratamento.pacote].subpacotes) {
+                                    dados[tratamento.pacote].subpacotes = {};
                                 }
-                                dados[tratamento.pacote][tratamento.subpacote].push({
+                                if (!dados[tratamento.pacote].subpacotes[tratamento.subpacote]) {
+                                    dados[tratamento.pacote].subpacotes[tratamento.subpacote] = [];
+                                }
+                                dados[tratamento.pacote].subpacotes[tratamento.subpacote].push({
                                     value: tratamento.nome,
                                     text: tratamento.nome,
-                                    preco: parseFloat(tratamento.preco) || 0 // Forçando a conversão para número
+                                    preco: parseFloat(tratamento.preco) || 0
                                 });
                             } else {
                                 if (!dados[tratamento.pacote].produtos) {
@@ -107,7 +110,7 @@
                                 dados[tratamento.pacote].produtos.push({
                                     value: tratamento.nome,
                                     text: tratamento.nome,
-                                    preco: parseFloat(tratamento.preco) || 0 // Forçando a conversão para número
+                                    preco: parseFloat(tratamento.preco) || 0
                                 });
                             }
                         });
@@ -116,27 +119,47 @@
                             const categoriaSelecionada = categoriaSelect.value;
                             subcategoriaSelect.innerHTML = "";
                             produtosSelect.innerHTML = "";
+                            produtosSelect.disabled = true;
 
-                            if (categoriaSelecionada === "beleza") {
-                                subcategoriaContainer.classList.remove("d-none");
-                                subcategoriaSelect.disabled = false;
-                                produtosSelect.disabled = true;
-                                subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
+                            if (dados[categoriaSelecionada]) {
+                                const possuiSubpacotes = dados[categoriaSelecionada].subpacotes &&
+                                    Object.keys(dados[categoriaSelecionada].subpacotes).length > 0;
 
-                                Object.keys(dados[categoriaSelecionada]).forEach(subcategoria => {
-                                    const option = document.createElement("option");
-                                    option.value = subcategoria;
-                                    option.textContent = subcategoria.replace(/\b\w/g, char => char.toUpperCase());
-                                    subcategoriaSelect.appendChild(option);
-                                });
+                                if (possuiSubpacotes) {
+                                    subcategoriaContainer.classList.remove("d-none");
+                                    subcategoriaSelect.disabled = false;
+                                    subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
 
-                                subcategoriaSelect.addEventListener("change", () => {
-                                    produtosSelect.innerHTML = "";
+                                    Object.keys(dados[categoriaSelecionada].subpacotes).forEach(subcategoria => {
+                                        const option = document.createElement("option");
+                                        option.value = subcategoria;
+                                        option.textContent = subcategoria.replace(/\b\w/g, char => char.toUpperCase());
+                                        subcategoriaSelect.appendChild(option);
+                                    });
+
+                                    subcategoriaSelect.addEventListener("change", () => {
+                                        produtosSelect.innerHTML = "";
+                                        produtosSelect.disabled = false;
+                                        const subcategoriaSelecionada = subcategoriaSelect.value;
+
+                                        if (dados[categoriaSelecionada].subpacotes[subcategoriaSelecionada]) {
+                                            dados[categoriaSelecionada].subpacotes[subcategoriaSelecionada].forEach(produto => {
+                                                const option = document.createElement("option");
+                                                option.value = produto.value;
+                                                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                                option.dataset.preco = produto.preco;
+                                                produtosSelect.appendChild(option);
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    subcategoriaContainer.classList.add("d-none");
+                                    subcategoriaSelect.disabled = true;
                                     produtosSelect.disabled = false;
-                                    const subcategoriaSelecionada = subcategoriaSelect.value;
+                                    produtosSelect.innerHTML = "";
 
-                                    if (dados[categoriaSelecionada][subcategoriaSelecionada]) {
-                                        dados[categoriaSelecionada][subcategoriaSelecionada].forEach(produto => {
+                                    if (dados[categoriaSelecionada].produtos) {
+                                        dados[categoriaSelecionada].produtos.forEach(produto => {
                                             const option = document.createElement("option");
                                             option.value = produto.value;
                                             option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
@@ -144,21 +167,6 @@
                                             produtosSelect.appendChild(option);
                                         });
                                     }
-                                });
-                            } else if (dados[categoriaSelecionada]) {
-                                subcategoriaContainer.classList.add("d-none");
-                                subcategoriaSelect.disabled = true;
-                                produtosSelect.disabled = false;
-                                produtosSelect.innerHTML = "";
-
-                                if (dados[categoriaSelecionada].produtos) {
-                                    dados[categoriaSelecionada].produtos.forEach(produto => {
-                                        const option = document.createElement("option");
-                                        option.value = produto.value;
-                                        option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
-                                        option.dataset.preco = produto.preco;
-                                        produtosSelect.appendChild(option);
-                                    });
                                 }
                             }
                         });
@@ -172,7 +180,6 @@
                             selectedOptions.forEach(option => {
                                 const preco = parseFloat(option.dataset.preco);
 
-                                // Garantir que preco é um número válido
                                 if (isNaN(preco)) {
                                     console.error("Preço inválido:", option.dataset.preco);
                                 } else {
@@ -185,6 +192,7 @@
                             document.getElementById("precoTotal").textContent = total.toFixed(2);
                         });
                     });
+
                 </script>
     </body>
 

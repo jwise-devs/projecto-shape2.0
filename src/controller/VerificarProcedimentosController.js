@@ -1,5 +1,5 @@
-const Usuario = require("../model/Usuario");
 const Tratamentos = require("../model/Tratamentos");
+const { Op } = require('sequelize');
 
 exports.index = async (req, res) => {
     try {
@@ -21,6 +21,47 @@ exports.index = async (req, res) => {
     }
 }
 
+
+exports.search = async (req, res) => {
+    try {
+        const search = req.query.search;
+
+        const tratamentos = await Tratamentos.findAll({
+            where: {
+                sessaoId: null,
+                [Op.or]: [
+                    {
+                        nome: {
+                            [Op.like]: `%${search}%` // Usando LIKE em vez de ILIKE
+                        }
+                    },
+                    {
+                        pacote: {
+                            [Op.like]: `%${search}%`
+                        }
+                    },
+                    {
+                        subpacote: {
+                            [Op.like]: `%${search}%`
+                        }
+                    },
+                    {
+                        preco: {
+                            [Op.like]: `%${search}%`
+                        }
+                    }
+                ]
+            }
+        });
+
+        res.render('verificarProcedimentos', { tratamentos: tratamentos });
+
+    } catch (error) {
+        console.error('Erro ao buscar tratamentos:', error);
+        req.flash('error', 'Erro ao carregar os tratamentos.');
+        return res.redirect('back');
+    }
+};
 // exports.data = async (req, res) => {
 //     try {
 //         // Receber os dados do formulário
@@ -99,58 +140,66 @@ exports.index = async (req, res) => {
 //     }
 // }
 
-// exports.editIndex = async (req, res) => {
-//     try {
+exports.editIndex = async (req, res) => {
+    try {
 
-//         const userId = req.params.id;
-//         const usuario = await Usuario.findOne({where: {id: userId}})
-//         res.render('registro', { usuario });
-//         return;
-
-
-//     } catch (error) {
-//         console.error('Erro ao buscar tratamentos:', error);
-//         req.flash('error', 'Erro ao carregar os tratamentos.');
-//         return res.redirect('back');
-//     }
-// }
-
-// exports.edit = async (req, res) => {
-
-//     try {
-
-//         const { nome, email, telefone } = req.body; // Pega os dados do formulário de login
-//         const atualizacao = await Usuario.update({
-//             nome,
-//             email,
-//             telefone,
-//         },
-//             {
-//                 where : {id: req.params.id}
-//             }
-//         )
-
-//         req.flash('success', "Cliente editado com sucesso");
-//         req.session.save(() => res.redirect('/clientes'));
-//         return;
-
-//     } catch (error) {
-//         console.error('Erro ao buscar tratamentos:', error);
-//         req.flash('error', 'Erro ao carregar os tratamentos.');
-//         return res.redirect('back');
-//     }
+        const tratamentosId = req.params.id;
+        const tratamento = await Tratamentos.findOne({where: {id: tratamentosId}})
+        res.render('criarProcedimentos', { tratamento });
+        return;
 
 
-// }
+    } catch (error) {
+        console.error('Erro ao buscar tratamentos:', error);
+        req.flash('error', 'Erro ao carregar os tratamentos.');
+        return res.redirect('back');
+    }
+}
 
-// exports.delete = async (req, res) =>{
-//     const userId = req.params.id;
-//     const usuario = await Usuario.destroy({where: {id: userId}})
-//     if(!usuario) return res.render("404");
+exports.update = async (req, res) => {
+
+    try {
+
+        const { pacote, subpacote, procedimentos, valor } = req.body;
+        const precoTrat = parseFloat(valor).toFixed(2);
+
+        if (isNaN(precoTrat)) {
+        req.flash('error', 'Por favor, o campo preco tem que ser um numero valido');
+        return req.session.save(() => res.redirect('back'));
+        }
+    
+        const atualizacao = await Tratamentos.update({
+            nome: procedimentos,
+            pacote,
+            subpacote,
+            preco: precoTrat,
+        },
+            {
+                where : {id: req.params.id}
+            }
+        )
+
+        req.flash('success', "Procedimento editado com sucesso");
+        req.session.save(() => res.redirect('/procedimentos/list'));
+        return;
+
+    } catch (error) {
+        console.error('Erro ao buscar tratamentos:', error);
+        req.flash('error', 'Erro ao carregar os tratamentos.');
+        return res.redirect('back');
+    }
+
+
+}
+
+exports.delete = async (req, res) =>{
+    const tratamentosId = req.params.id;
+    const tratamento = await Tratamentos.destroy({where: {id: tratamentosId}})
+    if(!tratamento) return res.render("404");
    
 
-//     req.flash('success', "Contacto apagado com sucesso");
-//     req.session.save(() => res.redirect(`back`));
-//     return;
-// }
+    req.flash('success', "procedimento apagado com sucesso");
+    req.session.save(() => res.redirect(`back`));
+    return;
+}
 

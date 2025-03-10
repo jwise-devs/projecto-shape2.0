@@ -1,20 +1,35 @@
 const Usuario = require("../model/Usuario");
+const { Op } = require('sequelize');  // Importa o operador Op do Sequelize
+
 
 exports.index = async (req, res) => {
     try {
+        // Verificar se há um valor de pesquisa
+        const searchQuery = req.query.search || '';  // Pega o valor do campo de pesquisa
 
+        // Fazer a busca filtrada no banco de dados
+        const usuarios = await Usuario.findAll({
+            where: {
+                role: 'usuario',
+                [Op.or]: [
+                    { nome: { [Op.like]: `%${searchQuery}%` } },
+                    { email: { [Op.like]: `%${searchQuery}%` } },
+                    { telefone: { [Op.like]: `%${searchQuery}%` } }
+                ]
+            }
+        });
 
-        const usuarios = await Usuario.findAll({ where: { role: 'usuario' } });
+        // Renderizar a página com os usuários encontrados
         res.render('clientes', { usuarios });
         return;
 
-
     } catch (error) {
-        console.error('Erro ao buscar tratamentos:', error);
-        req.flash('error', 'Erro ao carregar os tratamentos.');
+        console.error('Erro ao buscar clientes:', error);
+        req.flash('error', 'Erro ao carregar os clientes.');
         return res.redirect('back');
     }
 }
+
 
 // exports.data = async (req, res) => {
 //     try {

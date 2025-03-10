@@ -7,6 +7,9 @@ let transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS  // Senha de aplicativo
+    },
+    tls: {
+        rejectUnauthorized: false // Ignora o erro do certificado autoassinado
     }
 });
 
