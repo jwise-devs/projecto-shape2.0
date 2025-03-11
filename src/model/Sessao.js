@@ -26,6 +26,18 @@ class Sessao extends Model {
                     allowNull: true,
                 },
 
+                status: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                    defaultValue: "marcado",
+                },
+
+                progresso: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true, // Você pode definir como true ou false, dependendo da necessidade
+                    defaultValue: 0, // Valor padrão para o progresso (pode ser 0 se preferir começar do zero)
+                },
+
                 tratamentosArray: {  // Agora armazenamos os tratamentos como um JSON
                     type: DataTypes.JSON,
                     allowNull: false,

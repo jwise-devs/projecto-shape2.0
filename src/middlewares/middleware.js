@@ -11,7 +11,7 @@ exports.middlewareGlobal = (req,res,next) => {
         success: req.flash('success'),
         error: req.flash('error'),
       };
-      res.locals.user = req.session.user;  
+      res.locals.user = req.session.user || null;  
     next();
 }
 

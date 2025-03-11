@@ -123,15 +123,18 @@
                                                             <br>
                                                             <strong>Email:</strong>
                                                             <%= sessao.usuario ? sessao.usuario.email : "N/A" %> <br>
-                                                                <strong>Preço:</strong> R$ <%= sessao.preco ?
-                                                                    sessao.preco.toFixed(2) : "0.00" %> <br>
+                                                                <strong>Preço:</strong> R$ <%= sessao.precoSessao %> <br>
                                                                     <strong>Data:</strong>
                                                                     <%= new
                                                                         Date(sessao.data_hora_consulta).toLocaleDateString()
                                                                         %>
+                                                                <br>
+                                                                    <strong>Status:</strong>
+                                                                    <%= sessao.status
+                                                                        %>
                                                     </p>
 
-                                                    <a class="btn btn-custom">
+                                                    <a class="btn btn-custom" href="/progresso/<%= sessao.id %>">
                                                         <strong>Verificar Progresso</strong>
                                                     </a>
                                                 </div>

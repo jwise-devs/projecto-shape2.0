@@ -17,6 +17,8 @@ const concasaRoute = require('./src/routes/concasaRoute');
 const procedimentosRoute = require('./src/routes/procedimentosRoute');
 const criarProcedimentosRoute = require('./src/routes/criarProcedimentosRoute');
 const verificarProcedimentosRoute = require('./src/routes/verificarProcedimentosRoute');
+const progressoRoute = require('./src/routes/progressoRoute');
+const fourofourRoute = require('./src/routes/404Route');
 
 const User = require('./src/model/Usuario');
 
@@ -121,6 +123,8 @@ app.use(adminDashboardRoute);
 app.use(procedimentosRoute);
 app.use(criarProcedimentosRoute);
 app.use(verificarProcedimentosRoute);
+app.use(progressoRoute);
+app.use(fourofourRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {
