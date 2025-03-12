@@ -5,110 +5,72 @@
 
     <body>
         <%- include('includes/navbar') %>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2"></div>
 
-                <div class="col-lg-8 my-3">
-                    <h1 class="text-center">Progresso de <%= sessao.usuario ? sessao.usuario.nome : 'Usuário não encontrado' %></h1>
+                    <div class="col-lg-8 my-3">
+                        <h1 class="text-center">Progresso de <%= sessao.usuario ? sessao.usuario.nome : 'Usuário não encontrado' %></h1>
 
-                    <%- include('includes/messeges') %>
+                        <%- include('includes/messeges') %>
 
-                    <% if (sessao && sessao.tratamentosArray.length > 0) { %>
-                        <form>
-                            <div class="form-group">
-                                <label>Selecione os tratamentos concluídos:</label>
-                                <% sessao.tratamentosArray.forEach((tratamento, index) => { %>
-                                    <div class="form-check">
-                                        <input 
-                                            class="form-check-input" 
-                                            type="checkbox" 
-                                            id="tratamento_<%= index %>" 
-                                            name="tratamentos" 
-                                            value="<%= tratamento %>" 
-                                            onchange="atualizarProgresso()">
-                                        <label class="form-check-label" for="tratamento_<%= index %>">
-                                            <%= tratamento %>
-                                        </label>
-                                    </div>
-                                <% }); %>
-                            </div>
+                        <% if (sessao && sessao.tratamentosArray.length > 0) { %>
+                            <!-- Formulário tradicional -->
+                            <form action="/progresso/data/<%= sessao.id %>" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <div class="form-group">
+                                    <label>Selecione os tratamentos concluídos:</label>
+                                    <% sessao.tratamentosArray.forEach((tratamento, index) => { %>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                id="tratamento_<%= index %>" name="tratamentos"
+                                                value="<%= tratamento %>" onchange="atualizarProgresso()">
+                                            <label class="form-check-label" for="tratamento_<%= index %>">
+                                                <%= tratamento %>
+                                            </label>
+                                        </div>
+                                    <% }); %>
+                                </div>
 
-                            <div class="form-group mt-3">
-                                <label for="progresso">Progresso da Sessão:</label>
-                                <input type="range" class="form-range" id="progresso" min="0" max="100" step="1" value="0" readonly>
-                                <span id="progresso-text">0%</span>
-                            </div>
+                                <div class="form-group mt-3">
+                                    <label for="progresso">Progresso da Sessão:</label>
+                                    <input type="range" class="form-range" id="progresso" min="0" max="100" step="1"
+                                        value="0" readonly name="progresso">
+                                    <span id="progresso-text">0%</span>
+                                </div>
 
-                            <!-- Botão Voltar -->
-                            <div class="text-center mt-4">
-                                <a href="/procedimentos" class="btn btn-primary">Voltar</a>
-                            </div>
+                                <div class="text-center mt-4">
+                                    <a href="/procedimentos" class="btn btn-primary">Voltar</a>
+                                    <button type="submit" class="btn btn-success">Salvar Progresso</button>
+                                </div>
+                            </form>
+                        <% } else { %>
+                            <p class="text-center">Nenhum tratamento encontrado para este cliente.</p>
+                        <% } %>
+                    </div>
 
-                        </form>
-                    <% } else { %>
-                        <p class="text-center">Nenhum tratamento encontrado para este cliente.</p>
-                    <% } %>
-
+                    <div class="col-lg-2"></div>
                 </div>
-
-                <div class="col-lg-2"></div>
             </div>
-        </div>
 
-        <style>
-            /* Estiliza a barra de progresso */
-            #progresso {
-                -webkit-appearance: none;
-                appearance: none;
-                width: 100%;
-                height: 10px;
-                background: linear-gradient(to right, #4CAF50 0%, #4CAF50 0%, #ddd 0%, #ddd 100%);
-                border-radius: 5px;
-                transition: background 0.3s ease-in-out;
-            }
+            <script>
+                function atualizarProgresso() {
+                    let checkboxes = document.querySelectorAll('input[name="tratamentos"]');
+                    let total = checkboxes.length;
+                    let marcados = document.querySelectorAll('input[name="tratamentos"]:checked').length;
+                    let progresso = total > 0 ? Math.round((marcados / total) * 100) : 0;
 
-            /* Estiliza o botão do range (Chrome, Safari) */
-            #progresso::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                width: 20px;
-                height: 20px;
-                background: #4CAF50;
-                border-radius: 50%;
-                cursor: pointer;
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-            }
+                    let progressoInput = document.getElementById("progresso");
+                    let progressoText = document.getElementById("progresso-text");
 
-            /* Estiliza o botão do range (Firefox) */
-            #progresso::-moz-range-thumb {
-                width: 20px;
-                height: 20px;
-                background: #4CAF50;
-                border-radius: 50%;
-                cursor: pointer;
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-            }
-        </style>
+                    progressoInput.value = progresso;
+                    progressoText.innerText = progresso + "%";
 
-        <script>
-            function atualizarProgresso() {
-                let checkboxes = document.querySelectorAll('input[name="tratamentos"]');
-                let total = checkboxes.length;
-                let marcados = document.querySelectorAll('input[name="tratamentos"]:checked').length;
-                let progresso = total > 0 ? Math.round((marcados / total) * 100) : 0;
+                    progressoInput.style.background = `linear-gradient(to right, #4CAF50 0%, #4CAF50 ${progresso}%, #ddd ${progresso}%, #ddd 100%)`;
+                }
+            </script>
 
-                let progressoInput = document.getElementById("progresso");
-                let progressoText = document.getElementById("progresso-text");
-
-                progressoInput.value = progresso;
-                progressoText.innerText = progresso + "%";
-
-                // Atualiza a cor da barra com um gradiente baseado no progresso
-                progressoInput.style.background = `linear-gradient(to right, #4CAF50 0%, #4CAF50 ${progresso}%, #ddd ${progresso}%, #ddd 100%)`;
-            }
-        </script>
-
-        <%- include('includes/script') %>
+            <%- include('includes/script') %>
     </body>
+
 </html>

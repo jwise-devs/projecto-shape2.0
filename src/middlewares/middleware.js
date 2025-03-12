@@ -6,14 +6,16 @@ exports.checkCsrfError = (err,req,res,next) => {
     next();
 }
 
-exports.middlewareGlobal = (req,res,next) => {
+exports.middlewareGlobal = (req, res, next) => {
+    console.log("Usuário na sessão:", req.session.user); // 👀 Verifica se o usuário está sendo passado
+    res.locals.user = req.session.user || null;
     res.locals.messages = {
         success: req.flash('success'),
         error: req.flash('error'),
-      };
-      res.locals.user = req.session.user || null;  
+    };
     next();
-}
+};
+
 
 // Utiliza o comando de "res.locals.crsfToken = req.csrfToken()"
 exports.csrfMiddleware = (req,res,next) =>{
@@ -21,15 +23,17 @@ exports.csrfMiddleware = (req,res,next) =>{
     next();
 }
 
-exports.loginRequired = (req,res,next) =>{
-    if(!req.session.user){
-        req.flash('error',"Voce precisa fazer login");
-        req.session.save(() => res.redirect("/login/index"));
-        return;
+exports.loginRequired = (req, res, next) => {
+    if (!req.session.user) {
+        if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+            return res.status(401).json({ message: "Você precisa fazer login." });
+        }
+        req.flash('error', "Você precisa fazer login");
+        return res.redirect("/login/index");
     }
-
     next();
-}
+};
+
 
 exports.verificarFichaPreenchida = async (req, res, next) => {
     try {

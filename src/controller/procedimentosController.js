@@ -21,17 +21,27 @@ exports.index = async (req, res) => {
                 }
             ],
             where: {
-                [Op.or]: [
+                [Op.and]: [  // Adicionando a condição para status != "Concluido"
                     {
-                        // Pesquisa pelo nome do paciente
-                        "$usuario.nome$": {
-                            [Op.like]: `%${search}%`
-                        }
+                        [Op.or]: [
+                            {
+                                // Pesquisa pelo nome do paciente
+                                "$usuario.nome$": {
+                                    [Op.like]: `%${search}%`
+                                }
+                            },
+                            {
+                                // Pesquisa pelos tratamentos (tratamentosArray armazenado como JSON)
+                                tratamentosArray: {
+                                    [Op.like]: `%${search}%`
+                                }
+                            }
+                        ]
                     },
                     {
-                        // Pesquisa pelos tratamentos (tratamentosArray armazenado como JSON)
-                        tratamentosArray: {
-                            [Op.like]: `%${search}%`
+                        // Filtra sessões que não têm o status "Concluido"
+                        status: {
+                            [Op.ne]: "Concluido" // Status diferente de "Concluido"
                         }
                     }
                 ]

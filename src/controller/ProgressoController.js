@@ -27,3 +27,47 @@ exports.index = async (req, res) => {
         return res.redirect('back');
     }
 };
+
+exports.atualizarProgresso = async (req, res) => {
+    console.log("Recebendo POST /progresso/:id", req.body);
+
+    try {
+        const { progresso } = req.body;
+        const sessaoId = req.params.id;
+
+        if (!sessaoId) {
+            console.log("Erro: ID da sessão não encontrado.");
+            return res.status(400).json({ message: "ID da sessão não encontrado." });
+        }
+
+        const sessao = await Sessao.findByPk(sessaoId);
+
+        if (!sessao) {
+            console.log("Erro: Sessão não encontrada.");
+            return res.status(404).json({ message: "Sessão não encontrada." });
+        }
+
+        console.log("Sessão encontrada:", sessao);
+
+
+        // Aqui você pode salvar os tratamentos no banco
+        sessao.progresso = progresso;
+        sessao.status = "Concluido";  // Garantindo que o status seja atribuído corretamente
+
+        await sessao.save();  // Tente salvar os dados
+
+        console.log("✅ Progresso salvo com sucesso!");
+        req.flash('success', "dados dos procedimentos salvos");
+        req.session.save(() => res.redirect('/procedimentos'));
+        return;
+    } catch (error) {
+        console.error("❌ Erro ao salvar progresso:", error);  // Loga o erro completo
+        return res.status(500).json({ message: "Erro interno ao salvar progresso." });
+    }
+};
+
+
+
+
+
+

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const homeRoute = require('./src/routes/homeRoute');
 const sobreRoute = require('./src/routes/sobreRoute');
 const localRoute = require('./src/routes/localRoute');
@@ -30,6 +31,9 @@ app.set('views', path.join(__dirname, "src",'views'));
 
 // Serve arquivos estáticos (CSS, JS) da pasta public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Use o body-parser para lidar com requisições JSON
+app.use(bodyParser.json());
 
 const csurf = require('csurf');
 const session = require('express-session');
