@@ -20,7 +20,7 @@
                             <button type="submit" class="btn btn-primary">Pesquisar</button>
                         </form>
                         
-
+                        <% if (typeof user !== 'undefined' && user && user.role !== 'usuario' && user.role !== 'desk') { %>
                         <% if(usuarios.length > 0) { %>
 
                             <div class="responsive-table">
@@ -44,6 +44,32 @@
                             <p class="text-center lead">Não existem clientes cadastrados</p>
 
                         <% } %>
+
+                        <% }else if(typeof user !== 'undefined' && user && user.role !== 'usuario' && user.role !== 'admin') { %>
+                            <% if(usuarios.length > 0) { %>
+
+                                <div class="responsive-table">
+                                    <table class="table my-3">
+                                        <% usuarios.forEach(usuario => { %>
+    
+                                            <tr>
+                                                <td><%= usuario.nome %></td>
+                                                <td><%= usuario.email %></td>
+                                                <td><%= usuario.telefone || "nenhum contacto adicionado" %></td>
+                                            
+                                            </tr>
+    
+                                        <% }) %>
+                                    </table>
+                                </div>
+    
+                            <% } else { %>
+    
+                                <p class="text-center lead">Não existem clientes cadastrados</p>
+    
+                            <% } %>
+
+                        <% } %>    
 
                     </div>
 

@@ -22,35 +22,75 @@
                     </form>
 
                     <div class="responsive-table">
-                        <table class="table my-4">
 
-                            <thead>
-                                <tr>
-                                    <th>tratamento</th>
-                                    <th>pacote</th>
-                                    <th>subpacote</th>
-                                    <th>preco</th>
-                                    <th colspan="2">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% if(tratamentos.length > 0) { %>
-                                    <% tratamentos.forEach(tratamento => { %>
-                                        <tr>
-                                            <td><%= tratamento.nome || 'Nome não disponível' %></td>
-                                            <td><%= tratamento.pacote %></td>
-                                            <td><%= tratamento.subpacote || 'Nenhum subpacote' %></td>
-                                            <td><%= tratamento.preco %></td>
-                                            <td><a href="/procedimentos/index/<%= tratamento.id %>">Editar</a></td>
-                                            <td><a class="text-danger" href="/procedimentos/delete/<%= tratamento.id %>">Excluir</a></td>
-                                        </tr>
-                                    <% }) %>
+                        <% if (typeof user !== 'undefined' && user && user.role !== 'usuario' && user.role !== 'desk') { %>
+                       
+                            <table class="table my-4">
+
+                                <thead>
+                                    <tr>
+                                        <th>tratamento</th>
+                                        <th>pacote</th>
+                                        <th>subpacote</th>
+                                        <th>preco</th>
+                                        <th colspan="2">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(tratamentos.length > 0) { %>
+
+                                        <% tratamentos.forEach(tratamento => { %>
+                                                
+                                            <tr>
+                                                    <td><%= tratamento.nome || 'Nome não disponível' %></td>
+                                                    <td><%= tratamento.pacote %></td>
+                                                    <td><%= tratamento.subpacote || 'Nenhum subpacote' %></td>
+                                                    <td><%= tratamento.preco %></td>
+                                                    <td><a href="/procedimentos/index/<%= tratamento.id %>">Editar</a></td>
+                                                    <td><a class="text-danger" href="/procedimentos/delete/<%= tratamento.id %>">Excluir</a></td>
+                                            </tr>
+
+                                        <% }) %>
+
+                                    <% } else { %>
+                                        <p class="text-center lead">Não existem tratamentos cadastrados</p>
+                                    <% } %>
+
                                 </tbody>
                             </table>
-                        </div>
-                    <% } else { %>
-                        <p class="text-center lead">Não existem tratamentos cadastrados</p>
-                    <% } %>
+                        <% }else if(typeof user !== 'undefined' && user && user.role !== 'usuario' && user.role !== 'admin') { %>
+                            <table class="table my-4">
+
+                                <thead>
+                                    <tr>
+                                        <th>tratamento</th>
+                                        <th>pacote</th>
+                                        <th>subpacote</th>
+                                        <th>preco</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(tratamentos.length > 0) { %>
+
+                                        <% tratamentos.forEach(tratamento => { %>
+                                                
+                                            <tr>
+                                                    <td><%= tratamento.nome || 'Nome não disponível' %></td>
+                                                    <td><%= tratamento.pacote %></td>
+                                                    <td><%= tratamento.subpacote || 'Nenhum subpacote' %></td>
+                                                    <td><%= tratamento.preco %></td>
+                                            </tr>
+
+                                        <% }) %>
+
+                                    <% } else { %>
+                                        <p class="text-center lead">Não existem tratamentos cadastrados</p>
+                                    <% } %>
+
+                                </tbody>
+                            </table>
+                        <% } %>
+                    </div>
 
                 </div>
 

@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, DataTypes) => {
     await queryInterface.addColumn('usuario', 'role', {
-      type: DataTypes.ENUM('usuario', 'admin'), // Pode ser um string, pois você estará armazenando o link
+      type: DataTypes.ENUM('usuario', 'admin','desk'), // Pode ser um string, pois você estará armazenando o link
       allowNull: false,
       defaultValue: 'usuario',
     });

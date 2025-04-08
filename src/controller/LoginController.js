@@ -20,7 +20,9 @@ exports.login = async (req, res) => {
     // Busca o usuário no banco pelo e-mail
     const user = await Usuario.findOne({ where: { email } });
 
-    const role = await Usuario.findOne({ where: { role: 'admin',email } });
+    const roleAdmin = await Usuario.findOne({ where: { role: 'admin',email } });
+
+    const roleDesk = await Usuario.findOne({ where: { role: 'desk',email } });
 
     // Verifica se o usuário existe e se a senha é válida
     if (!user || !(await user.passwordIsValid(password))) {
@@ -40,14 +42,21 @@ exports.login = async (req, res) => {
       role: user.role,
     };
 
-    if(!role){
-      
+    if(roleAdmin){
+
+      req.flash('success', 'Login realizado com sucesso.');
+      req.session.save(() => res.redirect('/admindashboard')); // Redireciona para o dashboard
+
+    }else if(roleDesk){
+
+      req.flash('success', 'Login realizado com sucesso.');
+      req.session.save(() => res.redirect('/deskdashboard')); // Redireciona para o dashboard
+
+    }else{
+
       req.flash('success', 'Login realizado com sucesso.');
       req.session.save(() => res.redirect('/dashboard')); // Redireciona para o dashboard
 
-    }else{
-      req.flash('success', 'Login realizado com sucesso.');
-      req.session.save(() => res.redirect('/admindashboard')); // Redireciona para o dashboard
     }
 
   } catch (error) {
@@ -60,5 +69,5 @@ exports.login = async (req, res) => {
 exports.logout = (req, res) => {
   // Para fazer logout utiliza o comando "req.session.destroy()"
   req.session.destroy();
-  res.redirect('/')
+  res.redirect('/login/index')
 };

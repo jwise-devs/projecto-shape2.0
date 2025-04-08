@@ -20,6 +20,7 @@ const criarProcedimentosRoute = require('./src/routes/criarProcedimentosRoute');
 const verificarProcedimentosRoute = require('./src/routes/verificarProcedimentosRoute');
 const progressoRoute = require('./src/routes/progressoRoute');
 const fourofourRoute = require('./src/routes/404Route');
+const deskDashboardRoute = require('./src/routes/deskDashboardRoute');
 
 const User = require('./src/model/Usuario');
 
@@ -88,6 +89,29 @@ const createAdminUser = async () => {
   }
 };
 
+// Função para criar o desk ao iniciar o programa
+const createDeskUser = async () => {
+  try {
+      const [desk, created] = await User.findOrCreate({
+          where: { role: 'desk' }, // Verifica se já existe um administrador
+          defaults: {
+              nome: 'willas',
+              email: 'willas@gmail.com',
+              role: 'desk',
+              password: '123456',
+          }
+      });
+
+      if (created) {
+          console.log("Desk Maneger criado com sucesso!");
+      } else {
+          console.log("Desk Maneger já existe.");
+      }
+  } catch (error) {
+      console.error("Erro ao criar Desk Maneger:", error);
+  }
+};
+
 // Tratamento de erros na conexão com o banco
 sessionStore.onReady()
   .then(() => console.log('Conexão com o banco de dados MySQL bem-sucedida!'))
@@ -129,6 +153,7 @@ app.use(criarProcedimentosRoute);
 app.use(verificarProcedimentosRoute);
 app.use(progressoRoute);
 app.use(fourofourRoute);
+app.use(deskDashboardRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {
@@ -146,6 +171,7 @@ sequelize.authenticate()
       console.log('Servidor rodando em http://localhost:3003');
     });
     await createAdminUser(); // Chama a função para criar o admin
+    await createDeskUser(); // Chama a função para criar o desk
   })
   .catch((err) => {
     console.error('Erro ao conectar ao banco de dados:', err.message);
