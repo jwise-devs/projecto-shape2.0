@@ -1,12 +1,12 @@
-const Sessao = require('../model/Sessao'); 
+const Sessao = require('../model/Sessao');
 const Tratamentos = require('../model/Tratamentos');
 
 
 exports.index = async (req, res) => {
     try {
         // Busca os tratamentos do banco de dados
-        const tratamentosData = await Tratamentos.findAll(); 
-        
+        const tratamentosData = await Tratamentos.findAll();
+
         // Converte as instâncias para dados puros
         const tratamentos = tratamentosData.map(tratamento => tratamento.get({ plain: true }));
 
@@ -48,6 +48,23 @@ exports.data = async (req, res) => {
         // Calcular o preço total
         const totalPreco = precosTratamentos.reduce((acc, curr) => acc + curr, 0).toFixed(2); // Soma dos preços
 
+        // console.log(tratamentosJSON.length);
+        const sessoesAnteriores = await Sessao.findAll({ where: { userId: usuarioId } });
+
+        // Soma total de tratamentos já realizados antes
+        const totalTratamentosAnteriores = sessoesAnteriores.reduce((acc, sessao) => {
+            return acc + (sessao.tratamentosArray?.length || 0);
+        }, 0);
+
+        // Total atual incluindo os novos tratamentos
+        const totalSessao = Number(totalTratamentosAnteriores) + Number(tratamentosJSON.length);
+
+
+        console.log("Anterior:", typeof totalTratamentosAnteriores, totalTratamentosAnteriores);
+        console.log("Tratamentos novos:", typeof tratamentosJSON.length, tratamentosJSON.length);
+        console.log("Total:", totalSessao);
+
+
         // Criar a sessão no banco de dados
         const sessao = await Sessao.create({
             pacote,
@@ -56,10 +73,17 @@ exports.data = async (req, res) => {
             data_hora_consulta,
             userId: usuarioId, // ID do usuário logado
             precoSessao: totalPreco,
+            numTotSessao: tratamentosJSON.length,
             status: 'marcado',
         });
 
-        
+        // await Sessao.update(
+        //     { numTotSessao: totalSessao },
+        //     { where: { userId: usuarioId } }
+        // );
+
+
+
 
 
         // // Criar os tratamentos para o usuário

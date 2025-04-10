@@ -53,6 +53,12 @@ class Sessao extends Model {
                     allowNull: false,
                 },
 
+                numTotSessao: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                    defaultValue: 0,
+                },
+
                 created_at: {
                     type: DataTypes.DATE,
                     allowNull: false,
