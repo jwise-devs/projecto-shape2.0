@@ -43,15 +43,55 @@
                                                 Mandar Localização
                                             </button>
                                         </form>
-                                    <% } else { %>
-                                        <!-- Se a localização foi salva, exibe o botão "Solicitar Serviço" com AJAX -->
-                                        <div class="d-flex justify-content-center my-4">
-                                            <button id="solicitarServicoBtn" class="btn btn-success px-5 py-2"
-                                                style="background-color: #007d7b; border-color: #007d7b; font-size: 1.2rem; width: 300px;">
-                                                Solicitar Serviço
-                                            </button>
-                                        </div>
-                                    <% } %>
+                                        <% } else { %>
+                                            <!-- NOVO: formulário de pacotes/tratamentos -->
+                                            <form id="consultaEmCasaForm" action="/consultaemcasa/solicitar"
+                                                method="POST">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+
+                                                <div class="container mt-4">
+                                                    <label for="pacote" class="form-label">Pacote</label>
+                                                    <select class="form-select" id="pacote" name="pacote">
+                                                        <option value="" disabled selected>Selecione uma categoria</option>
+                                                        <% pacotes.forEach(pacote => { %>
+                                                        <option value="<%= pacote %>"><%= pacote %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="mb-3 d-none container mt-4" id="subpacote-container">
+                                                    <label for="subpacote" class="form-label">Subpacote</label>
+                                                    <select class="form-select" id="subpacote" name="subpacote">
+                                                        <option value="" disabled selected>Selecione uma subcategoria</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="container mt-5" id="tratamentos-container">
+                                                    <label for="tratamentos" class="form-label">Tratamento</label>
+                                                    <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
+                                                        <option value="" disabled>Selecione um pacote primeiro</option>
+                                                    </select>
+                                                    <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+                                                </div>
+                                                
+                                                <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
+                                                <div id="tratamentosData" data-tratamentos='<%= JSON.stringify(tratamentos) %>' style="display: none;"></div>
+                                                <p class="mt-3"><strong>Total: <span id="precoTotal">0.00</span></strong> MT</p>
+                                                
+                                                    <!-- Botão final de envio dentro do formulário -->
+                                                    <div class="text-center my-4">
+                                                        <button type="submit" class="btn btn-success px-5 py-2"
+                                                            style="background-color: #007d7b; border-color: #007d7b; font-size: 1.2rem; width: 300px;">
+                                                            Solicitar Serviço
+                                                        </button>
+                                                    </div>
+
+                                            </form>
+
+                    
+
+                                            <% } %>
                                 </div>
                             </div>
                     </div>
@@ -61,63 +101,159 @@
             </div>
             <%- include('includes/script') %>
 
-            <!-- Script para pegar a localização via JavaScript -->
-            <script>
-                function getLocation() {
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-                            const latitude = position.coords.latitude;
-                            const longitude = position.coords.longitude;
-                            const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
-                            document.getElementById("localizacao").value = mapsLink;
-                        }, function (error) {
-                            alert("Erro ao obter a localização: " + error.message);
-                        });
-                    } else {
-                        alert("Geolocalização não é suportada neste navegador.");
-                    }
-                }
-            
-                // AJAX para solicitar serviço
-                document.getElementById("solicitarServicoBtn")?.addEventListener("click", function () {
-                    fetch("/consultaemcasa/solicitar", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-Token": "<%= csrfToken %>"
+
+                <!-- Script para pegar a localização via JavaScript -->
+                <script>
+                    function getLocation() {
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function (position) {
+                                const latitude = position.coords.latitude;
+                                const longitude = position.coords.longitude;
+                                const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                                document.getElementById("localizacao").value = mapsLink;
+                            }, function (error) {
+                                alert("Erro ao obter a localização: " + error.message);
+                            });
+                        } else {
+                            alert("Geolocalização não é suportada neste navegador.");
                         }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        showMessage(data.message, data.success ? "success" : "danger");
-                    })
-                    .catch(error => {
-                        showMessage("Erro ao processar solicitação!", "danger");
-                    });
-                });
-            
-                // Função para exibir mensagens e removê-las automaticamente
-                function showMessage(message, type) {
-                    const flashMessage = document.getElementById("flashMessage");
-            
-                    // Criar a mensagem
-                    flashMessage.innerHTML = `
+                    }
+
+
+
+                    // Função para exibir mensagens e removê-las automaticamente
+                    function showMessage(message, type) {
+                        const flashMessage = document.getElementById("flashMessage");
+
+                        // Criar a mensagem
+                        flashMessage.innerHTML = `
                         <div class="alert alert-${type} alert-dismissible fade show" role="alert" id="autoDismissAlert">
                             ${message}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     `;
-            
-                    // Remover a mensagem automaticamente após 5 segundos
-                    setTimeout(() => {
-                        const alertBox = document.getElementById("autoDismissAlert");
-                        if (alertBox) {
-                            alertBox.classList.remove("show"); // Inicia a animação de fade out
-                            setTimeout(() => alertBox.remove(), 300); // Remove do DOM após o fade
-                        }
-                    }, 5000);
-                }
-            </script>
-            
+
+                        // Remover a mensagem automaticamente após 5 segundos
+                        setTimeout(() => {
+                            const alertBox = document.getElementById("autoDismissAlert");
+                            if (alertBox) {
+                                alertBox.classList.remove("show"); // Inicia a animação de fade out
+                                setTimeout(() => alertBox.remove(), 300); // Remove do DOM após o fade
+                            }
+                        }, 5000);
+                    }
+
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const categoriaSelect = document.getElementById("pacote");
+                        const subcategoriaContainer = document.getElementById("subpacote-container");
+                        const subcategoriaSelect = document.getElementById("subpacote");
+                        const produtosSelect = document.getElementById("tratamentos");
+                        const precoInput = document.getElementById("preco_tratamentos");
+                        const precoTotalText = document.getElementById("precoTotal");
+
+                        const tratamentosDataElement = document.getElementById("tratamentosData");
+                        const tratamentosData = JSON.parse(tratamentosDataElement.getAttribute("data-tratamentos"));
+
+                        const dados = {};
+
+                        tratamentosData.forEach(tratamento => {
+                            if (!dados[tratamento.pacote]) dados[tratamento.pacote] = {};
+
+                            if (tratamento.subpacote && tratamento.subpacote.trim() !== "" && tratamento.subpacote !== "Nenhum subpacote") {
+                                if (!dados[tratamento.pacote].subpacotes) dados[tratamento.pacote].subpacotes = {};
+                                if (!dados[tratamento.pacote].subpacotes[tratamento.subpacote]) dados[tratamento.pacote].subpacotes[tratamento.subpacote] = [];
+                                dados[tratamento.pacote].subpacotes[tratamento.subpacote].push({
+                                    value: tratamento.nome,
+                                    text: tratamento.nome,
+                                    preco: parseFloat(tratamento.preco) || 0
+                                });
+                            } else {
+                                if (!dados[tratamento.pacote].produtos) dados[tratamento.pacote].produtos = [];
+                                dados[tratamento.pacote].produtos.push({
+                                    value: tratamento.nome,
+                                    text: tratamento.nome,
+                                    preco: parseFloat(tratamento.preco) || 0
+                                });
+                            }
+                        });
+
+                        categoriaSelect.addEventListener("change", () => {
+                            const categoriaSelecionada = categoriaSelect.value;
+
+                            subcategoriaSelect.innerHTML = "";
+                            produtosSelect.innerHTML = "";
+                            produtosSelect.disabled = true;
+                            precoTotalText.textContent = "0.00";
+                            precoInput.value = "";
+
+                            if (dados[categoriaSelecionada]) {
+                                const possuiSubpacotes = dados[categoriaSelecionada].subpacotes && Object.keys(dados[categoriaSelecionada].subpacotes).length > 0;
+
+                                if (possuiSubpacotes) {
+                                    subcategoriaContainer.classList.remove("d-none");
+                                    subcategoriaSelect.disabled = false;
+                                    subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione um subpacote</option>`;
+
+                                    Object.keys(dados[categoriaSelecionada].subpacotes).forEach(sub => {
+                                        const option = document.createElement("option");
+                                        option.value = sub;
+                                        option.textContent = sub;
+                                        subcategoriaSelect.appendChild(option);
+                                    });
+
+                                    subcategoriaSelect.addEventListener("change", () => {
+                                        produtosSelect.innerHTML = "";
+                                        produtosSelect.disabled = false;
+
+                                        const subcategoriaSelecionada = subcategoriaSelect.value;
+                                        const produtos = dados[categoriaSelecionada].subpacotes[subcategoriaSelecionada] || [];
+
+                                        produtos.forEach(prod => {
+                                            const option = document.createElement("option");
+                                            option.value = prod.value;
+                                            option.textContent = `${prod.text} - R$ ${prod.preco.toFixed(2)}`;
+                                            option.dataset.preco = prod.preco;
+                                            produtosSelect.appendChild(option);
+                                        });
+                                    });
+
+                                } else {
+                                    subcategoriaContainer.classList.add("d-none");
+                                    subcategoriaSelect.disabled = true;
+                                    produtosSelect.disabled = false;
+
+                                    (dados[categoriaSelecionada].produtos || []).forEach(produto => {
+                                        const option = document.createElement("option");
+                                        option.value = produto.value;
+                                        option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                        option.dataset.preco = produto.preco;
+                                        produtosSelect.appendChild(option);
+                                    });
+                                }
+                            }
+                        });
+
+                        produtosSelect.addEventListener("change", () => {
+                            let total = 0;
+                            let precos = [];
+
+                            Array.from(produtosSelect.selectedOptions).forEach(opt => {
+                                const preco = parseFloat(opt.dataset.preco);
+                                if (!isNaN(preco)) {
+                                    total += preco;
+                                    precos.push(preco);
+                                }
+                            });
+
+                            precoInput.value = JSON.stringify(precos);
+                            precoTotalText.textContent = total.toFixed(2);
+                        });
+                    });
+
+
+                </script>
+
     </body>
+
 </html>
