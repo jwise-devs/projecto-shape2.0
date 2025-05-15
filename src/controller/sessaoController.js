@@ -2,24 +2,33 @@ const Sessao = require('../model/Sessao');
 const Tratamentos = require('../model/Tratamentos');
 
 
+const { Op } = require('sequelize');
+
 exports.index = async (req, res) => {
     try {
-        // Busca os tratamentos do banco de dados
-        const tratamentosData = await Tratamentos.findAll();
+        // Busca tratamentos que não tenham o pacote "consulta_em_casa"
+        const tratamentosData = await Tratamentos.findAll({
+            where: {
+                pacote: {
+                    [Op.ne]: 'consulta_em_casa'
+                }
+            }
+        });
 
         // Converte as instâncias para dados puros
         const tratamentos = tratamentosData.map(tratamento => tratamento.get({ plain: true }));
 
-        // Obter os pacotes únicos a partir dos tratamentos (assumindo que o campo pacote existe)
-        const pacotes = [...new Set(tratamentos.map(t => t.pacote))];  // Remove pacotes duplicados
+        // Obter os pacotes únicos a partir dos tratamentos
+        const pacotes = [...new Set(tratamentos.map(t => t.pacote))];
 
-        res.render('sessao', { tratamentos: tratamentos, pacotes: pacotes, csrfToken: req.csrfToken() });
+        res.render('sessao', { tratamentos, pacotes, csrfToken: req.csrfToken() });
     } catch (error) {
         console.error(error);
         req.flash('error', 'Erro ao carregar tratamentos.');
         return res.redirect('back');
     }
 };
+
 
 
 

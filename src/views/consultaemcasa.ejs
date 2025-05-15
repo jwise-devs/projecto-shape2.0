@@ -4,6 +4,17 @@
     <title>Consulta Em Casa</title>
 
     <body>
+        <style>
+            .tax{
+                color: #007d7b;
+                font-size: 2em;
+            }
+
+            .tax-list{
+                font-size: 1em;
+                font-weight: 500;
+            }
+        </style>
         <%- include('includes/navbar') %>
             <div class="container">
                 <div class="row">
@@ -12,8 +23,18 @@
                     <div class="col-lg-8 my-2">
                         <a href="/">
                             <h1 class="text-center"><img src="/assets/img/house.png" alt="" class="img-fluid"
-                                    style='width: 250px; height: 250px; object-fit: cover;'></h1>
+                                    style='width: 250px; height: 250px; object-fit: cover;margin-bottom: 20px;'></h1>
                         </a>
+
+                       <h1 class="text-center">Agendamento</h1>
+                    <p class="text-center lead">Todos os tratamentos ao domicilio devem ser solicitados com minimo de 24 horas de antecendencia</p>
+                    
+                    <h2 class="tax">Taxas</h2>
+                    <ul class="tax-list">
+                        <li>Maputo 300MT</li>
+                        <li>Matola 500MT</li>
+                        <li>Arredores de Maputo 700MT</li>
+                    </ul>
 
                         <!-- Área para exibir mensagens -->
                         <div id="flashMessage"></div>

@@ -21,7 +21,7 @@ exports.index = async (req, res) => {
         const usuario = await Usuario.findByPk(usuarioId);
 
         // Busca os tratamentos do banco de dados
-        const tratamentosData = await Tratamentos.findAll();
+        const tratamentosData = await Tratamentos.findAll({where: {pacote: "consulta_em_casa"}});
 
         // Converte as instâncias para dados puros
         const tratamentos = tratamentosData.map(tratamento => tratamento.get({ plain: true }));
