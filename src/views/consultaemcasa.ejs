@@ -5,12 +5,12 @@
 
     <body>
         <style>
-            .tax{
+            .tax {
                 color: #007d7b;
                 font-size: 2em;
             }
 
-            .tax-list{
+            .tax-list {
                 font-size: 1em;
                 font-weight: 500;
             }
@@ -26,15 +26,16 @@
                                     style='width: 250px; height: 250px; object-fit: cover;margin-bottom: 20px;'></h1>
                         </a>
 
-                       <h1 class="text-center">Agendamento</h1>
-                    <p class="text-center lead">Todos os tratamentos ao domicilio devem ser solicitados com minimo de 24 horas de antecendencia</p>
-                    
-                    <h2 class="tax">Taxas</h2>
-                    <ul class="tax-list">
-                        <li>Maputo 300MT</li>
-                        <li>Matola 500MT</li>
-                        <li>Arredores de Maputo 700MT</li>
-                    </ul>
+                        <h1 class="text-center">Agendamento</h1>
+                        <p class="text-center lead">Todos os tratamentos ao domicilio devem ser solicitados com minimo
+                            de 24 horas de antecendencia</p>
+
+                        <h2 class="tax">Taxas</h2>
+                        <ul class="tax-list">
+                            <li>Maputo 300MT</li>
+                            <li>Matola 500MT</li>
+                            <li>Arredores de Maputo 700MT</li>
+                        </ul>
 
                         <!-- Área para exibir mensagens -->
                         <div id="flashMessage"></div>
@@ -65,52 +66,75 @@
                                             </button>
                                         </form>
                                         <% } else { %>
-                                            <!-- NOVO: formulário de pacotes/tratamentos -->
                                             <form id="consultaEmCasaForm" action="/consultaemcasa/solicitar"
                                                 method="POST">
                                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-
                                                 <div class="container mt-4">
                                                     <label for="pacote" class="form-label">Pacote</label>
                                                     <select class="form-select" id="pacote" name="pacote">
-                                                        <option value="" disabled selected>Selecione uma categoria</option>
-                                                        <% pacotes.forEach(pacote => { %>
-                                                        <option value="<%= pacote %>"><%= pacote %></option>
-                                                        <% }); %>
+                                                        <option value="" disabled selected>Selecione uma categoria
+                                                        </option>
+                                                        <% pacotes.forEach(pacote=> { %>
+                                                            <option value="<%= pacote %>">
+                                                                <%= pacote %>
+                                                            </option>
+                                                            <% }); %>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="mb-3 d-none container mt-4" id="subpacote-container">
                                                     <label for="subpacote" class="form-label">Subpacote</label>
                                                     <select class="form-select" id="subpacote" name="subpacote">
-                                                        <option value="" disabled selected>Selecione uma subcategoria</option>
+                                                        <option value="" disabled selected>Selecione uma subcategoria
+                                                        </option>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="container mt-5" id="tratamentos-container">
                                                     <label for="tratamentos" class="form-label">Tratamento</label>
-                                                    <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
+                                                    <select class="form-select" id="tratamentos" name="tratamentos[]"
+                                                        multiple disabled>
                                                         <option value="" disabled>Selecione um pacote primeiro</option>
                                                     </select>
-                                                    <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+                                                    <div class="form-text">Segure CTRL (ou CMD) para selecionar vários
+                                                        produtos.</div>
                                                 </div>
-                                                
-                                                <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
-                                                <div id="tratamentosData" data-tratamentos='<%= JSON.stringify(tratamentos) %>' style="display: none;"></div>
-                                                <p class="mt-3"><strong>Total: <span id="precoTotal">0.00</span></strong> MT</p>
-                                                
-                                                    <!-- Botão final de envio dentro do formulário -->
-                                                    <div class="text-center my-4">
-                                                        <button type="submit" class="btn btn-success px-5 py-2"
-                                                            style="background-color: #007d7b; border-color: #007d7b; font-size: 1.2rem; width: 300px;">
-                                                            Solicitar Serviço
-                                                        </button>
-                                                    </div>
 
+                                                <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
+                                                <div id="tratamentosData"
+                                                    data-tratamentos='<%= JSON.stringify(tratamentos) %>'
+                                                    style="display: none;"></div>
+                                                <p class="mt-3"><strong>Total: <span
+                                                            id="precoTotal">0.00</span></strong> MT</p>
+
+                                                <!-- 📍 Localização -->
+                                                <div class="container mt-4">
+                                                    <label for="localizacao" class="form-label">Localização</label>
+                                                    <input type="text" class="form-control" name="localizacao"
+                                                        id="localizacao" readonly>
+                                                    <button type="button" class="btn btn-secondary mt-2"
+                                                        onclick="getLocation()">Obter Localização</button>
+                                                </div>
+
+                                                <!-- 💸 Taxa -->
+                                                <div class="container mt-4">
+                                                    <label for="taxa" class="form-label">Taxa de Deslocamento</label>
+                                                    <input type="text" class="form-control" name="taxa" id="taxa"
+                                                        readonly>
+                                                </div>
+
+                                                <!-- Botão final de envio -->
+                                                <div class="text-center my-4">
+                                                    <button type="submit" class="btn btn-success px-5 py-2"
+                                                        style="background-color: #007d7b; border-color: #007d7b; font-size: 1.2rem; width: 300px;">
+                                                        Solicitar Serviço
+                                                    </button>
+                                                </div>
                                             </form>
 
-                    
+
+
 
                                             <% } %>
                                 </div>
@@ -125,13 +149,47 @@
 
                 <!-- Script para pegar a localização via JavaScript -->
                 <script>
-                    function getLocation() {
+                    async function getLocation() {
                         if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(function (position) {
+                            navigator.geolocation.getCurrentPosition(async function (position) {
                                 const latitude = position.coords.latitude;
                                 const longitude = position.coords.longitude;
                                 const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
                                 document.getElementById("localizacao").value = mapsLink;
+
+                                // Chamada para a API do Google Geocoding
+                                const apiKey = 'AIzaSyCRNGuuF_BkpRIcuIP1nFa5uQ2W1UqxWms';
+                                const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+
+                                try {
+                                    const response = await fetch(url);
+                                    const data = await response.json();
+
+                                    if (data.status === "OK") {
+                                        const results = data.results;
+                                        const enderecoCompleto = results[0].formatted_address;
+
+                                        // Verifique se a cidade/bairro aparece no endereço e define a taxa
+                                        let taxa = 0;
+                                        if (/Maputo/i.test(enderecoCompleto)) {
+                                            taxa = 300;
+                                        }
+                                        if (/Matola/i.test(enderecoCompleto)) {
+                                            taxa = 500;
+                                        }
+                                        if (/Zimpeto|Tsalala|Zonal Norte|Arredores/i.test(enderecoCompleto)) {
+                                            taxa = 700;
+                                        }
+
+                                        document.getElementById("taxa").value = taxa + " MT";
+                                    } else {
+                                        alert("Não foi possível obter o endereço.");
+                                    }
+
+                                } catch (error) {
+                                    alert("Erro ao buscar endereço: " + error.message);
+                                }
+
                             }, function (error) {
                                 alert("Erro ao obter a localização: " + error.message);
                             });

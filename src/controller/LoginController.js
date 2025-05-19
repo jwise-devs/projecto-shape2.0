@@ -40,6 +40,7 @@ exports.login = async (req, res) => {
       nome: user.nome,
       email: user.email,
       role: user.role,
+      created_at: user.created_at,
     };
 
     if(roleAdmin){

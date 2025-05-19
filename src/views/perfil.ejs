@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<%- include('includes/head') %>
+    <title>Perfil do Usuário</title>
+
+    <body>
+        <%- include('includes/navbar') %>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2"></div>
+
+                    <div class="col-lg-8 my-4">
+                        <!-- Informações do perfil -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h2 class="text-center mb-3">Perfil do Usuário</h2>
+
+                                <!-- Informações do usuário -->
+                                <p><strong>Nome:</strong>
+                                    <%= user.nome %>
+                                </p>
+                                <p><strong>Email:</strong>
+                                    <%= user.email %>
+                                </p>
+                                <p><strong>Telefone:</strong>
+                                    <%= user.telefone || "Nao existe" %>
+                                </p>
+                                <p><strong>Localizacao:</strong>
+                                    <%= user.localizacao || "Ainda nao temos essa informacao" %>
+                                </p>
+
+                                <% if (user && user.created_at) { %>
+                                    <p><strong>Data de Cadastro:</strong>
+                                        <%= new Date(user.created_at).toLocaleDateString() %>
+                                    </p>
+                                    <% } else { %>
+                                        <p><strong>Data de Cadastro:</strong> Informação não disponível</p>
+                                        <% } %>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-lg-2"></div>
+                </div>
+            </div>
+
+            <!-- Seção de Progresso (versão compacta) -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="text-center mb-3">Progresso</h4>
+
+                    <% if (sessoes && sessoes.length> 0) { %>
+                        <% sessoes.forEach(sessao=> { %>
+                            <div class="mb-3 p-3 border rounded small bg-light">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                                    <span><strong>Consulta:</strong>
+                                        <%= new Date(sessao.data_hora_consulta).toLocaleDateString() %>
+                                    </span>
+                                    <span><strong>Status:</strong> <span class="badge 
+              <%= sessao.status === 'Concluído' ? 'bg-success' : 
+                  sessao.status === 'Pendente' ? 'bg-warning text-dark' : 
+                  'bg-secondary' %>">
+                                            <%= sessao.status %>
+                                        </span></span>
+                                </div>
+
+                                <% let tratamentosList=[]; try { if (typeof sessao.tratamentosArray==="string" ) {
+                                    tratamentosList=JSON.parse(sessao.tratamentosArray); } else if
+                                    (Array.isArray(sessao.tratamentosArray)) { tratamentosList=sessao.tratamentosArray;
+                                    } } catch (err) { tratamentosList=[]; } %>
+
+                                    <% if (tratamentosList.length> 0) { %>
+                                        <div>
+                                            <strong>Tratamentos:</strong>
+                                            <span class="d-block">
+                                                <%= tratamentosList.join(", ") %>
+              </span>
+            </div>
+          <% } else { %>
+            <em class=" text-muted">Nenhum tratamento registrado.</em>
+                                                    <% } %>
+                                        </div>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p class="text-center">Nenhuma sessão encontrada.</p>
+                                                <% } %>
+                            </div>
+                </div>
+
+
+
+                <%- include('includes/script') %>
+    </body>
+
+</html>

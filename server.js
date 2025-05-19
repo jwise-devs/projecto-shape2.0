@@ -21,6 +21,8 @@ const verificarProcedimentosRoute = require('./src/routes/verificarProcedimentos
 const progressoRoute = require('./src/routes/progressoRoute');
 const fourofourRoute = require('./src/routes/404Route');
 const deskDashboardRoute = require('./src/routes/deskDashboardRoute');
+const perfilRoute = require('./src/routes/perfilRoute');
+
 
 const User = require('./src/model/Usuario');
 
@@ -154,6 +156,7 @@ app.use(verificarProcedimentosRoute);
 app.use(progressoRoute);
 app.use(fourofourRoute);
 app.use(deskDashboardRoute);
+app.use(perfilRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {
