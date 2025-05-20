@@ -1,6 +1,6 @@
 const Usuario = require("../model/Usuario");
 const { Op } = require('sequelize');  // Importa o operador Op do Sequelize
-
+const Sessao = require('../model/Sessao');
 
 exports.index = async (req, res) => {
     try {
@@ -163,4 +163,64 @@ exports.delete = async (req, res) =>{
     req.session.save(() => res.redirect(`back`));
     return;
 }
+
+exports.historico = async (req, res) => {
+    try {
+        const userId = req.params.id || res.locals.user.id;
+
+        const usuario = await Usuario.findOne({
+            where: { id: userId }
+        });
+
+        const sessoes = await Sessao.findAll({
+            where: { userId },
+            attributes: [
+                'id',
+                'pacote',
+                'subpacote',
+                'data_hora_consulta',
+                'precoSessao',
+                'status',
+                'tratamentosArray'
+            ],
+        });
+
+        const agora = new Date();
+
+        // Categorias
+        const pendentes = [];
+        const concluidas = [];
+        const marcadas = [];
+
+        sessoes.forEach(sessao => {
+            const dataConsulta = new Date(sessao.data_hora_consulta);
+            const tresMesesDepois = new Date(dataConsulta);
+            tresMesesDepois.setMonth(dataConsulta.getMonth() + 3);
+
+            if (agora >= tresMesesDepois) {
+                sessao.status = 'Concluído';
+                concluidas.push(sessao);
+            } else if (agora.toDateString() === dataConsulta.toDateString()) {
+                sessao.status = 'Pendente';
+                pendentes.push(sessao);
+            } else {
+                sessao.status = 'Marcado';
+                marcadas.push(sessao);
+            }
+        });
+
+        return res.render('historico', {
+            usuario,
+            pendentes,
+            concluidas,
+            marcadas
+        });
+
+    } catch (error) {
+        console.error('Erro ao buscar tratamentos:', error);
+        req.flash('error', 'Erro ao carregar os tratamentos.');
+        return res.redirect('back');
+    }
+};
+
 

@@ -1,0 +1,34 @@
+<div class="mb-3 p-3 border rounded small bg-light">
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+    <span><strong>Consulta:</strong> <%= new Date(sessao.data_hora_consulta).toLocaleDateString() %></span>
+    <span><strong>Status:</strong> 
+      <span class="badge 
+        <%= sessao.status === 'Concluído' ? 'bg-success' : 
+            sessao.status === 'Pendente' ? 'bg-warning text-dark' : 
+            'bg-primary' %>">
+        <%= sessao.status %>
+      </span>
+    </span>
+  </div>
+
+  <% let tratamentosList = []; %>
+  <% try { 
+      if (typeof sessao.tratamentosArray === "string") {
+        tratamentosList = JSON.parse(sessao.tratamentosArray); 
+      } else if (Array.isArray(sessao.tratamentosArray)) {
+        tratamentosList = sessao.tratamentosArray; 
+      } 
+    } catch (err) { tratamentosList = []; } 
+  %>
+
+  <% if (tratamentosList.length > 0) { %>
+    <div>
+      <strong>Tratamentos:</strong>
+      <span class="d-block">
+        <%= tratamentosList.join(", ") %>
+      </span>
+    </div>
+  <% } else { %>
+    <em class="text-muted">Nenhum tratamento registrado.</em>
+  <% } %>
+</div>

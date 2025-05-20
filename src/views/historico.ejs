@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<%- include('includes/head') %>
+<title>Perfil do Usuário</title>
+
+<body>
+  <%- include('includes/navbar') %>
+
+  <!-- Perfil do Usuário -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8 my-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h2 class="text-center mb-3" style="color: #007d7b;"><%= usuario.nome %></h2>
+
+            <% if (usuario && usuario.created_at) { %>
+              <p><strong>Data de Cadastro:</strong> <%= new Date(usuario.created_at).toLocaleDateString() %></p>
+            <% } else { %>
+              <p><strong>Data de Cadastro:</strong> Informação não disponível</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2"></div>
+    </div>
+  </div>
+
+  <!-- Sessões (tratamentos) -->
+  <% if ((pendentes && pendentes.length > 0) || (marcadas && marcadas.length > 0) || (concluidas && concluidas.length > 0)) { %>
+    <div class="container">
+      <div class="card mb-4">
+        <div class="card-body">
+
+          <% if (marcadas.length > 0) { %>
+            <h4 class="text-center mb-4" style="color: #007d7b;">Tratamentos Marcados</h4>
+            <% marcadas.forEach(sessao => { %>
+              <%- include('includes/item-sessao', { sessao }) %>
+            <% }); %>
+            <hr>
+          <% } %>
+
+          <% if (pendentes.length > 0) { %>
+            <h4 class="text-center mb-4" style="color: #007d7b;">Tratamentos em Andamento</h4>
+            <% pendentes.forEach(sessao => { %>
+              <%- include('includes/item-sessao', { sessao }) %>
+            <% }); %>
+            <hr>
+          <% } %>
+
+          <% if (concluidas.length > 0) { %>
+            <h4 class="text-center mb-4" style="color: #007d7b;">Tratamentos Concluídos</h4>
+            <% concluidas.forEach(sessao => { %>
+              <%- include('includes/item-sessao', { sessao }) %>
+            <% }); %>
+          <% } %>
+
+        </div>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Botão Voltar -->
+  <div class="container text-center mb-5">
+    <a href="javascript:history.back()" class="btn btn-primary">Voltar</a>
+  </div>
+
+  <%- include('includes/script') %>
+</body>
+
+</html>

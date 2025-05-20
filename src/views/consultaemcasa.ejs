@@ -44,99 +44,75 @@
 
                             <div class="row">
                                 <div class="col-lg my-5">
-                                    <% if (!locationSaved) { %>
-                                        <!-- Se a localização não foi salva, exibe o formulário com o botão para usar a localização -->
-                                        <form action="/consultaemcasa/dados" method="post" class="form-login">
-                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            <div class="mb-3">
-                                                <label class="form-label">Sua Localização</label>
-                                                <input type="text" class="form-control" name="localizacao"
-                                                    id="localizacao" readonly value="<%= localizacao || '' %>">
-                                            </div>
+                                  <form id="consultaEmCasaForm" action="/consultaemcasa/solicitar" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                                            <!-- Botão que chama a função para pegar a localização do navegador -->
-                                            <button type="button" class="btn btn-primary mt-3" onclick="getLocation()"
-                                                style="background-color: #007d7b; border-color: #007d7b;">
-                                                Usar Localização
-                                            </button>
+    <!-- Campo de localização (link com coordenadas) -->
+    <div class="mb-3">
+        <label class="form-label">Sua Localização</label>
+        <input type="text" class="form-control" name="localizacao" id="localizacao" readonly>
+    </div>
 
-                                            <button type="submit" class="btn btn-success mt-3"
-                                                style="background-color: #007d7b; border-color: #007d7b;">
-                                                Mandar Localização
-                                            </button>
-                                        </form>
-                                        <% } else { %>
-                                            <form id="consultaEmCasaForm" action="/consultaemcasa/solicitar"
-                                                method="POST">
-                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <!-- Campo da taxa calculada -->
+    <div class="mb-3">
+        <label class="form-label">Taxa</label>
+        <input type="text" class="form-control" name="taxa" id="taxa" readonly>
+    </div>
 
-                                                <div class="container mt-4">
-                                                    <label for="pacote" class="form-label">Pacote</label>
-                                                    <select class="form-select" id="pacote" name="pacote">
-                                                        <option value="" disabled selected>Selecione uma categoria
-                                                        </option>
-                                                        <% pacotes.forEach(pacote=> { %>
-                                                            <option value="<%= pacote %>">
-                                                                <%= pacote %>
-                                                            </option>
-                                                            <% }); %>
-                                                    </select>
-                                                </div>
+    <!-- Mapa interativo -->
+    <div id="map" style="height: 400px; width: 100%; margin-bottom: 1rem; border: 1px solid #ccc;"></div>
 
-                                                <div class="mb-3 d-none container mt-4" id="subpacote-container">
-                                                    <label for="subpacote" class="form-label">Subpacote</label>
-                                                    <select class="form-select" id="subpacote" name="subpacote">
-                                                        <option value="" disabled selected>Selecione uma subcategoria
-                                                        </option>
-                                                    </select>
-                                                </div>
+    <!-- Botões -->
+    <!-- <div class="text-center">
+        <button type="submit" class="btn btn-success mt-3"
+            style="background-color: #007d7b; border-color: #007d7b;">
+            Confirmar Localização
+        </button>
+    </div> -->
 
-                                                <div class="container mt-5" id="tratamentos-container">
-                                                    <label for="tratamentos" class="form-label">Tratamento</label>
-                                                    <select class="form-select" id="tratamentos" name="tratamentos[]"
-                                                        multiple disabled>
-                                                        <option value="" disabled>Selecione um pacote primeiro</option>
-                                                    </select>
-                                                    <div class="form-text">Segure CTRL (ou CMD) para selecionar vários
-                                                        produtos.</div>
-                                                </div>
+    <!-- PACOTES -->
+    <div class="container mt-4">
+        <label for="pacote" class="form-label">Pacote</label>
+        <select class="form-select" id="pacote" name="pacote">
+            <option value="" disabled selected>Selecione uma categoria</option>
+            <% pacotes.forEach(pacote => { %>
+                <option value="<%= pacote %>"><%= pacote %></option>
+            <% }); %>
+        </select>
+    </div>
 
-                                                <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
-                                                <div id="tratamentosData"
-                                                    data-tratamentos='<%= JSON.stringify(tratamentos) %>'
-                                                    style="display: none;"></div>
-                                                <p class="mt-3"><strong>Total: <span
-                                                            id="precoTotal">0.00</span></strong> MT</p>
+    <!-- SUBPACOTES -->
+    <div class="mb-3 d-none container mt-4" id="subpacote-container">
+        <label for="subpacote" class="form-label">Subpacote</label>
+        <select class="form-select" id="subpacote" name="subpacote">
+            <option value="" disabled selected>Selecione uma subcategoria</option>
+        </select>
+    </div>
 
-                                                <!-- 📍 Localização -->
-                                                <div class="container mt-4">
-                                                    <label for="localizacao" class="form-label">Localização</label>
-                                                    <input type="text" class="form-control" name="localizacao"
-                                                        id="localizacao" readonly>
-                                                    <button type="button" class="btn btn-secondary mt-2"
-                                                        onclick="getLocation()">Obter Localização</button>
-                                                </div>
+    <!-- TRATAMENTOS -->
+    <div class="container mt-5" id="tratamentos-container">
+        <label for="tratamentos" class="form-label">Tratamento</label>
+        <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
+            <option value="" disabled>Selecione um pacote primeiro</option>
+        </select>
+        <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+    </div>
 
-                                                <!-- 💸 Taxa -->
-                                                <div class="container mt-4">
-                                                    <label for="taxa" class="form-label">Taxa de Deslocamento</label>
-                                                    <input type="text" class="form-control" name="taxa" id="taxa"
-                                                        readonly>
-                                                </div>
+    <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
+    <div id="tratamentosData" data-tratamentos='<%= JSON.stringify(tratamentos) %>' style="display: none;"></div>
+    <p class="mt-3"><strong>Total: <span id="precoTotal">0.00</span></strong> MT</p>
 
-                                                <!-- Botão final de envio -->
-                                                <div class="text-center my-4">
-                                                    <button type="submit" class="btn btn-success px-5 py-2"
-                                                        style="background-color: #007d7b; border-color: #007d7b; font-size: 1.2rem; width: 300px;">
-                                                        Solicitar Serviço
-                                                    </button>
-                                                </div>
-                                            </form>
+    <!-- BOTÃO FINAL -->
+    <div class="text-center my-4">
+        <button type="submit" class="btn btn-success px-5 py-2"
+            style="background-color: #007d7b; border-color: #007d7b; font-size: 1.2rem; width: 300px;">
+            Solicitar Serviço
+        </button>
+    </div>
+</form>
 
 
 
-
-                                            <% } %>
                                 </div>
                             </div>
                     </div>
@@ -149,54 +125,88 @@
 
                 <!-- Script para pegar a localização via JavaScript -->
                 <script>
-                    async function getLocation() {
-                        if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(async function (position) {
-                                const latitude = position.coords.latitude;
-                                const longitude = position.coords.longitude;
-                                const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
-                                document.getElementById("localizacao").value = mapsLink;
+                    let map;
+let marker;
 
-                                // Chamada para a API do Google Geocoding
-                                const apiKey = 'AIzaSyCRNGuuF_BkpRIcuIP1nFa5uQ2W1UqxWms';
-                                const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+function initMap() {
+    const defaultPosition = { lat: -25.9653, lng: 32.5832 }; // Centro de Maputo
 
-                                try {
-                                    const response = await fetch(url);
-                                    const data = await response.json();
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: defaultPosition,
+        zoom: 14,
+    });
 
-                                    if (data.status === "OK") {
-                                        const results = data.results;
-                                        const enderecoCompleto = results[0].formatted_address;
+    marker = new google.maps.Marker({
+        position: defaultPosition,
+        map: map,
+        draggable: true,
+    });
 
-                                        // Verifique se a cidade/bairro aparece no endereço e define a taxa
-                                        let taxa = 0;
-                                        if (/Maputo/i.test(enderecoCompleto)) {
-                                            taxa = 300;
-                                        }
-                                        if (/Matola/i.test(enderecoCompleto)) {
-                                            taxa = 500;
-                                        }
-                                        if (/Zimpeto|Tsalala|Zonal Norte|Arredores/i.test(enderecoCompleto)) {
-                                            taxa = 700;
-                                        }
+    // Atualiza campos quando o marcador é arrastado
+    marker.addListener('dragend', () => {
+        const pos = marker.getPosition();
+        updateLocationFields(pos.lat(), pos.lng());
+    });
 
-                                        document.getElementById("taxa").value = taxa + " MT";
-                                    } else {
-                                        alert("Não foi possível obter o endereço.");
-                                    }
+    // Atualiza marcador e campos quando usuário clicar no mapa
+    map.addListener('click', (event) => {
+        const clickedLocation = event.latLng;
+        marker.setPosition(clickedLocation);
+        updateLocationFields(clickedLocation.lat(), clickedLocation.lng());
+    });
 
-                                } catch (error) {
-                                    alert("Erro ao buscar endereço: " + error.message);
-                                }
+    // Geolocalização automática
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const userPos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map.setCenter(userPos);
+            marker.setPosition(userPos);
+            updateLocationFields(userPos.lat, userPos.lng);
+        }, function (error) {
+            alert("Erro ao obter a localização: " + error.message);
+        }, {
+            enableHighAccuracy: true
+        });
+    } else {
+        alert("Geolocalização não é suportada neste navegador.");
+    }
+}
 
-                            }, function (error) {
-                                alert("Erro ao obter a localização: " + error.message);
-                            });
-                        } else {
-                            alert("Geolocalização não é suportada neste navegador.");
-                        }
-                    }
+async function updateLocationFields(lat, lng) {
+    const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+    document.getElementById("localizacao").value = `${mapsLink} (Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)})`;
+
+    const apiKey = 'AIzaSyCRNGuuF_BkpRIcuIP1nFa5uQ2W1UqxWms'; // Substitua pela sua chave real
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.status === "OK") {
+            const enderecoCompleto = data.results[0].formatted_address;
+
+            let taxa = 0;
+            if (/Zimpeto|Tsalala|Zonal Norte|Arredores/i.test(enderecoCompleto)) {
+                taxa = 700;
+            } else if (/Matola/i.test(enderecoCompleto)) {
+                taxa = 500;
+            } else if (/Maputo/i.test(enderecoCompleto)) {
+                taxa = 300;
+            }
+
+            document.getElementById("taxa").value = taxa + " MT";
+        } else {
+            alert("Não foi possível obter o endereço.");
+        }
+    } catch (error) {
+        alert("Erro ao buscar endereço: " + error.message);
+    }
+}
+
 
 
 
@@ -305,7 +315,7 @@
                                     (dados[categoriaSelecionada].produtos || []).forEach(produto => {
                                         const option = document.createElement("option");
                                         option.value = produto.value;
-                                        option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                        option.textContent = `${produto.text} -  ${produto.preco.toFixed(2)}MT`;
                                         option.dataset.preco = produto.preco;
                                         produtosSelect.appendChild(option);
                                     });
@@ -314,24 +324,39 @@
                         });
 
                         produtosSelect.addEventListener("change", () => {
-                            let total = 0;
-                            let precos = [];
+    let total = 0;
+    let precos = [];
 
-                            Array.from(produtosSelect.selectedOptions).forEach(opt => {
-                                const preco = parseFloat(opt.dataset.preco);
-                                if (!isNaN(preco)) {
-                                    total += preco;
-                                    precos.push(preco);
-                                }
-                            });
+    Array.from(produtosSelect.selectedOptions).forEach(opt => {
+        const preco = parseFloat(opt.dataset.preco);
+        if (!isNaN(preco)) {
+            total += preco;
+            precos.push(preco);
+        }
+    });
 
-                            precoInput.value = JSON.stringify(precos);
-                            precoTotalText.textContent = total.toFixed(2);
-                        });
+    // Pega o valor da taxa do input (removendo " MT" e convertendo para número)
+    const taxaStr = document.getElementById("taxa").value;
+    const taxaNum = parseFloat(taxaStr.replace(/\s*MT$/, ""));
+
+    // Se for número válido, adiciona ao total
+    if (!isNaN(taxaNum)) {
+        total += taxaNum;
+    }
+
+    precoInput.value = JSON.stringify(precos);
+    precoTotalText.textContent = total.toFixed(2);
+});
+
                     });
 
 
                 </script>
+
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRNGuuF_BkpRIcuIP1nFa5uQ2W1UqxWms&callback=initMap"
+    async defer></script>
+
+
 
     </body>
 

@@ -1,0 +1,63 @@
+exports.index = async (req, res) => {
+    try {
+        const search = req.query.search || '';
+
+        // Data atual sem hora (00:00:00)
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
+        // Próximo dia (para usar em comparação "menor que")
+        const amanha = new Date(hoje);
+        amanha.setDate(hoje.getDate() + 1);
+
+        const sessoes = await Sessao.findAll({
+            include: [
+                {
+                    model: Usuario,
+                    as: "usuario",
+                    attributes: ["id", "nome", "email"],
+                    where: {
+                        nome: {
+                            [Op.like]: `%${search}%`
+                        }
+                    }
+                }
+            ],
+            where: {
+                [Op.and]: [
+                    {
+                        [Op.or]: [
+                            {
+                                "$usuario.nome$": {
+                                    [Op.like]: `%${search}%`
+                                }
+                            },
+                            {
+                                tratamentosArray: {
+                                    [Op.like]: `%${search}%`
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        status: {
+                            [Op.ne]: "Concluido"
+                        }
+                    },
+                    {
+                        data_hora_consulta: {
+                            [Op.gte]: hoje,
+                            [Op.lt]: amanha
+                        }
+                    }
+                ]
+            },
+        });
+
+        res.render("procedimentos", { sessoes, search });
+
+    } catch (error) {
+        console.error("Erro ao buscar sessões:", error);
+        res.render("procedimentos", { sessoes: [], search: '' });
+    }
+};

@@ -68,8 +68,11 @@ exports.solicitarServico = async (req, res) => {
     try {
         const usuarioId = res.locals.user.id;
         const usuario = await Usuario.findByPk(usuarioId);
+        
 
         const { pacote, subpacote, tratamentos, preco_tratamentos, localizacao } = req.body;
+
+         await Usuario.update({ localizacao }, { where: { id: usuarioId } });
 
         if (!usuario) {
             req.flash('error', 'Usuário não encontrado!');

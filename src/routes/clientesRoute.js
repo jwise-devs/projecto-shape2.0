@@ -6,6 +6,7 @@ route.get('/clientes',clientesController.index);
 route.get('/clientes/index/:id',clientesController.editIndex);
 route.post('/clientes/edit/:id',clientesController.edit);
 route.get('/clientes/delete/:id',clientesController.delete);
+route.get('/clientes/historico/:id',clientesController.historico);
 // route.post('/sessao/data',sessaoController.data);
 
 module.exports = route;

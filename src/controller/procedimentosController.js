@@ -1,59 +1,52 @@
 const Usuario = require("../model/Usuario");
 const Sessao = require("../model/Sessao");
-const { Op } = require('sequelize');
+const { Op, fn, col, literal } = require('sequelize');
 
 exports.index = async (req, res) => {
-    try {
-        const search = req.query.search || ''; // Obtém o termo de pesquisa, se houver.
+  try {
+    const search = req.query.search || '';
+    const hoje = new Date();
+    hoje.setHours(0,0,0,0);
 
-        // Buscar as sessões com base no nome do paciente e nos tratamentos
-        const sessoes = await Sessao.findAll({
-            include: [
-                {
-                    model: Usuario,
-                    as: "usuario",
-                    attributes: ["id", "nome", "email"],
-                    where: {
-                        nome: {
-                            [Op.like]: `%${search}%` // Pesquisa pelo nome do paciente
-                        }
-                    }
-                }
-            ],
-            where: {
-                [Op.and]: [  // Adicionando a condição para status != "Concluido"
-                    {
-                        [Op.or]: [
-                            {
-                                // Pesquisa pelo nome do paciente
-                                "$usuario.nome$": {
-                                    [Op.like]: `%${search}%`
-                                }
-                            },
-                            {
-                                // Pesquisa pelos tratamentos (tratamentosArray armazenado como JSON)
-                                tratamentosArray: {
-                                    [Op.like]: `%${search}%`
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        // Filtra sessões que não têm o status "Concluido"
-                        status: {
-                            [Op.ne]: "Concluido" // Status diferente de "Concluido"
-                        }
-                    }
-                ]
-            },
-        });
+    const hojeStr = hoje.toISOString().slice(0,10); // 'YYYY-MM-DD'
 
-        console.log("Sessões encontradas:", JSON.stringify(sessoes, null, 2)); // Verifica as sessões encontradas
+    const sessoes = await Sessao.findAll({
+      include: [
+        {
+          model: Usuario,
+          as: "usuario",
+          attributes: ["id", "nome", "email"],
+          where: {
+            nome: {
+              [Op.like]: `%${search}%`
+            }
+          }
+        }
+      ],
+      where: {
+        [Op.and]: [
+          {
+            [Op.or]: [
+              { "$usuario.nome$": { [Op.like]: `%${search}%` } },
+              { tratamentosArray: { [Op.like]: `%${search}%` } }
+            ]
+          },
+          { status: { [Op.ne]: "Concluido" } },
+          // Aqui vem o filtro para:
+          // data_hora_consulta <= hoje <= data_hora_consulta + INTERVAL 3 MONTH
+          literal(`DATE(data_hora_consulta) <= '${hojeStr}' AND DATE_ADD(DATE(data_hora_consulta), INTERVAL 3 MONTH) >= '${hojeStr}'`)
+        ]
+      }
+    });
 
-        // Passa a variável search para a view
-        res.render("procedimentos", { sessoes, search });
-    } catch (error) {
-        console.error("Erro ao buscar sessões:", error);
-        res.render("procedimentos", { sessoes: [], search: '' });
-    }
+    console.log("Sessões encontradas:", JSON.stringify(sessoes, null, 2));
+
+    res.render("procedimentos", { sessoes, search });
+  } catch (error) {
+    console.error("Erro ao buscar sessões:", error);
+    res.render("procedimentos", { sessoes: [], search: '' });
+  }
 };
+
+
+
