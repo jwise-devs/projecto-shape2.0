@@ -38,6 +38,8 @@ class Sessao extends Model {
                     defaultValue: 0, // Valor padrão para o progresso (pode ser 0 se preferir começar do zero)
                 },
 
+
+
                 tratamentosArray: {  // Agora armazenamos os tratamentos como um JSON
                     type: DataTypes.JSON,
                     allowNull: false,

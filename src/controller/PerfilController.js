@@ -1,8 +1,10 @@
 const Sessao = require('../model/Sessao');
+const { Op } = require('sequelize');
 
 exports.index = async (req, res) => {
     try {
-        const sessoes = await Sessao.findAll({
+        // Buscar todas as sessões do usuário
+        const todasSessoes = await Sessao.findAll({
             where: { userId: res.locals.user.id },
             attributes: [
                 'id',
@@ -17,20 +19,40 @@ exports.index = async (req, res) => {
 
         const agora = new Date();
 
-        // Atualizar status dinamicamente (sem salvar no banco)
-        sessoes.forEach(sessao => {
+        // Atualizar os status no banco de dados
+        for (const sessao of todasSessoes) {
             const dataConsulta = new Date(sessao.data_hora_consulta);
             const tresMesesDepois = new Date(dataConsulta);
             tresMesesDepois.setMonth(dataConsulta.getMonth() + 3);
 
-            if (agora >= tresMesesDepois) {
-                sessao.status = 'Concluído';
+            if (agora >= tresMesesDepois && sessao.status !== 'Concluído') {
+                await sessao.update({ status: 'Concluído' });
             } else if (
-                agora.toDateString() === dataConsulta.toDateString()
+                agora >= dataConsulta &&
+                agora < tresMesesDepois &&
+                sessao.status !== 'Pendente'
             ) {
-                sessao.status = 'Pendente';
+                await sessao.update({ status: 'Pendente' });
             }
-            // else permanece como "Marcado" ou o status original
+        }
+
+        // Buscar novamente, agora só as sessões que não estão concluídas
+        const sessoes = await Sessao.findAll({
+            where: {
+                userId: res.locals.user.id,
+                status: {
+                    [Op.ne]: 'Concluído'
+                }
+            },
+            attributes: [
+                'id',
+                'pacote',
+                'subpacote',
+                'data_hora_consulta',
+                'precoSessao',
+                'status',
+                'tratamentosArray'
+            ]
         });
 
         res.render('perfil', {

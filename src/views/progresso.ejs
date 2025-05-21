@@ -1,76 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('includes/head') %>
-    <title>Progresso</title>
+<title>Progresso</title>
 
-    <body>
-        <%- include('includes/navbar') %>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2"></div>
+<body>
+  <%- include('includes/navbar') %>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8 my-3">
+        <h1 class="text-center">Progresso de <%= sessao.usuario ? sessao.usuario.nome : 'Usuário não encontrado' %></h1>
 
-                    <div class="col-lg-8 my-3">
-                        <h1 class="text-center">Progresso de <%= sessao.usuario ? sessao.usuario.nome : 'Usuário não encontrado' %></h1>
+        <%- include('includes/messeges') %>
 
-                        <%- include('includes/messeges') %>
+        <% if (sessao && sessao.tratamentosArray.length > 0) { %>
+          <form action="/progresso/data/<%= sessao.id %>" method="POST">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                        <% if (sessao && sessao.tratamentosArray.length > 0) { %>
-                            <!-- Formulário tradicional -->
-                            <form action="/progresso/data/<%= sessao.id %>" method="POST">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <div class="form-group">
-                                    <label>Selecione os tratamentos concluídos:</label>
-                                    <% sessao.tratamentosArray.forEach((tratamento, index) => { %>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                id="tratamento_<%= index %>" name="tratamentos"
-                                                value="<%= tratamento %>" onchange="atualizarProgresso()">
-                                            <label class="form-check-label" for="tratamento_<%= index %>">
-                                                <%= tratamento %>
-                                            </label>
-                                        </div>
-                                    <% }); %>
-                                </div>
+  <% sessao.tratamentosArray.forEach((tratamento, index) => {
+    const datasTratamento = tratamentoDatas[tratamento] || [];
+    const total = datasTratamento.length;
+    const concluidos = datasTratamento.filter(dt => dt.compareceu).length;
+    const progresso = total > 0 ? Math.round((concluidos / total) * 100) : 0;
+  %>
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= tratamento %></h5>
 
-                                <div class="form-group mt-3">
-                                    <label for="progresso">Progresso da Sessão:</label>
-                                    <input type="range" class="form-range" id="progresso" min="0" max="100" step="1"
-                                        value="0" readonly name="progresso">
-                                    <span id="progresso-text">0%</span>
-                                </div>
+        <div class="mb-2">
+            <p>Tratamento: <%= tratamento %>, datasTratamento length: <%= datasTratamento.length %></p>
+          <% datasTratamento.forEach((dataObj, idx) => { %>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                name="comparecimentos[<%= tratamento %>][<%= idx %>][compareceu]"
+                id="check_<%= tratamento %>_<%= idx %>"
+                <%= dataObj.compareceu ? 'checked' : '' %> >
 
-                                <div class="text-center mt-4">
-                                    <a href="/procedimentos" class="btn btn-primary">Voltar</a>
-                                    <button type="submit" class="btn btn-success">Salvar Progresso</button>
-                                </div>
-                            </form>
-                        <% } else { %>
-                            <p class="text-center">Nenhum tratamento encontrado para este cliente.</p>
-                        <% } %>
-                    </div>
+              <input type="hidden" name="comparecimentos[<%= tratamento %>][<%= idx %>][data]"
+                value="<%= dataObj.data %>">
 
-                    <div class="col-lg-2"></div>
-                </div>
+              <label class="form-check-label" for="check_<%= tratamento %>_<%= idx %>">
+                <%= new Date(dataObj.data).toLocaleDateString() %>
+              </label>
             </div>
+          <% }); %>
+        </div>
 
-            <script>
-                function atualizarProgresso() {
-                    let checkboxes = document.querySelectorAll('input[name="tratamentos"]');
-                    let total = checkboxes.length;
-                    let marcados = document.querySelectorAll('input[name="tratamentos"]:checked').length;
-                    let progresso = total > 0 ? Math.round((marcados / total) * 100) : 0;
+        <div class="input-group my-2">
+          <input type="date" class="form-control"
+            name="novasDatas[<%= tratamento %>][]" placeholder="Adicionar nova data">
+        </div>
 
-                    let progressoInput = document.getElementById("progresso");
-                    let progressoText = document.getElementById("progresso-text");
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar"
+            style="width: <%= progresso %>%;" aria-valuenow="<%= progresso %>"
+            aria-valuemin="0" aria-valuemax="100">
+            <%= progresso %>%
+          </div>
+        </div>
+        <small class="text-muted"><%= concluidos %> de <%= total %> sessões concluídas</small>
+      </div>
+    </div>
+  <% }); %>
 
-                    progressoInput.value = progresso;
-                    progressoText.innerText = progresso + "%";
+  <div class="text-center mt-4">
+    <a href="/procedimentos" class="btn btn-secondary">Voltar</a>
+    <button type="submit" class="btn btn-success">Salvar Progresso</button>
+  </div>
+</form>
+        <% } else { %>
+          <p class="text-center">Nenhum tratamento encontrado para este cliente.</p>
+        <% } %>
+      </div>
+      <div class="col-lg-2"></div>
+    </div>
+  </div>
 
-                    progressoInput.style.background = `linear-gradient(to right, #4CAF50 0%, #4CAF50 ${progresso}%, #ddd ${progresso}%, #ddd 100%)`;
-                }
-            </script>
-
-            <%- include('includes/script') %>
-    </body>
-
+  <%- include('includes/script') %>
+</body>
 </html>

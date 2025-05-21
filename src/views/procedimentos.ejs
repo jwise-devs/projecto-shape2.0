@@ -86,9 +86,8 @@
                         <!-- Adicionando o campo de pesquisa no topo -->
                         <form method="GET" action="/procedimentos">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control"
-                                    placeholder="Pesquisar por paciente" name="search"
-                                    value="<%= search || '' %>">
+                                <input type="text" class="form-control" placeholder="Pesquisar por paciente"
+                                    name="search" value="<%= search || '' %>">
                                 <button class="btn btn-custom mx-1 my-2" type="submit">Pesquisar</button>
                             </div>
                         </form>
@@ -123,33 +122,38 @@
                                                             <br>
                                                             <strong>Email:</strong>
                                                             <%= sessao.usuario ? sessao.usuario.email : "N/A" %> <br>
-                                                                <strong>Preço:</strong> R$ <%= sessao.precoSessao %> <br>
+                                                                <strong>Preço:</strong> R$ <%= sessao.precoSessao %>
+                                                                    <br>
                                                                     <strong>Data:</strong>
                                                                     <%= new
                                                                         Date(sessao.data_hora_consulta).toLocaleDateString()
                                                                         %>
-                                                                <br>
-                                                                    <strong>Status:</strong>
-                                                                    <%= sessao.status
-                                                                        %>
+                                                                        <br>
+                                                                        <strong>Status:</strong>
+                                                                        <%= sessao.status %>
                                                     </p>
 
                                                     <!-- Barra de Progresso Dinâmica -->
-<% const hoje = new Date(); %>
-<% const dataConsulta = new Date(sessao.data_hora_consulta); %>
-<% const diasDecorridos = Math.max(0, Math.floor((hoje - dataConsulta) / (1000 * 60 * 60 * 24))); %>
-<% const progresso = Math.min(100, Math.floor((diasDecorridos / 90) * 100)); %>
+                                                    <% const hoje=new Date(); %>
+                                                        <% const dataConsulta=new Date(sessao.data_hora_consulta); %>
+                                                            <% const diasDecorridos=Math.max(0, Math.floor((hoje -
+                                                                dataConsulta) / (1000 * 60 * 60 * 24))); %>
+                                                                <% const progresso=Math.min(100,
+                                                                    Math.floor((diasDecorridos / 90) * 100)); %>
 
 
-<div class="mt-3">
-  <label><strong>Progresso:</strong> <%= progresso %>%</label>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar"
-         style="width: <%= progresso %>%; background-color: #007d7b;"
-         aria-valuenow="<%= progresso %>" aria-valuemin="0" aria-valuemax="100">
-    </div>
-  </div>
-</div>
+                                                                    <div class="mt-3">
+                                                                        <label><strong>Progresso:</strong>
+                                                                            <%= progresso %>%
+                                                                        </label>
+                                                                        <div class="progress">
+                                                                            <div class="progress-bar" role="progressbar"
+                                                                                style="width: <%= progresso %>%; background-color: #007d7b;"
+                                                                                aria-valuenow="<%= progresso %>"
+                                                                                aria-valuemin="0" aria-valuemax="100">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
                                                 </div>
                                             </div>
