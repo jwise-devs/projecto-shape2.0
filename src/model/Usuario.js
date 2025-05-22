@@ -112,6 +112,8 @@ class Usuario extends Model {
             as: 'sessoes'
         });
 
+        
+
     }
 
     passwordIsValid(password) {

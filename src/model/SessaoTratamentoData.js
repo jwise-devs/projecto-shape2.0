@@ -4,11 +4,12 @@ class SessaoTratamentoData extends Model {
     static init(sequelize) {
         super.init(
             {
-                sessaoId: {
+                usuarioId: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
+                    field: 'usuarioId', // <-- forçando nome camelCase
                     references: {
-                        model: 'sessao',
+                        model: 'usuario',
                         key: 'id',
                     },
                     onDelete: 'CASCADE',
@@ -38,7 +39,7 @@ class SessaoTratamentoData extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.Sessao, { foreignKey: 'sessaoId', as: 'sessao' });
+        this.belongsTo(models.Sessao, { foreignKey: 'usuarioId', as: 'usuario' });
     }
 }
 

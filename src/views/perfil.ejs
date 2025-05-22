@@ -26,9 +26,6 @@
                                 <p><strong>Telefone:</strong>
                                     <%= user.telefone || "Nao existe" %>
                                 </p>
-                                <p><strong>Localizacao:</strong>
-                                    <%= user.localizacao || "Ainda nao temos essa informacao" %>
-                                </p>
 
                                 <% if (user && user.created_at) { %>
                                     <p><strong>Data de Cadastro:</strong>
@@ -51,66 +48,58 @@
             <!-- Seção de Progresso (versão compacta) -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <h4 class="text-center mb-3">Progresso</h4>
+                    <h4 class="text-center mb-3">Tratamentos</h4>
 
-                    <% if (sessoes && sessoes.length > 0) { %>
-                        <% sessoes.forEach(sessao => { %>
+                    <% if (sessoes && sessoes.length> 0) { %>
+                        <% sessoes.forEach(sessao=> { %>
                             <div class="mb-3 p-3 border rounded small bg-light">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
                                     <span><strong>Consulta:</strong>
                                         <%= new Date(sessao.data_hora_consulta).toLocaleDateString() %>
                                     </span>
                                     <span><strong>Status:</strong> <span class="badge 
-              <%= sessao.status === 'Concluído' ? 'bg-success' : 
-                  sessao.status === 'Pendente' ? 'bg-warning text-dark' : 
-                  'bg-secondary' %>">
+                <%= sessao.status === 'Concluído' ? 'bg-success' : 
+                    sessao.status === 'Pendente' ? 'bg-warning text-dark' : 
+                    'bg-secondary' %>">
                                             <%= sessao.status %>
                                         </span></span>
                                 </div>
 
-                                <% let tratamentosList = []; try { if (typeof sessao.tratamentosArray === "string") {
-                                    tratamentosList = JSON.parse(sessao.tratamentosArray); } else if
-                                    (Array.isArray(sessao.tratamentosArray)) { tratamentosList = sessao.tratamentosArray;
-                                    } } catch (err) { tratamentosList = []; } %>
+                                <% let tratamentosList=[]; try { if (typeof sessao.tratamentosArray==="string" ) {
+                                    tratamentosList=JSON.parse(sessao.tratamentosArray); } else if
+                                    (Array.isArray(sessao.tratamentosArray)) { tratamentosList=sessao.tratamentosArray;
+                                    } } catch (err) { tratamentosList=[]; } %>
 
-                                    <% if (tratamentosList.length > 0) { %>
+                                    <% if (tratamentosList.length> 0) { %>
                                         <div>
                                             <strong>Tratamentos:</strong>
                                             <span class="d-block">
                                                 <%= tratamentosList.join(", ") %>
-                                            </span>
+                                                </span>
+                                            </div>
+                                        <% } else { %>
+                                            <em class=" text-muted">Nenhum tratamento registrado.</em>
+                                                    <% } %>
+
+                                                       
+
                                         </div>
-                                    <% } else { %>
-                                        <em class=" text-muted">Nenhum tratamento registrado.</em>
-                                    <% } %>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p class="text-center">Nenhuma sessão encontrada.</p>
+                                                <% } %>
 
-                                <!-- Barra de Progresso Dinâmica -->
-                                <% const hoje = new Date(); %>
-                                <% const dataConsulta = new Date(sessao.data_hora_consulta); %>
-                                <% const diasDecorridos = Math.max(0, Math.floor((hoje - dataConsulta) / (1000 * 60 * 60 * 24))); %>
-                                <% const progresso = Math.min(100, Math.floor((diasDecorridos / 90) * 100)); %>
-
-                                <div class="mt-3">
-                                  <label><strong>Progresso:</strong> <%= progresso %>%</label>
-                                  <div class="progress">
-                                    <div class="progress-bar" role="progressbar"
-                                         style="width: <%= progresso %>%; background-color: #007d7b;"
-                                         aria-valuenow="<%= progresso %>" aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                  </div>
-                                </div>
+                                                    <div class="text-center my-3">
+                                                        <a href="/progresso/<%= user.id %>" class="btn btn-primary">Verificar
+                                                            Progresso</a>
+                                                    </div>
 
                             </div>
-                        <% }); %>
-                    <% } else { %>
-                        <p class="text-center">Nenhuma sessão encontrada.</p>
-                    <% } %>
                 </div>
-            </div>
 
 
 
-            <%- include('includes/script') %>
+                <%- include('includes/script') %>
     </body>
 
 </html>

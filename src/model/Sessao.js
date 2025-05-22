@@ -88,6 +88,12 @@ class Sessao extends Model {
         this.hasMany(models.Tratamentos, { foreignKey: 'sessaoId', as: 'tratamentos' });
 
         this.belongsTo(models.Usuario, { foreignKey: 'userId', as: 'usuario' });
+
+        this.hasMany(models.Foto,
+            {
+                foreignKey: 'sessaoId',
+                as: 'foto'
+            });
     }
 }
 

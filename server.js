@@ -19,9 +19,11 @@ const procedimentosRoute = require('./src/routes/procedimentosRoute');
 const criarProcedimentosRoute = require('./src/routes/criarProcedimentosRoute');
 const verificarProcedimentosRoute = require('./src/routes/verificarProcedimentosRoute');
 const progressoRoute = require('./src/routes/progressoRoute');
+const progressoUsuarioRoute = require('./src/routes/progressoUsuarioRoute ');
 const fourofourRoute = require('./src/routes/404Route');
 const deskDashboardRoute = require('./src/routes/deskDashboardRoute');
 const perfilRoute = require('./src/routes/perfilRoute');
+const fotoRoute = require('./src/routes/fotoRoute');
 
 
 const User = require('./src/model/Usuario');
@@ -34,6 +36,9 @@ app.set('views', path.join(__dirname, "src",'views'));
 
 // Serve arquivos estáticos (CSS, JS) da pasta public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve arquivos estáticos da pasta uploads/images
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')));
 
 // Use o body-parser para lidar com requisições JSON
 app.use(bodyParser.json());
@@ -157,6 +162,8 @@ app.use(progressoRoute);
 app.use(fourofourRoute);
 app.use(deskDashboardRoute);
 app.use(perfilRoute);
+app.use(progressoUsuarioRoute);
+app.use(fotoRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {

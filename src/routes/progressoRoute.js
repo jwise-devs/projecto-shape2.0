@@ -3,7 +3,7 @@ const route = express.Router();
 const progressoController = require('../controller/ProgressoController');
 
 route.get('/progresso/:id',progressoController.index);
-route.post('/progresso/data/:id', progressoController.salvarDatasComparecimento);
+
 
 
 module.exports = route;

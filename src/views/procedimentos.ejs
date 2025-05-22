@@ -133,28 +133,12 @@
                                                                         <%= sessao.status %>
                                                     </p>
 
-                                                    <!-- Barra de Progresso Dinâmica -->
-                                                    <% const hoje=new Date(); %>
-                                                        <% const dataConsulta=new Date(sessao.data_hora_consulta); %>
-                                                            <% const diasDecorridos=Math.max(0, Math.floor((hoje -
-                                                                dataConsulta) / (1000 * 60 * 60 * 24))); %>
-                                                                <% const progresso=Math.min(100,
-                                                                    Math.floor((diasDecorridos / 90) * 100)); %>
-
-
-                                                                    <div class="mt-3">
-                                                                        <label><strong>Progresso:</strong>
-                                                                            <%= progresso %>%
-                                                                        </label>
-                                                                        <div class="progress">
-                                                                            <div class="progress-bar" role="progressbar"
-                                                                                style="width: <%= progresso %>%; background-color: #007d7b;"
-                                                                                aria-valuenow="<%= progresso %>"
-                                                                                aria-valuemin="0" aria-valuemax="100">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
+                                                    <!-- Botão "Verificar Progresso" -->
+                                                    <div class="mt-3 text-end">
+                                                        <a href="/progresso_do_Usuario/<%= sessao.usuario.id %>" class="btn btn-custom">
+                                                            Verificar Progresso
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,8 @@
 const Usuario = require("../model/Usuario");
 const { Op } = require('sequelize');  // Importa o operador Op do Sequelize
 const Sessao = require('../model/Sessao');
+const Foto = require('../model/Foto'); // ajuste o caminho conforme sua estrutura
+
 
 exports.index = async (req, res) => {
     try {
@@ -113,7 +115,7 @@ exports.editIndex = async (req, res) => {
     try {
 
         const userId = req.params.id;
-        const usuario = await Usuario.findOne({where: {id: userId}})
+        const usuario = await Usuario.findOne({ where: { id: userId } })
         res.render('registro', { usuario });
         return;
 
@@ -136,7 +138,7 @@ exports.edit = async (req, res) => {
             telefone,
         },
             {
-                where : {id: req.params.id}
+                where: { id: req.params.id }
             }
         )
 
@@ -153,11 +155,11 @@ exports.edit = async (req, res) => {
 
 }
 
-exports.delete = async (req, res) =>{
+exports.delete = async (req, res) => {
     const userId = req.params.id;
-    const usuario = await Usuario.destroy({where: {id: userId}})
-    if(!usuario) return res.render("404");
-   
+    const usuario = await Usuario.destroy({ where: { id: userId } })
+    if (!usuario) return res.render("404");
+
 
     req.flash('success', "Contacto apagado com sucesso");
     req.session.save(() => res.redirect(`back`));
@@ -185,9 +187,16 @@ exports.historico = async (req, res) => {
             ],
         });
 
+        // Carrega todas as fotos associadas a sessões desse usuário
+        const fotos = await Foto.findAll({
+            where: {
+                sessaoId: sessoes.map(s => s.id)
+            },
+            attributes: ['sessaoId', 'tipo', 'filename']
+        });
+
         const agora = new Date();
 
-        // Categorias
         const pendentes = [];
         const concluidas = [];
         const marcadas = [];
@@ -200,7 +209,7 @@ exports.historico = async (req, res) => {
             if (agora >= tresMesesDepois) {
                 sessao.status = 'Concluído';
                 concluidas.push(sessao);
-            } else if (agora.toDateString() === dataConsulta.toDateString()) {
+            } else if (agora >= dataConsulta && agora < tresMesesDepois) {
                 sessao.status = 'Pendente';
                 pendentes.push(sessao);
             } else {
@@ -213,7 +222,8 @@ exports.historico = async (req, res) => {
             usuario,
             pendentes,
             concluidas,
-            marcadas
+            marcadas,
+            fotos // envia para a view
         });
 
     } catch (error) {
@@ -222,5 +232,6 @@ exports.historico = async (req, res) => {
         return res.redirect('back');
     }
 };
+
 
 

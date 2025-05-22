@@ -10,11 +10,12 @@ module.exports = {
         allowNull: false,
       },
 
-      sessao_id: {
+      usuarioId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        field: 'usuarioId', // <-- forçando nome camelCase
         references: {
-          model: 'sessao',
+          model: 'usuario',
           key: 'id',
         },
         onDelete: 'CASCADE',
