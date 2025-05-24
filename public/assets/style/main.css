@@ -7,6 +7,12 @@
     font-family:"Cormorant Garamond", serif;
 }
 
+@font-face {
+  font-family: 'vendya'; /* Podes usar qualquer nome aqui */
+  src: url('../fonts/vendya.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* classes gerais */
 
@@ -17,6 +23,11 @@ html{
 body{
     background-color: #ffffffb5;
     overflow-x: hidden;
+}
+
+h1{
+    color: #007d7b;
+    font-family: 'vendya';
 }
 
 .flex{
@@ -40,6 +51,7 @@ body{
 a{
     text-decoration: none;
     color: #007d7b;
+    font-size: 1.5em;
 }
 
 .btn button{
@@ -65,11 +77,13 @@ a{
 header{
     width: 100%;
     background-color: rgb(226, 224, 224);
+    height: 50px;
 }
 
 header .flex{
     justify-content: space-between;
     align-items: center;
+    height: 50px;
 }
 
 header .img-logo{
@@ -80,7 +94,8 @@ header .img-logo{
 
 
 header .img-logo img{
-    height: 120px;
+    height: 110px;
+    width: 120px;
 }
 
 header .img-logo p{
@@ -205,28 +220,42 @@ header nav ul li a:hover{
 }
 /* estilo do conteudo-topo */
 
-section.conteudo-topo{
-    background-image: url("../img/header-img.jpeg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+section.conteudo-topo {
+    position: relative;
     height: 100vh;
+    overflow: hidden;
+    z-index: 1;
 }
 
-.conteudo-topo .flex{
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.conteudo-topo .overlay {
+    position: absolute; /* NOVO: cobre tudo */
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1; /* Garante que fique sobre o vídeo */
+}
+
+.conteudo-topo .flex {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     height: 100%;
+    z-index: 2; /* Conteúdo acima da overlay */
 }
 
-.conteudo-topo .overlay{
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.605);
-}
 
  
 .conteudo-topo .txt-topo h1{
@@ -250,8 +279,7 @@ section.conteudo-topo{
     height: 60px;
     border: 2px solid white;
     border-radius: 30px;
-    text-align: center;
-    margin-top: 10px;
+    margin-top: 400px;
     transition: .5s;
 }
 
@@ -261,7 +289,8 @@ section.conteudo-topo{
 }
 
 .conteudo-topo .btn span{
-    font-size: 3em;
+    font-size: 2.4em;
+    text-align: center;
 }
 
 .conteudo-topo .btn:hover a{
@@ -298,9 +327,9 @@ section.hero{
 }
 
 .hero .hero-esquerda .txt-esquerda{
-    margin-top: 40%;
+    margin-top: 20%;
    padding: 50px;
-   margin-bottom: 10%;
+   margin-bottom: 3%;
 }
 
 .hero .hero-esquerda .txt-esquerda h1{
@@ -310,7 +339,7 @@ section.hero{
 }
 
 .hero .hero-esquerda .txt-esquerda p{
-    font-size: 0.7em;
+    font-size: 1.2em;
     text-align: center;
 }
 
@@ -318,7 +347,7 @@ section.hero{
     margin: 50px 0;
     position: absolute;
     top: -25%;
-    left: 40%;
+    left: 33%;
 }
    
 
@@ -338,7 +367,7 @@ section.hero{
 }
 
 .hero .hero-direita{
-    padding: 8.5% 0;
+    padding-top: 23px;
 }
 
 .hero .img-direita img{
@@ -349,8 +378,8 @@ section.hero{
 /* Estilo bem-estar */
 
 section.bem-estar{
-    margin: 30px 0;
-    padding: 50px 4%;
+    margin: 0;
+    padding: 0px 4%;
 }
 
 section.bem-estar .flex{
@@ -366,12 +395,17 @@ section.bem-estar .flex{
 }
 
 .bem-estar .txt-bem-estar h2{
+    text-align: center;
     font-size: 2.5em;
     font-weight: 500;
+    color: #007d7b;
+    margin-left: 28px;
 }
 
 .bem-estar .txt-bem-estar p{
-    font-size: .8em;
+    text-align: center;
+    font-size: 1.2em;
+    margin-left: 15px;
 }
 
 .bem-estar-conteudo .bem-estar-img{
@@ -411,7 +445,7 @@ section.serenita-casa{
 }
 
 .serenita-casa .Serenita-esquerda .txt-Serenita-esquerda p{
-    font-size: 0.7em;
+    font-size: 1.2em;
     text-align: center;
 }
 
@@ -447,6 +481,7 @@ section.horarios{
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+
     
 }
 
@@ -471,7 +506,7 @@ section.horarios{
 }
 
 .horarios .titulo h1{
-    font-size: 3em;
+    font-size: 5em;
     font-weight: bold;
 }
 
@@ -487,12 +522,14 @@ section.horarios{
 
 .horarios .container-horarios .tabela h2{
     color: #007d7b;
+    font-size: 2em;
 }
 
 .horarios .container-horarios .tabela p{
     color: black;
     padding: 20px;
     font-weight: bolder;
+    font-size: 2em;
 }
 
 /* Estilo de localizacao */
@@ -538,12 +575,12 @@ footer.rodape{
 }
 
 .rodape .flex{
-    justify-content: space-between;
+justify-content: center;
 }
 
 .rodape .logo-rodape{
-    display: flex;
-    align-items: center;
+    margin: 0px 50px;
+    padding-bottom: 50px;
 }
 
 .rodape .logo-rodape a{
@@ -562,18 +599,19 @@ footer.rodape{
 }
 
 .rodape .logo-rodape img{
-    height: 200px;
+    width: 100px;
+    height: 100px;
 }
 
 
 .rodape .links-rodape .grid{
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 200px);
     grid-template-rows: repeat(1, 1fr);
-    gap: 0px 80px;
+    gap: 0px 20px;
 }
 
 .rodape .links-rodape h2{
-    font-size: 1.7em;
+    font-size: 1.5em;
 }
 
 .rodape .links-rodape ul{
@@ -593,6 +631,11 @@ footer.rodape{
 
 .rodape .links-rodape ul li a:hover{
     opacity: 0.5;
+}
+
+.link-3 .lista-rodape i{
+   padding-right: 10px;
+   font-size: 20px;
 }
 
 .rodape p{

@@ -2,7 +2,7 @@
 
 /* Estilo do topo do tratamento */
 section.conteudo-topo-tratamento{
-    padding: 50px;
+    padding: 0;
     margin: 50px;
 }
 
@@ -17,7 +17,7 @@ section.conteudo-topo-tratamento{
 .conteudo-tratamento h1{
     font-size: 3em;
     color: #007d7b;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .conteudo-tratamento p{
