@@ -24,6 +24,10 @@ const fourofourRoute = require('./src/routes/404Route');
 const deskDashboardRoute = require('./src/routes/deskDashboardRoute');
 const perfilRoute = require('./src/routes/perfilRoute');
 const fotoRoute = require('./src/routes/fotoRoute');
+const marcacoesRoute = require('./src/routes/marcacoesRoute');
+const pupilasRoute = require('./src/routes/pupilasRoute');
+const criarPupilasRoute = require('./src/routes/criaPupilasRoute');
+const alocacaoRoute = require('./src/routes/alocacaoRoute');
 
 
 const User = require('./src/model/Usuario');
@@ -164,6 +168,10 @@ app.use(deskDashboardRoute);
 app.use(perfilRoute);
 app.use(progressoUsuarioRoute);
 app.use(fotoRoute);
+app.use(marcacoesRoute);
+app.use(pupilasRoute);
+app.use(criarPupilasRoute);
+app.use(alocacaoRoute);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {

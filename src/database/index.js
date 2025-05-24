@@ -6,6 +6,8 @@ const Sessao = require('../model/Sessao');
 const Tratamentos = require('../model/Tratamentos');
 const SessaoTratamentoData = require('../model/SessaoTratamentoData');
 const Foto = require('../model/Foto');
+const Pupilas = require('../model/Pupilas');
+const ConsultaEmCasa = require('../model/ConsultaEmCasa');
 
 const connection = new Sequelize(databaseConfig);
 Usuario.init(connection);
@@ -14,6 +16,8 @@ Sessao.init(connection);
 Tratamentos.init(connection);
 SessaoTratamentoData.init(connection);
 Foto.init(connection);
+Pupilas.init(connection);
+ConsultaEmCasa.init(connection);
 
 Usuario.associate( connection.models );
 Ficha.associate( connection.models );
@@ -21,6 +25,8 @@ Sessao.associate( connection.models );
 Tratamentos.associate(connection.models);
 SessaoTratamentoData.associate(connection.models);
 Foto.associate(connection.models);
+Pupilas.associate(connection.models);
+ConsultaEmCasa.associate(connection.models);
 
 connection.sync({ force: false }) // Sincroniza o banco de dados (force: true recria as tabelas)
   .then(() => {

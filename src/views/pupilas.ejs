@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+    <title>Clientes</title>
+
+    <body>
+        <%- include('includes/navbar') %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2"></div>
+
+                    <div class="col-lg-8 my-3">
+                        <h1 class="text-center">Pupilas</h1>
+
+                        <%- include('includes/messeges') %>
+
+                            <!-- Formulário de Pesquisa -->
+                            <form method="GET" action="/clientes" class="d-flex">
+                                <input type="text" name="search"
+                                    placeholder="Pesquisar por nome, sobrenome, telefone ou endereco"
+                                    class="form-control me-2" aria-label="Pesquisar">
+                                <button type="submit" class="btn btn-primary">Pesquisar</button>
+                            </form>
+
+
+                            <% if(pupilas.length> 0) { %>
+
+                                <div class="responsive-table">
+                                    <table class="table my-3">
+                                        <% pupilas.forEach(pupila=> { %>
+
+                                            <tr>
+                                                <td>
+                                                    <%= pupila.nome %>
+                                                </td>
+                                                <td>
+                                                    <%= pupila.sobrenome %>
+                                                </td>
+                                                <td>
+                                                    <%= pupila.numeroCelular %>
+                                                </td>
+                                                <td>
+                                                    <%= pupila.endereco %>
+                                                </td>
+                                                <% if(typeof usuario !=='undefined' && usuario) {%>
+
+                                                    <td><a href="/funcionarios/index/<%= pupila.id %>">Editar</a></td>
+                                                    <td><a class="text-danger"
+                                                            href="/funcionarios/delete/<%= pupila.id %>">Excluir</a>
+                                                    </td>
+                                                    <td><a class="text-success"
+                                                            href="/funcionarios/index/<%= pupila.id %>">Historico</a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="text-yellow"
+                                                            style="padding: 5px 10px; border-radius: 5px;"
+                                                            href="/alocar-tratamento/<%= pupila.id %>">
+                                                            Alocar
+                                                        </a>
+                                                    </td>
+
+                                                    <% }else{ %>
+                                                        <td><a class="text-success"
+                                                                href="/funcionarios/index/<%= pupila.id %>">Historico</a>
+                                                        </td>
+                                                        <td>
+                                                        <a class="text-white"
+                                                            style="padding: 5px 10px; border-radius: 5px;"
+                                                            href="/alocar-tratamento/<%= pupila.id %>">
+                                                            Alocar
+                                                        </a>
+                                                        <% } %>
+                                            </tr>
+
+                                            <% }) %>
+                                    </table>
+                                </div>
+
+                                <% } else { %>
+
+                                    <p class="text-center lead">Não existem clientes cadastrados</p>
+
+                                    <% } %>
+
+                    </div>
+
+                    <div class="col-lg-2"></div>
+                </div>
+            </div>
+            <%- include('includes/script') %>
+
+    </body>
+
+</html>

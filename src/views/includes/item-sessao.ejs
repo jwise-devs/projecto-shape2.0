@@ -5,7 +5,7 @@
       <span class="badge 
         <%= sessao.status === 'Concluído' ? 'bg-success' : 
             sessao.status === 'Pendente' ? 'bg-warning text-dark' : 
-            'bg-primary' %>">
+            'bg-secondary' %>">
         <%= sessao.status %>
       </span>
     </span>
@@ -38,7 +38,7 @@
     const fotoDepois = fotos.find(f => f.sessaoId === sessao.id && f.tipo === 'depois');
   %>
 
-  <% if (sessao.status === 'Pendente' && !fotoAntes) { %>
+  <% if (sessao.status === 'Pendente' && !fotoAntes && role === 'admin') { %>
     <div class="mt-3">
       <form action="/foto_antes/upload/<%= sessao.id %>" method="POST" enctype="multipart/form-data" class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
 
@@ -54,7 +54,7 @@
     </div>
   <% } %>
 
-  <% if (sessao.status === 'Concluído' && !fotoDepois) { %>
+  <% if (sessao.status === 'Concluído' && !fotoDepois && role === 'admin') { %>
     <div class="mt-3">
       <form action="/fotos/upload" method="POST" enctype="multipart/form-data" class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
         <input type="hidden" name="sessao_id" value="<%= sessao.id %>">
@@ -64,8 +64,15 @@
       </form>
     </div>
   <% } else if (sessao.status === 'Concluído' && fotoDepois) { %>
-    <div class="mt-2">
-      <a href="/uploads/images/<%= fotoDepois.filename %>" target="_blank" class="btn btn-sm btn-outline-success">Verificar Foto Depois</a>
-    </div>
+      <div class="mt-2 d-flex flex-column flex-sm-row gap-2">
+    <a href="/uploads/images/<%= fotoAntes?.filename %>" target="_blank" class="btn btn-sm btn-outline-secondary"
+       <%= !fotoAntes ? 'style="display: none;"' : '' %>>
+      Verificar Foto Antes
+    </a>
+    
+    <a href="/uploads/images/<%= fotoDepois.filename %>" target="_blank" class="btn btn-sm btn-outline-success">
+      Verificar Foto Depois
+    </a>
+  </div>
   <% } %>
 </div>

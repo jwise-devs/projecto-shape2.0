@@ -223,7 +223,8 @@ exports.historico = async (req, res) => {
             pendentes,
             concluidas,
             marcadas,
-            fotos // envia para a view
+            fotos, // envia para a view
+            role: usuario.role,
         });
 
     } catch (error) {

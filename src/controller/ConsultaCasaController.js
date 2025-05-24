@@ -72,6 +72,9 @@ exports.solicitarServico = async (req, res) => {
 
         const { pacote, subpacote, tratamentos, preco_tratamentos, localizacao } = req.body;
 
+        // Se tratamentos for uma string, converta-a para um array
+        const tratamentosJSON = Array.isArray(tratamentos) ? tratamentos : [tratamentos];
+
          await Usuario.update({ localizacao }, { where: { id: usuarioId } });
 
         if (!usuario) {
@@ -86,6 +89,17 @@ exports.solicitarServico = async (req, res) => {
             req.flash('error', 'Você já solicitou um serviço hoje. Tente novamente amanhã!');
             return res.redirect('/consultaemcasa');
         }
+
+        // Criar a sessão no banco de dados
+                const sessao = await Sessao.create({
+                    pacote,
+                    subpacote,
+                    tratamentosArray: tratamentosJSON, // Salvar os nomes dos tratamentos na Sessao
+                    data_hora_consulta: new Date(),
+                    userId: usuarioId, // ID do usuário logado
+                    precoSessao: preco_tratamentos,
+                    numTotSessao: tratamentosJSON.length,
+                });
 
         // Atualizar última solicitação
         await Usuario.update({ ultimaSolicitacao: new Date() }, { where: { id: usuarioId } });

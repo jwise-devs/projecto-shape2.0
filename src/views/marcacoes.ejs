@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head') %>
+<title>Procedimentos</title>
+
+<style>
+    /* Evita que as cards ultrapassem a largura */
+    .card {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
+    /* Garante que as colunas fiquem responsivas */
+    .col-md-6 {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    /* Corrige os spans (badges) para não vazarem */
+    .badge-custom {
+        background-color: #007d7b !important;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: inline-block;
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Estilização do botão sem hover */
+    .btn-custom {
+        background-color: #007d7b !important;
+        color: white !important;
+        border: 1px solid #007d7b !important;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        width: auto;
+        /* Remove o "display: block" e usa "width: auto" */
+        margin-top: 10px;
+        cursor: pointer;
+        /* Manter o botão no mesmo nível que o campo de pesquisa */
+    }
+
+    /* Remove qualquer efeito ao passar o mouse */
+    .btn-custom:hover,
+    .btn-custom:focus,
+    .btn-custom:active {
+        background-color: #007d7b !important;
+        color: white !important;
+        border: 1px solid #007d7b !important;
+        box-shadow: none !important;
+    }
+
+    .input-group .form-control {
+        flex: 1;
+        width: auto;
+        /* Garante que o campo de pesquisa ocupe apenas o espaço necessário */
+    }
+
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .input-group .btn-custom {
+        margin-left: 10px;
+        /* Ajuste o valor conforme necessário */
+    }
+</style>
+
+
+<body>
+    <%- include('includes/navbar') %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2"></div>
+
+                <div class="col-lg-8 my-2">
+                    <h1 class="text-center">Marcacoes</h1>
+                    <p class="text-center lead">Lista de tratamentos e seus pacientes</p>
+                    <!-- Adicionando o campo de pesquisa no topo -->
+                    <form method="GET" action="/procedimentos">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Pesquisar por paciente"
+                                name="search" value="<%= search || '' %>">
+                            <button class="btn btn-custom mx-1 my-2" type="submit">Pesquisar</button>
+                        </div>
+                    </form>
+
+
+
+                    <%- include('includes/messeges') %>
+
+
+                        <div class="row">
+                            <% if (sessoes.length> 0) { %>
+                                <% sessoes.forEach(sessao=> { %>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card shadow-sm p-3">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    Tratamentos:
+                                                    <% if (sessao.tratamentosArray) { %>
+                                                        <% JSON.parse(sessao.tratamentosArray).forEach(tratamento=>
+                                                            { %>
+                                                            <span class="badge badge-custom">
+                                                                <%= tratamento %>
+                                                            </span>
+                                                            <% }) %>
+                                                                <% } else { %>
+                                                                    <span class="text-muted">Sem informação</span>
+                                                                    <% } %>
+                                                </h5>
+                                                <p class="card-text">
+                                                    <strong>Paciente:</strong>
+                                                    <%= sessao.usuario ? sessao.usuario.nome : "Desconhecido" %>
+                                                        <br>
+                                                        <strong>Email:</strong>
+                                                        <%= sessao.usuario ? sessao.usuario.email : "N/A" %> <br>
+                                                            <strong>Preço:</strong> R$ <%= sessao.precoSessao %>
+                                                                <br>
+                                                                <strong>Data:</strong>
+                                                                    <%= new
+                                                                        Date(sessao.data_hora_consulta).toLocaleDateString()
+                                                                        %>
+                                                                        <br>
+                                                                        <strong>Hora:</strong>
+                                                                        <%= new
+                                                                            Date(sessao.data_hora_consulta).toLocaleTimeString([],
+                                                                            { hour: '2-digit' , minute: '2-digit' })
+                                                                            %>
+
+                                                                            <br>
+                                                                            <strong>Status:</strong>
+                                                                            <%= sessao.status %>
+                                                </p>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <p class="text-center text-muted">Nenhuma sessão encontrada.</p>
+                                            <% } %>
+
+                        </div>
+                </div>
+
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+
+
+
+        <%- include('includes/script') %>
+</body>
+
+</html>
