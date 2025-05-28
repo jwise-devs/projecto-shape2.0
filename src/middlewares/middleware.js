@@ -37,15 +37,16 @@ exports.loginRequired = (req, res, next) => {
 
 exports.verificarFichaPreenchida = async (req, res, next) => {
     try {
-        const userId = req.session.user.id;
+          // Pega o ID da URL ou da sessão
+        const userId = req.params.id || req.session.user.id;
+        
 
         // Busca a ficha pelo ID do usuário
         const ficha = await Ficha_De_Dados.findOne({ where: { userId } });
 
-        // Verifica se a flag está definida como preenchida
-        if (ficha && ficha.formulario_preenchido) {
-            req.flash('info', 'Você já preencheu sua ficha.');
-            return res.redirect('/sessao');
+         if (ficha && ficha.formulario_preenchido) {
+            req.flash('info', 'Ficha já preenchida.');
+            return res.redirect(`/sessao/novo/${userId}`);
         }
 
         next(); // Permite o acesso à rota do formulário

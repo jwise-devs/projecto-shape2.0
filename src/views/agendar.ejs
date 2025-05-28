@@ -16,7 +16,7 @@
 
                         <%- include('includes/messeges') %>
 
-                        <form action="/agendar/data" method="post">
+                        <form action=" <%= user.role === 'desk' || user.role === 'admin' ? '/agendar/data/'+ usuario.id : '/agendar/data'%> " method="post">
 
 
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -507,6 +507,9 @@
 
 
                             <button type="submit" class="btn btn-primary my-3">Salvar</button>
+                            <% if(user && (user.role === 'desk' || user.role === 'admin')) {%>
+                            <a href="/clientes" class="btn btn-primary">Voltar</a>
+                            <%}%>
                         </form>
 
 
