@@ -31,6 +31,11 @@ class Tratamentos extends Model {
                     allowNull: false,
                 },
 
+                sessoesPrevistas: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                },
+
                 // Chave estrangeira para Sessao
                 sessaoId: {
                     type: DataTypes.INTEGER,
@@ -66,7 +71,7 @@ class Tratamentos extends Model {
         // Associação de Sessao com Tratamentos: Cada Sessao pode ter muitos Tratamentos
         this.hasMany(models.Tratamentos, { foreignKey: 'sessaoId', as: 'tratamentos' });
     }
-    
+
 }
 
 module.exports = Tratamentos;

@@ -1,213 +1,303 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <%- include('includes/head') %>
-<title>Sessão</title>
+<title>Sessao</title>
 
 <body>
-  <%- include('includes/navbar') %>
-  <div class="container">
+<%- include('includes/navbar') %>
+<div class="container">
     <div class="row">
-      <div class="col-lg-2"></div>
+        <div class="col-lg-2"></div>
 
-      <div class="col-lg-8 my-3">
-        <h1 class="text-center">Sessão</h1>
-        <p class="text-center lead">Preencha os seus dados</p>
+        <div class="col-lg-8 my-3">
+            <h1 class="text-center">Sessao</h1>
+            <p class="text-center lead">Preencha os seus dados</p>
 
-        <%- include('includes/messeges') %>
+            <%- include('includes/messeges') %>
 
-        <form action="<%= user.role === 'desk' || user.role === 'admin' ? '/sessao/novo/data/' + usuarioId : '/sessao/data' %>" method="post">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <form action="<%= user.role === 'desk' || user.role === 'admin' ? '/sessao/novo/data/' + usuarioId : '/sessao/data' %>" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-          <!-- Usar Pacote -->
-          <div class="container mt-4">
-            <label for="usarPacoteSessao" class="form-label">Deseja escolher um pacote de sessão?</label>
-            <select id="usarPacoteSessao" class="form-select" name="usarPacoteSessao">
-              <option value="nao" selected>Não</option>
-              <option value="sim">Sim</option>
-            </select>
-          </div>
+                <% if (user && (user.role === 'desk' || user.role === 'admin')) { %>
+                    <div class="container mt-4">
+                        <label for="modoPersonalizado" class="form-label">Modo de Criação</label>
+                        <select id="modoPersonalizado" class="form-select">
+                            <option value="normal" selected>Modo Normal</option>
+                            <option value="personalizado">Pacote Personalizado</option>
+                        </select>
+                    </div>
 
-          <!-- Selecionar Pacote -->
-          <div class="container mt-4">
-            <label for="pacote" class="form-label">Pacote</label>
-            <select class="form-select" id="pacote" name="pacote" disabled>
-              <option value="" disabled selected>Selecione um pacote</option>
-              <% pacotes.forEach(pacote => { %>
-                <option value="<%= pacote %>"><%= pacote %></option>
-              <% }); %>
-            </select>
-          </div>
+                    <div class="container mt-4 d-none" id="pacotePersonalizadoContainer">
+                        <label for="nomePacotePersonalizado" class="form-label">Nome do Pacote Personalizado</label>
+                        <input type="text" class="form-control" id="nomePacotePersonalizado" name="pacotePersonalizado">
+                    </div>
 
-          <!-- Subpacote -->
-          <div class="mb-3 d-none container mt-4" id="subpacote-container">
-            <label for="subpacote" class="form-label">Subpacote</label>
-            <select class="form-select" id="subpacote" name="subpacote">
-              <option value="" disabled selected>Selecione um subpacote</option>
-            </select>
-          </div>
+                    <div class="container mt-4 d-none" id="tratamentosPersonalizadosContainer">
+                        <label for="tratamentosPersonalizados" class="form-label">Tratamentos</label>
+                        <select multiple class="form-select" id="tratamentosPersonalizados" name="tratamentos[]">
+                            <% tratamentos.forEach(tratamento => { %>
+                                <option value="<%= tratamento.nome %>" data-preco="<%= tratamento.preco %>">
+                                    <%= tratamento.nome %> - R$ <%= tratamento.preco.toFixed(2) %>
+                                </option>
+                            <% }); %>
+                        </select>
+                        <div class="form-text">Segure CTRL (ou CMD) para selecionar vários tratamentos.</div>
+                    </div>
+                <% } %>
 
-          <!-- Tratamentos do Pacote/Subpacote -->
-          <div class="container mt-5 d-none" id="tratamentos-container">
-            <label for="tratamentos" class="form-label">Tratamentos do Pacote/Subpacote</label>
-            <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
-              <option value="" disabled>Selecione um pacote primeiro</option>
-            </select>
-            <div class="form-text">Segure CTRL (ou CMD) para selecionar vários.</div>
-          </div>
+                <!-- Formulário modo normal -->
+                <div id="modoNormalContainer">
+                    <div class="container mt-4">
+                        <label for="usarPacoteSessao" class="form-label">Deseja escolher um pacote de sessão?</label>
+                        <select id="usarPacoteSessao" class="form-select" name="usarPacoteSessao">
+                            <option value="nao" selected>Não</option>
+                            <option value="sim">Sim</option>
+                        </select>
+                    </div>
 
-          <!-- Tratamentos livres sempre disponíveis -->
-          <div class="container mt-5" id="tratamentos-livres-container">
-            <label for="tratamentosLivres" class="form-label">Tratamentos Livres</label>
-            <select class="form-select" id="tratamentosLivres" name="tratamentosLivres[]" multiple>
-              <% tratamentos.forEach(trat => { %>
-                <option value="<%= trat.nome %>" data-preco="<%= trat.preco %>">
-                  <%= trat.nome %> - R$ <%= parseFloat(trat.preco).toFixed(2) %>
-                </option>
-              <% }); %>
-            </select>
-            <div class="form-text">Você pode escolher tratamentos diretamente sem pacote.</div>
-          </div>
+                    <div class="container mt-4">
+                        <label for="pacote" class="form-label">Pacote</label>
+                        <select class="form-select" id="pacote" name="pacote">
+                            <option value="" disabled selected>Selecione uma categoria</option>
+                            <% pacotes.forEach(pacote => { %>
+                            <option value="<%= pacote %>"><%= pacote %></option>
+                            <% }); %>
+                        </select>
+                    </div>
 
-          <!-- Data da consulta -->
-          <div class="mb-3 my-3">
-            <label class="form-label">Data e Hora de Consulta</label>
-            <input type="datetime-local" class="form-control" name="data_hora_consulta" value="">
-          </div>
+                    <div class="mb-3 d-none container mt-4" id="subpacote-container">
+                        <label for="subpacote" class="form-label">Subpacote</label>
+                        <select class="form-select" id="subpacote" name="subpacote">
+                            <option value="" disabled selected>Selecione uma subcategoria</option>
+                        </select>
+                    </div>
 
-          <!-- Preço e envio -->
-          <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
-          <p class="mt-3"><strong>Total: <span id="precoTotal">0.00</span> MT</strong></p>
+                    <div class="container mt-5" id="tratamentos-container">
+                        <label for="tratamentos" class="form-label">Tratamento</label>
+                        <select class="form-select" id="tratamentos" name="tratamentos[]" multiple disabled>
+                            <option value="" disabled>Selecione um pacote primeiro</option>
+                        </select>
+                        <div class="form-text">Segure CTRL (ou CMD) para selecionar vários produtos.</div>
+                    </div>
+                </div>
 
-          <div id="tratamentosData" data-tratamentos='<%= JSON.stringify(tratamentos) %>' style="display: none;"></div>
+                <div class="mb-3 my-3">
+                    <label class="form-label">Data e Hora de Consulta</label>
+                    <input type="datetime-local" class="form-control" name="data_hora_consulta" value="">
+                </div>
 
-          <button type="submit" class="btn btn-primary my-3">Salvar</button>
-          <% if(user && (user.role === 'desk' || user.role === 'admin')) { %>
-            <a href="/clientes" class="btn btn-primary">Voltar</a>
-          <% } %>
-        </form>
-      </div>
+                <input type="hidden" name="preco_tratamentos" id="preco_tratamentos">
+                <div id="tratamentosData" data-tratamentos='<%= JSON.stringify(tratamentos) %>' style="display: none;"></div>
 
-      <div class="col-lg-2"></div>
+                <p class="mt-3"><strong>Total: <span id="precoTotal">0.00</span></strong> MT</p>
+
+                <button type="submit" class="btn btn-primary my-3">Salvar</button>
+                
+                <% if(user && (user.role === 'desk' || user.role === 'admin')) { %>
+                    <a href="/clientes" class="btn btn-primary">Voltar</a>
+                <% } %>
+            </form>
+        </div>
+
+        <div class="col-lg-2"></div>
     </div>
-  </div>
+</div>
 
-  <%- include('includes/script') %>
+<%- include('includes/script') %>
 
-  <script>
+<script>
     document.addEventListener("DOMContentLoaded", () => {
-      const usarPacoteSessao = document.getElementById("usarPacoteSessao");
-      const categoriaSelect = document.getElementById("pacote");
-      const subSelect = document.getElementById("subpacote");
-      const subContainer = document.getElementById("subpacote-container");
-      const tratamentosContainer = document.getElementById("tratamentos-container");
-      const tratamentosLivresSelect = document.getElementById("tratamentosLivres");
-      const tratamentosSelect = document.getElementById("tratamentos");
-      const precoTotalText = document.getElementById("precoTotal");
-      const precoInput = document.getElementById("preco_tratamentos");
+        const categoriaSelect = document.getElementById("pacote");
+        const subcategoriaContainer = document.getElementById("subpacote-container");
+        const subcategoriaSelect = document.getElementById("subpacote");
+        const produtosSelect = document.getElementById("tratamentos");
+        const precoInput = document.getElementById("preco_tratamentos");
+        const precoTotalText = document.getElementById("precoTotal");
+        const usarPacoteSessao = document.getElementById("usarPacoteSessao");
+        const tratamentosContainer = document.getElementById("tratamentos-container");
 
-      const tratamentosData = JSON.parse(document.getElementById("tratamentosData").dataset.tratamentos);
-      const dados = {};
+        const tratamentosDataElement = document.getElementById("tratamentosData");
+        const tratamentosData = JSON.parse(tratamentosDataElement.getAttribute("data-tratamentos"));
 
-      tratamentosData.forEach(t => {
-        if (!dados[t.pacote]) dados[t.pacote] = { produtos: [], subpacotes: {} };
-
-        if (t.subpacote && t.subpacote !== "Nenhum subpacote") {
-          if (!dados[t.pacote].subpacotes[t.subpacote]) dados[t.pacote].subpacotes[t.subpacote] = [];
-          dados[t.pacote].subpacotes[t.subpacote].push({ text: t.nome, value: t.nome, preco: parseFloat(t.preco) });
-        } else {
-          dados[t.pacote].produtos.push({ text: t.nome, value: t.nome, preco: parseFloat(t.preco) });
-        }
-      });
-
-      function atualizarTratamentos(tratamentos) {
-        tratamentosSelect.innerHTML = "";
-        tratamentos.forEach(t => {
-          const opt = document.createElement("option");
-          opt.value = t.value;
-          opt.textContent = `${t.text} - R$ ${t.preco.toFixed(2)}`;
-          opt.dataset.preco = t.preco;
-          tratamentosSelect.appendChild(opt);
-        });
-        tratamentosSelect.disabled = false;
-      }
-
-      function calcularTotal() {
-        let total = 0;
-        const precos = [];
-
-        [...tratamentosSelect.selectedOptions, ...tratamentosLivresSelect.selectedOptions].forEach(opt => {
-          const preco = parseFloat(opt.dataset.preco);
-          if (!isNaN(preco)) {
-            total += preco;
-            precos.push(preco);
-          }
+        const dados = {};
+        tratamentosData.forEach(tratamento => {
+            if (!dados[tratamento.pacote]) dados[tratamento.pacote] = {};
+            if (tratamento.subpacote && tratamento.subpacote.trim() !== "" && tratamento.subpacote !== "Nenhum subpacote") {
+                if (!dados[tratamento.pacote].subpacotes) dados[tratamento.pacote].subpacotes = {};
+                if (!dados[tratamento.pacote].subpacotes[tratamento.subpacote]) dados[tratamento.pacote].subpacotes[tratamento.subpacote] = [];
+                dados[tratamento.pacote].subpacotes[tratamento.subpacote].push({
+                    value: tratamento.nome,
+                    text: tratamento.nome,
+                    preco: parseFloat(tratamento.preco) || 0
+                });
+            } else {
+                if (!dados[tratamento.pacote].produtos) dados[tratamento.pacote].produtos = [];
+                dados[tratamento.pacote].produtos.push({
+                    value: tratamento.nome,
+                    text: tratamento.nome,
+                    preco: parseFloat(tratamento.preco) || 0
+                });
+            }
         });
 
-        precoTotalText.textContent = total.toFixed(2);
-        precoInput.value = JSON.stringify(precos);
-      }
+        function atualizarTratamentosSelecionados(tratamentos) {
+            produtosSelect.innerHTML = "";
+            let total = 0;
+            let precosTratamentos = [];
 
-      usarPacoteSessao.addEventListener("change", () => {
-        const usar = usarPacoteSessao.value === "sim";
+            tratamentos.forEach(produto => {
+                const option = document.createElement("option");
+                option.value = produto.value;
+                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                option.dataset.preco = produto.preco;
+                option.selected = true;
+                produtosSelect.appendChild(option);
 
-        if (usar) {
-          categoriaSelect.disabled = false;
-          tratamentosContainer.classList.remove("d-none");
-        } else {
-          categoriaSelect.value = "";
-          categoriaSelect.disabled = true;
-          subSelect.innerHTML = "";
-          tratamentosSelect.innerHTML = "";
-          tratamentosSelect.disabled = true;
-          subContainer.classList.add("d-none");
-          tratamentosContainer.classList.add("d-none");
+                total += produto.preco;
+                precosTratamentos.push(produto.preco);
+            });
+
+            precoInput.value = JSON.stringify(precosTratamentos);
+            precoTotalText.textContent = total.toFixed(2);
         }
 
-        calcularTotal();
-      });
+        categoriaSelect?.addEventListener("change", () => {
+            const categoriaSelecionada = categoriaSelect.value;
+            const modoPacoteSessao = usarPacoteSessao.value === "sim";
 
-      categoriaSelect.addEventListener("change", () => {
-        const pacote = categoriaSelect.value;
-        const subpacotes = dados[pacote]?.subpacotes;
-        const produtos = dados[pacote]?.produtos || [];
+            subcategoriaSelect.innerHTML = "";
+            produtosSelect.innerHTML = "";
+            produtosSelect.disabled = true;
 
-        subSelect.innerHTML = "";
-        tratamentosSelect.innerHTML = "";
+            if (dados[categoriaSelecionada]) {
+                if (modoPacoteSessao) {
+                    subcategoriaContainer.classList.add("d-none");
+                    subcategoriaSelect.disabled = true;
+                    tratamentosContainer.classList.remove("d-none");
+                    produtosSelect.disabled = false;
 
-        if (subpacotes && Object.keys(subpacotes).length > 0) {
-          subContainer.classList.remove("d-none");
-          const opt = document.createElement("option");
-          opt.value = "";
-          opt.disabled = true;
-          opt.selected = true;
-          opt.textContent = "Selecione um subpacote";
-          subSelect.appendChild(opt);
+                    const todosTratamentos = [
+                        ...(dados[categoriaSelecionada].produtos || []),
+                        ...Object.values(dados[categoriaSelecionada].subpacotes || {}).flat()
+                    ];
 
-          Object.keys(subpacotes).forEach(sub => {
-            const opt = document.createElement("option");
-            opt.value = sub;
-            opt.textContent = sub;
-            subSelect.appendChild(opt);
-          });
+                    atualizarTratamentosSelecionados(todosTratamentos);
+                } else {
+                    const possuiSubpacotes = dados[categoriaSelecionada].subpacotes && Object.keys(dados[categoriaSelecionada].subpacotes).length > 0;
 
-          subSelect.disabled = false;
-        } else {
-          subContainer.classList.add("d-none");
-          subSelect.disabled = true;
-          atualizarTratamentos(produtos);
-        }
-      });
+                    if (possuiSubpacotes) {
+                        subcategoriaContainer.classList.remove("d-none");
+                        subcategoriaSelect.disabled = false;
+                        subcategoriaSelect.innerHTML = `<option value="" disabled selected>Selecione uma subcategoria</option>`;
 
-      subSelect.addEventListener("change", () => {
-        const pacote = categoriaSelect.value;
-        const sub = subSelect.value;
-        const tratamentos = dados[pacote]?.subpacotes[sub] || [];
-        atualizarTratamentos(tratamentos);
-      });
+                        Object.keys(dados[categoriaSelecionada].subpacotes).forEach(subcategoria => {
+                            const option = document.createElement("option");
+                            option.value = subcategoria;
+                            option.textContent = subcategoria.charAt(0).toUpperCase() + subcategoria.slice(1);
+                            subcategoriaSelect.appendChild(option);
+                        });
 
-      tratamentosSelect.addEventListener("change", calcularTotal);
-      tratamentosLivresSelect.addEventListener("change", calcularTotal);
+                        subcategoriaSelect.addEventListener("change", () => {
+                            produtosSelect.innerHTML = "";
+                            produtosSelect.disabled = false;
+
+                            const subcategoriaSelecionada = subcategoriaSelect.value;
+                            const produtos = dados[categoriaSelecionada].subpacotes[subcategoriaSelecionada];
+
+                            produtos.forEach(produto => {
+                                const option = document.createElement("option");
+                                option.value = produto.value;
+                                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                option.dataset.preco = produto.preco;
+                                produtosSelect.appendChild(option);
+                            });
+                        });
+                    } else {
+                        subcategoriaContainer.classList.add("d-none");
+                        subcategoriaSelect.disabled = true;
+                        produtosSelect.disabled = false;
+
+                        if (dados[categoriaSelecionada].produtos) {
+                            dados[categoriaSelecionada].produtos.forEach(produto => {
+                                const option = document.createElement("option");
+                                option.value = produto.value;
+                                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                option.dataset.preco = produto.preco;
+                                produtosSelect.appendChild(option);
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        produtosSelect.addEventListener("change", () => {
+            let precosTratamentos = [];
+            let total = 0;
+
+            Array.from(produtosSelect.selectedOptions).forEach(option => {
+                const preco = parseFloat(option.dataset.preco);
+                if (!isNaN(preco)) {
+                    precosTratamentos.push(preco);
+                    total += preco;
+                }
+            });
+
+            precoInput.value = JSON.stringify(precosTratamentos);
+            precoTotalText.textContent = total.toFixed(2);
+        });
+
+        usarPacoteSessao?.addEventListener("change", () => {
+            const isPacoteSessao = usarPacoteSessao.value === "sim";
+            subcategoriaContainer.classList.add("d-none");
+            subcategoriaSelect.disabled = true;
+            produtosSelect.innerHTML = "";
+            precoInput.value = "";
+            precoTotalText.textContent = "0.00";
+
+            if (isPacoteSessao) {
+                tratamentosContainer.classList.add("d-none");
+            } else {
+                tratamentosContainer.classList.remove("d-none");
+            }
+
+            categoriaSelect.dispatchEvent(new Event("change"));
+        });
+
+        // Lógica para alternar entre modo normal e personalizado
+        const modoPersonalizadoSelect = document.getElementById("modoPersonalizado");
+        const modoNormalContainer = document.getElementById("modoNormalContainer");
+        const pacotePersonalizadoContainer = document.getElementById("pacotePersonalizadoContainer");
+        const tratamentosPersonalizadosContainer = document.getElementById("tratamentosPersonalizadosContainer");
+        const tratamentosPersonalizadosSelect = document.getElementById("tratamentosPersonalizados");
+
+        modoPersonalizadoSelect?.addEventListener("change", () => {
+            const modo = modoPersonalizadoSelect.value;
+            const isPersonalizado = modo === "personalizado";
+
+            modoNormalContainer.classList.toggle("d-none", isPersonalizado);
+            pacotePersonalizadoContainer.classList.toggle("d-none", !isPersonalizado);
+            tratamentosPersonalizadosContainer.classList.toggle("d-none", !isPersonalizado);
+
+            if (isPersonalizado) {
+                tratamentosPersonalizadosSelect.addEventListener("change", () => {
+                    let precos = [];
+                    let total = 0;
+
+                    Array.from(tratamentosPersonalizadosSelect.selectedOptions).forEach(option => {
+                        const preco = parseFloat(option.dataset.preco);
+                        if (!isNaN(preco)) {
+                            precos.push(preco);
+                            total += preco;
+                        }
+                    });
+
+                    precoInput.value = JSON.stringify(precos);
+                    precoTotalText.textContent = total.toFixed(2);
+                });
+            }
+        });
     });
-  </script>
+</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 const Sessao = require("../model/Sessao");
 const Usuario = require("../model/Usuario");
 const SessaoTratamentoData = require("../model/SessaoTratamentoData");
+const Tratamento = require("../model/Tratamentos"); // importe seu model Tratamento
 
 exports.index = async (req, res) => {
   try {
@@ -53,10 +54,22 @@ exports.index = async (req, res) => {
       });
     });
 
+    // Buscar sessoesPrevistas para cada tratamento
+    const sessoesPrevistasMap = {};
+    for (const tratamentoNome of sessao.tratamentosArray) {
+      const tratamentoDB = await Tratamento.findOne({
+        where: { nome: tratamentoNome },
+        attributes: ['sessoesPrevistas']
+      });
+      // Se não achar, considerar 0 para evitar erro
+      sessoesPrevistasMap[tratamentoNome] = tratamentoDB ? tratamentoDB.sessoesPrevistas : 0;
+    }
+
     res.render('progresso', {
       sessao,
       usuario,
-      tratamentoDatas
+      tratamentoDatas,
+      sessoesPrevistasMap
     });
 
   } catch (error) {

@@ -15,7 +15,7 @@
 
             <%- include('includes/messeges') %>
 
-            <form action="/sessao/data" method="post">
+             <form action="<%= user.role === 'desk' || user.role === 'admin' ? '/sessao/novo/data/' + usuarioId : '/sessao/data' %>" method="post">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
                 <!-- NOVO: Opção de pacote de sessão -->
@@ -64,6 +64,10 @@
                 <p class="mt-3"><strong>Total: <span id="precoTotal">0.00</span></strong> MT</p>
 
                 <button type="submit" class="btn btn-primary my-3">Salvar</button>
+                button>
+          <% if(user && (user.role === 'desk' || user.role === 'admin')) { %>
+            <a href="/clientes" class="btn btn-primary">Voltar</a>
+          <% } %>
             </form>
         </div>
 

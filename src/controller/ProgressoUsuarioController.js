@@ -1,18 +1,19 @@
 const Sessao = require("../model/Sessao");
 const Usuario = require("../model/Usuario");
 const SessaoTratamentoData = require("../model/SessaoTratamentoData");
+const Tratamento = require("../model/Tratamentos"); // importe seu model de tratamento
 
 exports.index = async (req, res) => {
   try {
     const usuarioId = req.params.id;
 
-    // Busca o usuário para mostrar o nome
+    // Busca usuário
     const usuario = await Usuario.findOne({
       where: { id: usuarioId },
       attributes: ['nome']
     });
 
-    // Busca a sessão Pendente e garante trazer tratamentosArray
+    // Busca sessão Pendente
     const sessao = await Sessao.findOne({
       where: {
         userId: usuarioId,
@@ -26,12 +27,12 @@ exports.index = async (req, res) => {
       return res.redirect('back');
     }
 
-    // Parse do tratamentosArray, se estiver em string
+    // Parse tratamentosArray
     if (sessao.tratamentosArray && typeof sessao.tratamentosArray === 'string') {
       sessao.tratamentosArray = JSON.parse(sessao.tratamentosArray);
     }
 
-    // Busca as datas de comparecimento para o usuário
+    // Busca datas de comparecimento
     const datas = await SessaoTratamentoData.findAll({
       where: { usuarioId }
     });
@@ -46,19 +47,30 @@ exports.index = async (req, res) => {
       if (!tratamentoDatas[tratamento]) {
         tratamentoDatas[tratamento] = [];
       }
-
-      tratamentoDatas[tratamento].push({
-        data,
-        compareceu
-      });
+      tratamentoDatas[tratamento].push({ data, compareceu });
     });
+
+    // Busca sessões previstas para cada tratamento que está na sessao.tratamentosArray
+    // Importante: Buscar no model Tratamento pelo nome (ou pelo campo que você tiver)
+    const tratamentosInfo = {}; // { nomeTratamento: { sessoesPrevistas, datasTratamento } }
+    for (const nomeTratamento of sessao.tratamentosArray) {
+      const tratamentoDB = await Tratamento.findOne({
+        where: { nome: nomeTratamento },
+        attributes: ['sessoesPrevistas']
+      });
+
+      tratamentosInfo[nomeTratamento] = {
+        sessoesPrevistas: tratamentoDB ? tratamentoDB.sessoesPrevistas : 0,
+        datasTratamento: tratamentoDatas[nomeTratamento] || []
+      };
+    }
 
     const mostrarTratamentos = sessao.status === 'Pendente';
 
     res.render('progressoUsuario', {
       sessao,
       usuario,
-      tratamentoDatas,
+      tratamentosInfo,
       mostrarTratamentos,
       csrfToken: req.csrfToken()
     });

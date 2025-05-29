@@ -69,15 +69,33 @@ exports.data = async (req, res) => {
 exports.novaSessao = async (req, res) => {
     try {
         const usuarioId = req.params.usuarioId;
+
         // Buscar tratamentos normalmente
         const tratamentosData = await Tratamentos.findAll({
             where: { pacote: { [Op.ne]: 'consulta_em_casa' } }
         });
-        const tratamentos = tratamentosData.map(t => t.get({ plain: true }));
 
-        const pacotes = [...new Set(tratamentos.map(t => t.pacote))];
+        // Nova lógica: inclui tratamentos com mesmo nome, mas apenas se o preço for diferente
+        const tratamentosFiltrados = [];
 
-        res.render('sessao', { tratamentos, pacotes, csrfToken: req.csrfToken(), usuarioId });
+        tratamentosData.forEach(t => {
+            const plain = t.get({ plain: true });
+            const nome = plain.nome;
+            const preco = Number(plain.preco);
+
+            const existente = tratamentosFiltrados.find(trat => trat.nome === nome && Number(trat.preco) === preco);
+
+            if (!existente) {
+                tratamentosFiltrados.push({
+                    ...plain,
+                    preco
+                });
+            }
+        });
+
+        const pacotes = [...new Set(tratamentosFiltrados.map(t => t.pacote))];
+
+        res.render('sessao', { tratamentos: tratamentosFiltrados, pacotes, csrfToken: req.csrfToken(), usuarioId });
     } catch (error) {
         console.error(error);
         req.flash('error', 'Erro ao carregar tratamentos.');
@@ -85,10 +103,11 @@ exports.novaSessao = async (req, res) => {
     }
 };
 
+
 exports.criarSessaoParaUsuario = async (req, res) => {
     try {
         const usuarioId = req.params.usuarioId;
-        const { pacote, subpacote, tratamentos, data_hora_consulta } = req.body;
+        const { pacotePersonalizado, pacote, subpacote, tratamentos, data_hora_consulta } = req.body;
 
         if (!data_hora_consulta) {
             req.flash('error', 'Por favor, forneça a data e hora da consulta.');
@@ -100,8 +119,17 @@ exports.criarSessaoParaUsuario = async (req, res) => {
 
         const totalPreco = precosTratamentos.reduce((a, b) => a + b, 0).toFixed(2);
 
+        let resultado = pacote;
+        if (!resultado || resultado.trim() === '') {
+            resultado = pacotePersonalizado && pacotePersonalizado.trim() !== '' ? pacotePersonalizado : 'Personalizado';
+        }
+
+        console.log("PACOTE FINAL:", resultado);
+
+
+
         const sessao = await Sessao.create({
-            pacote,
+            pacote: resultado,
             subpacote,
             tratamentosArray: tratamentosJSON,
             data_hora_consulta,

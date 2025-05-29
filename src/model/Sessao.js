@@ -61,6 +61,7 @@ class Sessao extends Model {
                     defaultValue: 0,
                 },
 
+
                 created_at: {
                     type: DataTypes.DATE,
                     allowNull: false,

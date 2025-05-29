@@ -43,6 +43,7 @@ module.exports = {
         allowNull: true,
       },
 
+
       created_at: {
         type: DataTypes.DATE,
         allowNull: false,

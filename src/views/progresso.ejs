@@ -1,52 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('includes/head') %>
-<title>Progresso</title>
+  <title>Progresso</title>
 
-<body>
-  <%- include('includes/navbar') %>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-2"></div>
-      <div class="col-lg-8 my-3">
-        <h1 class="text-center">Seu Progresso</h1>
+  <body>
+    <%- include('includes/navbar') %>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2"></div>
+          <div class="col-lg-8 my-3">
+            <h1 class="text-center">Seu Progresso</h1>
 
-        <% if (sessao && sessao.tratamentosArray && sessao.tratamentosArray.length > 0) { %>
-          <% sessao.tratamentosArray.forEach(tratamento => {
-            const datasTratamento = tratamentoDatas[tratamento] || [];
-            const total = datasTratamento.length;
-            const concluidos = datasTratamento.filter(dt => dt.compareceu).length;
-            const progresso = total > 0 ? Math.round((concluidos / total) * 100) : 0;
-          %>
-            <div class="card my-3">
-              <div class="card-body">
-                <h5 class="card-title"><%= tratamento %></h5>
+            <% if (sessao && sessao.tratamentosArray && sessao.tratamentosArray.length> 0) { %>
+              <% sessao.tratamentosArray.forEach(tratamento=> {
+                const datasTratamento = tratamentoDatas[tratamento] || [];
+                const concluidos = datasTratamento.filter(dt => dt.compareceu).length;
+                const totalPrevisto = sessoesPrevistasMap[tratamento] || 0;
+                // Evita divisão por zero
+                const progresso = totalPrevisto > 0 ? Math.round((concluidos / totalPrevisto) * 100) : 0;
+                %>
+                <div class="card my-3">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= tratamento %>
+                    </h5>
 
-                <p>
-                  <strong><%= concluidos %></strong> de <strong><%= total %></strong> sessões concluídas
-                </p>
+                    <p>
+                      <strong>
+                        <%= concluidos %>
+                      </strong> de <strong>
+                        <%= totalPrevisto %>
+                      </strong> sessões previstas
+                    </p>
 
-                <div class="progress">
-                  <div class="progress-bar bg-success" role="progressbar" style="width: <%= progresso %>%;" aria-valuenow="<%= progresso %>" aria-valuemin="0" aria-valuemax="100">
-                    <%= progresso %>%
+                    <div class="progress">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: <%= progresso %>%;"
+                        aria-valuenow="<%= progresso %>" aria-valuemin="0" aria-valuemax="100">
+                        <%= progresso %>%
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          <% }); %>
-        <% } else { %>
-          <p class="text-center text-muted">Nenhum tratamento encontrado para este cliente.</p>
-        <% } %>
+                <% }); %>
+                  <% } else { %>
+                    <p class="text-center text-muted">Nenhum tratamento encontrado para este cliente.</p>
+                    <% } %>
 
-        <div class="text-center mt-4">
-          <a href="/perfil" class="btn btn-primary">Voltar ao Perfil</a>
+                      <div class="text-center mt-4">
+                        <a href="/perfil" class="btn btn-primary">Voltar ao Perfil</a>
+                      </div>
+
+          </div>
+          <div class="col-lg-2"></div>
         </div>
-
       </div>
-      <div class="col-lg-2"></div>
-    </div>
-  </div>
 
-  <%- include('includes/script') %>
-</body>
+      <%- include('includes/script') %>
+  </body>
+
 </html>
