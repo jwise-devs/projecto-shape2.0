@@ -44,6 +44,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Serve arquivos estáticos da pasta uploads/images
 app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')));
 
+// No server.js:
+
+
+
 // Use o body-parser para lidar com requisições JSON
 app.use(bodyParser.json());
 
@@ -145,6 +149,7 @@ app.set('view cache', false); // Desabilita o cache de views
 app.use(middlewareGlobal);
 app.use(checkCsrfError);
 app.use(csrfMiddleware);
+
 
 app.use(homeRoute);
 app.use(sobreRoute);

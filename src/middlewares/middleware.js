@@ -7,7 +7,6 @@ exports.checkCsrfError = (err,req,res,next) => {
 }
 
 exports.middlewareGlobal = (req, res, next) => {
-    console.log("Usuário na sessão:", req.session.user); // 👀 Verifica se o usuário está sendo passado
     res.locals.user = req.session.user || null;
     res.locals.messages = {
         success: req.flash('success'),

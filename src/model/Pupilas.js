@@ -25,7 +25,13 @@ class Pupila extends Model {
                 endereco: {
                     type: DataTypes.STRING,
                     allowNull: false
-                }
+                },
+
+                fotoPupila: {
+                    type: DataTypes.STRING,
+                    allowNull: true
+                },
+
             },
             {
                 sequelize,

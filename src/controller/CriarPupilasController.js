@@ -1,10 +1,12 @@
 const Pupilas = require('../model/Pupilas');
 const Usuario = require('../model/Usuario');
+
+
 const { Op } = require("sequelize");
+
 
 exports.index = async (req, res) => {
   const usuario = await Usuario.findOne({where:{role:'admin',id: res.locals.user.id}});
-  console.log(usuario, "Sim");
   res.render('criaPupila', {usuario});
 };
 
@@ -12,7 +14,7 @@ exports.create = async (req, res) => {
   try {
 
     const { nome, sobrenome, telefone, endereco  } = req.body;
-
+    
 
     if (!nome || !sobrenome || !telefone || !endereco) {
       req.flash('error', 'Por favor, preenche os campos:');

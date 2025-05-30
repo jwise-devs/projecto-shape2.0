@@ -42,7 +42,7 @@
                                                 <td>
                                                     <%= pupila.endereco %>
                                                 </td>
-                                                <% if(typeof usuario !=='undefined' && usuario) {%>
+                                                <% if(typeof usuario !=='undefined' && usuario && usuario.role === 'admin') {%>
 
                                                     <td><a href="/funcionarios/index/<%= pupila.id %>">Editar</a></td>
                                                     <td><a class="text-danger"
@@ -59,16 +59,17 @@
                                                         </a>
                                                     </td>
 
-                                                    <% }else{ %>
+                                                    <% }else if(typeof usuario !=='undefined' && usuario && usuario.role === 'desk'){ %>
                                                         <td><a class="text-success"
                                                                 href="/funcionarios/index/<%= pupila.id %>">Historico</a>
                                                         </td>
                                                         <td>
-                                                        <a class="text-white"
+                                                        <a class="text-yellow"
                                                             style="padding: 5px 10px; border-radius: 5px;"
                                                             href="/alocar-tratamento/<%= pupila.id %>">
                                                             Alocar
                                                         </a>
+                                                    </td>
                                                         <% } %>
                                             </tr>
 

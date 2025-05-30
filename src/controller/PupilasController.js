@@ -2,12 +2,20 @@ const Pupilas = require("../model/Pupilas");
 const { Op } = require('sequelize');  // Importa o operador Op do Sequelize
 const Usuario = require('../model/Usuario');
 
-exports.index = async (req,res) => {
+exports.index = async (req, res) => {
     try {
         // Verificar se há um valor de pesquisa
         const searchQuery = req.query.search || '';  // Pega o valor do campo de pesquisa
 
-        const usuario = await Usuario.findOne({where:{role:'admin',id: res.locals.user.id}});
+        const usuario = await Usuario.findOne({
+            where: {
+                id: res.locals.user.id,
+                role: {
+                    [Op.or]: ['admin', 'desk']
+                }
+            }
+        });
+
 
         // Fazer a busca filtrada no banco de dados
         const pupilas = await Pupilas.findAll({
@@ -52,7 +60,7 @@ exports.editIndex = async (req, res) => {
     try {
 
         const pupilaId = req.params.id;
-        const pupila = await Pupilas.findOne({where: {id: pupilaId}})
+        const pupila = await Pupilas.findOne({ where: { id: pupilaId } })
         res.render('criaPupila', { pupila });
         return;
 
@@ -68,7 +76,7 @@ exports.edit = async (req, res) => {
 
     try {
 
-        const { nome, sobrenome, telefone, endereco} = req.body; // Pega os dados do formulário de login
+        const { nome, sobrenome, telefone, endereco } = req.body; // Pega os dados do formulário de login
         const atualizacao = await Pupilas.update({
             nome,
             sobrenome,
@@ -76,7 +84,7 @@ exports.edit = async (req, res) => {
             endereco,
         },
             {
-                where : {id: req.params.id}
+                where: { id: req.params.id }
             }
         )
 
@@ -93,11 +101,11 @@ exports.edit = async (req, res) => {
 
 }
 
-exports.delete = async (req, res) =>{
+exports.delete = async (req, res) => {
     const pupilaId = req.params.id;
-    const pupila = await Pupilas.destroy({where: {id: pupilaId}})
-    if(!pupila) return res.render("404");
-   
+    const pupila = await Pupilas.destroy({ where: { id: pupilaId } })
+    if (!pupila) return res.render("404");
+
 
     req.flash('success', "Pupila apagada com sucesso");
     req.session.save(() => res.redirect(`back`));

@@ -6,13 +6,13 @@ require('dotenv').config();
 
 let transporter = nodemailer.createTransport({
     service: "gmail",
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS  // Senha de aplicativo
     },
-    tls: {
-        rejectUnauthorized: false // Ignora o erro do certificado autoassinado
-    }
 });
 
 exports.index = async (req, res) => {
@@ -21,7 +21,7 @@ exports.index = async (req, res) => {
         const usuario = await Usuario.findByPk(usuarioId);
 
         // Busca os tratamentos do banco de dados
-        const tratamentosData = await Tratamentos.findAll({where: {pacote: "consulta_em_casa"}});
+        const tratamentosData = await Tratamentos.findAll({ where: { pacote: "consulta_em_casa" } });
 
         // Converte as instâncias para dados puros
         const tratamentos = tratamentosData.map(tratamento => tratamento.get({ plain: true }));
@@ -32,7 +32,7 @@ exports.index = async (req, res) => {
         res.render('consultaemcasa', {
             locationSaved: !!usuario.localizacao,
             localizacao: usuario.localizacao || '',
-            tratamentos: tratamentos, 
+            tratamentos: tratamentos,
             pacotes: pacotes,
             csrfToken: req.csrfToken(),
             success: req.flash('success')[0] || null, // Garante que sempre tenha um valor
@@ -68,14 +68,14 @@ exports.solicitarServico = async (req, res) => {
     try {
         const usuarioId = res.locals.user.id;
         const usuario = await Usuario.findByPk(usuarioId);
-        
+
 
         const { pacote, subpacote, tratamentos, preco_tratamentos, localizacao } = req.body;
 
         // Se tratamentos for uma string, converta-a para um array
         const tratamentosJSON = Array.isArray(tratamentos) ? tratamentos : [tratamentos];
 
-         await Usuario.update({ localizacao }, { where: { id: usuarioId } });
+        await Usuario.update({ localizacao }, { where: { id: usuarioId } });
 
         if (!usuario) {
             req.flash('error', 'Usuário não encontrado!');
@@ -91,15 +91,15 @@ exports.solicitarServico = async (req, res) => {
         }
 
         // Criar a sessão no banco de dados
-                const sessao = await Sessao.create({
-                    pacote,
-                    subpacote,
-                    tratamentosArray: tratamentosJSON, // Salvar os nomes dos tratamentos na Sessao
-                    data_hora_consulta: new Date(),
-                    userId: usuarioId, // ID do usuário logado
-                    precoSessao: preco_tratamentos,
-                    numTotSessao: tratamentosJSON.length,
-                });
+        const sessao = await Sessao.create({
+            pacote,
+            subpacote,
+            tratamentosArray: tratamentosJSON, // Salvar os nomes dos tratamentos na Sessao
+            data_hora_consulta: new Date(),
+            userId: usuarioId, // ID do usuário logado
+            precoSessao: preco_tratamentos,
+            numTotSessao: tratamentosJSON.length,
+        });
 
         // Atualizar última solicitação
         await Usuario.update({ ultimaSolicitacao: new Date() }, { where: { id: usuarioId } });

@@ -3,6 +3,19 @@ const Pupila = require('../model/Pupilas');  // model da tabela pupila
 const Tratamentos = require('../model/Tratamentos');  // model da tabela pupila
 const ConsultaEmCasa = require('../model/ConsultaEmCasa');  // model da tabela pupila
 const { Op } = require('sequelize');
+const nodemailer = require("nodemailer");
+require('dotenv').config();
+
+let transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS  // Senha de aplicativo
+    },
+});
 
 
 exports.index = async (req, res) => {
@@ -88,6 +101,20 @@ exports.storeAlocacao = async (req, res) => {
             numero_sessao: 1,
             status: 'marcada',
         });
+
+        const mailOptions = {
+            from: `"Shape" <${process.env.EMAIL_DEST}>`,
+            to: `${process.env.EMAIL_USER}`,
+            subject: 'Consulta em Casa',
+            html: `
+                <h3>Dados da Pupila</h3>
+                <p><strong>Nome:</strong> ${pupila.nome}</p>
+                <p><strong>Sobrenome:</strong> ${pupila.sobrenome}</p>
+                <p><strong>Telefone:</strong> ${pupila.numeroCelular}</p>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
 
         req.flash('success', 'Sessão alocada com sucesso!');
         res.redirect('/funcionarios');
