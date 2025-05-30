@@ -4,6 +4,7 @@ const Tratamentos = require('../model/Tratamentos');  // model da tabela pupila
 const ConsultaEmCasa = require('../model/ConsultaEmCasa');  // model da tabela pupila
 const { Op } = require('sequelize');
 const nodemailer = require("nodemailer");
+const path = require('path');
 require('dotenv').config();
 
 let transporter = nodemailer.createTransport({
@@ -111,7 +112,14 @@ exports.storeAlocacao = async (req, res) => {
                 <p><strong>Nome:</strong> ${pupila.nome}</p>
                 <p><strong>Sobrenome:</strong> ${pupila.sobrenome}</p>
                 <p><strong>Telefone:</strong> ${pupila.numeroCelular}</p>
-            `
+                <p><strong>Foto:</strong></p>
+                <img src="cid:fotopupila" alt="Foto da Pupila" width="150">
+            `,
+            attachments: [{
+                filename: 'fotopupila.jpg',
+                path: path.join(__dirname, '..', '..', 'uploads', 'images', path.basename(pupila.fotoPupila)),
+                cid: 'fotopupila' // mesmo cid do img
+            }]
         };
 
         await transporter.sendMail(mailOptions);

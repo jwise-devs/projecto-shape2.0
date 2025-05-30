@@ -14,6 +14,8 @@ exports.create = async (req, res) => {
   try {
 
     const { nome, sobrenome, telefone, endereco  } = req.body;
+
+     const fotoPath = req.file ? `/uploads/images/${req.file.filename}` : null;
     
 
     if (!nome || !sobrenome || !telefone || !endereco) {
@@ -27,6 +29,7 @@ exports.create = async (req, res) => {
       sobrenome: sobrenome,
       numeroCelular: telefone,
       endereco: endereco,
+      fotoPupila: fotoPath // salva o caminho no banco
     })
 
     // Flash message de sucesso

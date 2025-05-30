@@ -37,7 +37,7 @@
                             <% if (typeof pupila !=='undefined' && pupila && pupila.id) {%>
                                 <h4>Editar Pupilas</h4>
                                 <form action="/funcionarios/edit/<%=pupila.id%>" method="post" class="form-cadastro"
-                                    onsubmit="return validateForm()">
+                                    onsubmit="return validateForm()" enctype="multipart/form-data">
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
                                     <div class="mb-3">
@@ -63,6 +63,24 @@
                                         <input type="text" class="form-control validar" name="endereco"
                                             value="<%= pupila.endereco %>">
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Foto da Pupila</label>
+
+                                        <% if (pupila.fotoPupila) { %>
+                                            <div class="mb-2">
+                                                <img src="/uploads/images/<%= pupila.fotoPupila %>"
+                                                    alt="Foto atual da pupila"
+                                                    style="max-width: 150px; border-radius: 8px;">
+                                            </div>
+                                            <% } else { %>
+                                                <p class="text-muted">Nenhuma foto cadastrada.</p>
+                                                <% } %>
+
+                                                    <input type="file" name="fotoPupila" class="form-control"
+                                                        accept="image/png, image/jpeg">
+                                    </div>
+
                                     <button type="submit" class="btn btn-primary">Editar</button>
 
 
@@ -71,7 +89,8 @@
                                 </form>
                                 <% }else{%>
                                     <h4>Cadastrar Pupilas</h4>
-                                    <form action="/funcionarios/create/data" method="post" class="form-cadastro">
+                                    <form action="/funcionarios/create/data" method="post" class="form-cadastro"
+                                        enctype="multipart/form-data">
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
                                         <div class="mb-3">
@@ -95,7 +114,13 @@
                                             <input type="text" class="form-control validar" name="endereco">
                                         </div>
 
-                                       
+                                        <div class="mb-3">
+                                            <label class="form-label">Foto da Pupila</label>
+                                            <input type="file" name="fotoPupila" class="form-control"
+                                                accept="image/png, image/jpeg">
+                                        </div>
+
+
 
                                         <button type="submit" class="btn btn-primary">Criar Pupila</button>
 

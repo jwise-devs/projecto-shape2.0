@@ -73,33 +73,39 @@ exports.editIndex = async (req, res) => {
 }
 
 exports.edit = async (req, res) => {
-
     try {
+        const { nome, sobrenome, telefone, endereco } = req.body;
 
-        const { nome, sobrenome, telefone, endereco } = req.body; // Pega os dados do formulário de login
-        const atualizacao = await Pupilas.update({
+        // Busca pupila existente
+        const pupila = await Pupilas.findByPk(req.params.id);
+        if (!pupila) {
+            req.flash('error', 'Pupila não encontrada.');
+            return res.redirect('/funcionarios');
+        }
+
+        // Mantém a foto antiga se nenhuma nova for enviada
+        const fotoPupila = req.file ? `/uploads/images/${req.file.filename}` : pupila.fotoPupila;
+
+        // Atualiza os dados
+        await Pupilas.update({
             nome,
             sobrenome,
             numeroCelular: telefone,
             endereco,
-        },
-            {
-                where: { id: req.params.id }
-            }
-        )
+            fotoPupila,
+        }, {
+            where: { id: req.params.id }
+        });
 
         req.flash('success', "Pupila editada com sucesso");
         req.session.save(() => res.redirect('/funcionarios'));
-        return;
-
     } catch (error) {
-        console.error('Erro ao buscar tratamentos:', error);
-        req.flash('error', 'Erro ao carregar os tratamentos.');
-        return res.redirect('back');
+        console.error('Erro ao editar pupila:', error);
+        req.flash('error', 'Erro ao editar pupila.');
+        res.redirect('back');
     }
+};
 
-
-}
 
 exports.delete = async (req, res) => {
     const pupilaId = req.params.id;

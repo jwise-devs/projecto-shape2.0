@@ -17,10 +17,12 @@ exports.middlewareGlobal = (req, res, next) => {
 
 
 // Utiliza o comando de "res.locals.crsfToken = req.csrfToken()"
-exports.csrfMiddleware = (req,res,next) =>{
+exports.csrfMiddleware = (req, res, next) => {
+  if (typeof req.csrfToken === 'function') {
     res.locals.csrfToken = req.csrfToken();
-    next();
-}
+  }
+  next();
+};
 
 exports.loginRequired = (req, res, next) => {
     if (!req.session.user) {

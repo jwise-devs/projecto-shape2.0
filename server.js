@@ -51,9 +51,10 @@ app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'image
 // Use o body-parser para lidar com requisições JSON
 app.use(bodyParser.json());
 
-const csurf = require('csurf');
+
 const session = require('express-session');
 const flash = require('connect-flash');
+const csurf = require('csurf');
 const sequelize = require('./src/database');
 
 const MySQLStore = require("express-mysql-session")(session);
@@ -142,7 +143,19 @@ app.use(express.json());
 app.use(sessionOptions);
 app.use(flash());
 
-app.use(csurf());
+// Middleware condicional para aplicar CSRF apenas onde necessário
+app.use((req, res, next) => {
+  const rotasSemCSRF = ['/funcionarios/create/data', '/fotos/upload','/funcionarios/edit']; // adicione aqui todas que quiser ignorar
+
+  if (rotasSemCSRF.some(route => req.path.startsWith(route))) {
+    return next();
+  }
+
+  // ⚠️ Garante que o csrf só será criado quando necessário e após a sessão estar ativa
+  return csurf()(req, res, next);
+});
+
+
 
 app.set('view cache', false); // Desabilita o cache de views
 
