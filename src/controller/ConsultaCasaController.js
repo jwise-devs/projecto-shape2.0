@@ -6,9 +6,9 @@ require('dotenv').config();
 
 let transporter = nodemailer.createTransport({
     service: "gmail",
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    // host: 'smtp.gmail.com',
+    // port: 465,
+    // secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS  // Senha de aplicativo
@@ -90,6 +90,8 @@ exports.solicitarServico = async (req, res) => {
             return res.redirect('/consultaemcasa');
         }
 
+        const totalFormatado = JSON.parse(preco_tratamentos || "[]").reduce((acc, val) => acc + parseFloat(val), 0).toFixed(2);
+
         // Criar a sessão no banco de dados
         const sessao = await Sessao.create({
             pacote,
@@ -97,7 +99,7 @@ exports.solicitarServico = async (req, res) => {
             tratamentosArray: tratamentosJSON, // Salvar os nomes dos tratamentos na Sessao
             data_hora_consulta: new Date(),
             userId: usuarioId, // ID do usuário logado
-            precoSessao: preco_tratamentos,
+            precoSessao: totalFormatado,
             numTotSessao: tratamentosJSON.length,
         });
 
@@ -108,7 +110,6 @@ exports.solicitarServico = async (req, res) => {
             ? tratamentos.map(t => `<li>${t}</li>`).join("")
             : `<li>${tratamentos}</li>`;
 
-        const totalFormatado = JSON.parse(preco_tratamentos || "[]").reduce((acc, val) => acc + parseFloat(val), 0).toFixed(2);
 
         const mailOptions = {
             from: `"Shape" <${process.env.EMAIL_USER}>`,
