@@ -92,12 +92,16 @@ exports.solicitarServico = async (req, res) => {
 
         const totalFormatado = JSON.parse(preco_tratamentos || "[]").reduce((acc, val) => acc + parseFloat(val), 0).toFixed(2);
 
+        const hoje2 = new Date();
+        const diaSeguinte = new Date(hoje2);
+        diaSeguinte.setDate(hoje2.getDate() + 1);
+
         // Criar a sessão no banco de dados
         const sessao = await Sessao.create({
             pacote,
             subpacote,
             tratamentosArray: tratamentosJSON, // Salvar os nomes dos tratamentos na Sessao
-            data_hora_consulta: new Date(),
+            data_hora_consulta: diaSeguinte,
             userId: usuarioId, // ID do usuário logado
             precoSessao: totalFormatado,
             numTotSessao: tratamentosJSON.length,

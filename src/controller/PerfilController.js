@@ -25,6 +25,23 @@ exports.index = async (req, res) => {
             const tresMesesDepois = new Date(dataConsulta);
             tresMesesDepois.setMonth(dataConsulta.getMonth() + 3);
 
+            // Normalizar data para comparação (apenas ano, mês, dia)
+            const hoje = new Date();
+            const dataAtual = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+            const dataConsultaNormalizada = new Date(
+                dataConsulta.getFullYear(),
+                dataConsulta.getMonth(),
+                dataConsulta.getDate()
+            );
+
+            // Se for consulta em casa e a data for hoje, marcar como Concluído
+            if (
+                sessao.pacote === 'consulta_em_casa' &&
+                dataAtual.getTime() === dataConsultaNormalizada.getTime()
+            ) {
+                await sessao.update({ status: 'Concluído' });
+            }
+
             if (agora >= tresMesesDepois && sessao.status !== 'Concluído') {
                 await sessao.update({ status: 'Concluído' });
             } else if (
