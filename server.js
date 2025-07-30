@@ -36,7 +36,7 @@ const app = express();
 
 // Configura o EJS como mecanismo de template
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, "src",'views'));
+app.set('views', path.join(__dirname, "src", 'views'));
 
 // Serve arquivos estáticos (CSS, JS) da pasta public
 app.use(express.static(path.join(__dirname, 'public')));
@@ -59,7 +59,7 @@ const sequelize = require('./src/database');
 
 const MySQLStore = require("express-mysql-session")(session);
 
-const {middlewareGlobal,checkCsrfError,csrfMiddleware} = require("./src/middlewares/middleware");
+const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require("./src/middlewares/middleware");
 
 // Configuração da conexão com o banco MySQL
 const sessionStore = new MySQLStore({
@@ -85,46 +85,46 @@ const sessionOptions = session({
 // Função para criar o administrador ao iniciar o programa
 const createAdminUser = async () => {
   try {
-      const [admin, created] = await User.findOrCreate({
-          where: { role: 'admin' }, // Verifica se já existe um administrador
-          defaults: {
-              nome: 'Willton',
-              email: 'willton@gmail.com',
-              role: 'admin',
-              password: '123456',
-          }
-      });
-
-      if (created) {
-          console.log("Administrador criado com sucesso!");
-      } else {
-          console.log("Administrador já existe.");
+    const [admin, created] = await User.findOrCreate({
+      where: { role: 'admin' }, // Verifica se já existe um administrador
+      defaults: {
+        nome: 'Willton',
+        email: 'willton@gmail.com',
+        role: 'admin',
+        password: '123456',
       }
+    });
+
+    if (created) {
+      console.log("Administrador criado com sucesso!");
+    } else {
+      console.log("Administrador já existe.");
+    }
   } catch (error) {
-      console.error("Erro ao criar administrador:", error);
+    console.error("Erro ao criar administrador:", error);
   }
 };
 
 // Função para criar o desk ao iniciar o programa
 const createDeskUser = async () => {
   try {
-      const [desk, created] = await User.findOrCreate({
-          where: { role: 'desk' }, // Verifica se já existe um administrador
-          defaults: {
-              nome: 'willas',
-              email: 'willas@gmail.com',
-              role: 'desk',
-              password: '123456',
-          }
-      });
-
-      if (created) {
-          console.log("Desk Maneger criado com sucesso!");
-      } else {
-          console.log("Desk Maneger já existe.");
+    const [desk, created] = await User.findOrCreate({
+      where: { role: 'desk' }, // Verifica se já existe um administrador
+      defaults: {
+        nome: 'willas',
+        email: 'willas@gmail.com',
+        role: 'desk',
+        password: '123456',
       }
+    });
+
+    if (created) {
+      console.log("Desk Maneger criado com sucesso!");
+    } else {
+      console.log("Desk Maneger já existe.");
+    }
   } catch (error) {
-      console.error("Erro ao criar Desk Maneger:", error);
+    console.error("Erro ao criar Desk Maneger:", error);
   }
 };
 
@@ -136,7 +136,7 @@ sessionStore.onReady()
     process.exit(1); // Encerra o servidor em caso de erro
   });
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
@@ -145,7 +145,12 @@ app.use(flash());
 
 // Middleware condicional para aplicar CSRF apenas onde necessário
 app.use((req, res, next) => {
-  const rotasSemCSRF = ['/funcionarios/create/data', '/fotos/upload','/funcionarios/edit']; // adicione aqui todas que quiser ignorar
+  const rotasSemCSRF = [
+    '/funcionarios/create/data',
+    '/fotos/upload',
+    '/foto_antes/upload', // <-- adicione esta linha
+    '/funcionarios/edit'
+  ];
 
   if (rotasSemCSRF.some(route => req.path.startsWith(route))) {
     return next();

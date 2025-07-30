@@ -44,7 +44,7 @@
           <% if (pendentes.length > 0) { %>
             <h4 class="text-center mb-4" style="color: #007d7b;">Tratamentos em Andamento</h4>
             <% pendentes.forEach(sessao => { %>
-              <%- include('includes/item-sessao', { sessao, fotos }) %>
+              <%- include('includes/item-sessao', { sessao, fotos, role}) %>
             <% }); %>
             <hr>
           <% } %>
@@ -52,7 +52,7 @@
           <% if (concluidas.length > 0) { %>
             <h4 class="text-center mb-4" style="color: #007d7b;">Tratamentos Concluídos</h4>
             <% concluidas.forEach(sessao => { %>
-              <%- include('includes/item-sessao', { sessao, fotos}) %>
+              <%- include('includes/item-sessao', { sessao, fotos, role}) %>
             <% }); %>
           <% } %>
 

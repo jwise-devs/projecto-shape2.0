@@ -1,99 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('includes/head') %>
-<title>Consultas</title>
+    <title>Consultas</title>
 
-<body>
-    <%- include('includes/navbar') %>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2"></div>
+    <body>
+        <%- include('includes/navbar') %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2"></div>
 
-            <div class="col-lg-8 my-3">
-                <h1 class="text-center">Consultas</h1>
-                <p class="text-center lead">Suas consultas estão abaixo</p>
+                    <div class="col-lg-8 my-3">
+                        <h1 class="text-center">Consultas</h1>
+                        <p class="text-center lead">Suas consultas estão abaixo</p>
 
-                <%- include('includes/messeges') %>
+                        <%- include('includes/messeges') %>
 
-                <div class="responsive-table">
-                    <table class="table my-3">
-                        <thead>
-                            <tr>
-                                <th>Data da Consulta</th>
-                                <th>Tratamentos</th>
-                                <th>Preço</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if (sessoes && sessoes.length > 0) { %>
+                            <% // Filtra só as sessões marcadas 
+                            const sessoesMarcadas=sessoes.filter(sessao=>
+                                sessao.status === 'marcado');
+                                let totalPreco = 0;
+                                %>
 
-                                <% var totalPreco = 0; %> <!-- Inicializa o total -->
+                                <div class="responsive-table">
+                                    <table class="table my-3">
+                                        <thead>
+                                            <tr>
+                                                <th>Data da Consulta</th>
+                                                <th>Tratamentos</th>
+                                                <th>Preço</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (sessoesMarcadas.length> 0) { %>
+                                                <% sessoesMarcadas.forEach(sessao=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= new Date(sessao.data_hora_consulta).toLocaleString() %>
+                                                        </td>
 
-                                <% sessoes.forEach(sessao => { %>
-                                    <tr>
-                                        <!-- Data da consulta -->
-                                        <td>
-                                            <%= new Date(sessao.data_hora_consulta).toLocaleString() %>
-                                        </td>
+                                                        <td>
+                                                            <% let tratamentosList=[]; try { if (typeof
+                                                                sessao.tratamentosArray==="string" ) {
+                                                                tratamentosList=JSON.parse(sessao.tratamentosArray); }
+                                                                else if (Array.isArray(sessao.tratamentosArray)) {
+                                                                tratamentosList=sessao.tratamentosArray; } } catch
+                                                                (error) { tratamentosList=[]; } %>
 
-                                        <!-- Lista de tratamentos -->
-                                        <td>
-                                            <% 
-                                                var tratamentosList = [];
-                                                try {
-                                                    if (typeof sessao.tratamentosArray === "string") {
-                                                        tratamentosList = JSON.parse(sessao.tratamentosArray);
-                                                    } else if (Array.isArray(sessao.tratamentosArray)) {
-                                                        tratamentosList = sessao.tratamentosArray;
-                                                    }
-                                                } catch (error) {
-                                                    console.error("Erro ao parsear tratamentos:", error);
-                                                    tratamentosList = []; 
-                                                }
-                                            %>
+                                                                <% if (tratamentosList.length> 0) { %>
+                                                                    <ul>
+                                                                        <% tratamentosList.forEach(item=> { %>
+                                                                            <li>
+                                                                                <%= item %>
+                                                                            </li>
+                                                                            <% }) %>
+                                                                    </ul>
+                                                                    <% } else { %>
+                                                                        <p>Sem tratamentos registrados.</p>
+                                                                        <% } %>
+                                                        </td>
 
-                                            <% if (Array.isArray(tratamentosList) && tratamentosList.length > 0) { %>
-                                                <ul>
-                                                    <% tratamentosList.forEach(item => { %>
-                                                        <li><%= item %></li>
-                                                    <% }); %>
-                                                </ul>
-                                            <% } else { %>
-                                                <p>Sem tratamentos registrados.</p>
-                                            <% } %>
-                                        </td>
+                                                        <td>R$ <%= parseFloat(sessao.precoSessao).toFixed(2) %>
+                                                        </td>
 
-                                        <!-- Preço Total da Sessão -->
-                                        <td>
-                                            R$ <%= parseFloat(sessao.precoSessao).toFixed(2) %>
-                                        </td>
-                                    </tr>
+                                                        <td>
+                                                            <form action="/cancelar/<%= sessao.id %>" method="POST"
+                                                                onsubmit="return confirm('Tem certeza que deseja cancelar esta consulta?');">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger btn-sm">Cancelar</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
 
-                                    <% totalPreco += parseFloat(sessao.precoSessao); %>
+                                                    <% totalPreco +=parseFloat(sessao.precoSessao); %>
+                                                        <% }) %>
 
-                                <% }); %>
+                                                            <tr>
+                                                                <td colspan="2" class="text-right"><strong>Total
+                                                                        Geral:</strong></td>
+                                                                <td><strong>R$ <%= totalPreco.toFixed(2) %></strong>
+                                                                </td>
+                                                                <td></td>
+                                                            </tr>
 
-                                <!-- Linha para mostrar o total geral -->
-                                <tr>
-                                    <td colspan="2" class="text-right"><strong>Total Geral:</strong></td>
-                                    <td><strong>R$ <%= totalPreco.toFixed(2) %></strong></td>
-                                </tr>
+                                                            <% } else { %>
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center">Nenhuma consulta
+                                                                        marcada encontrada.</td>
+                                                                </tr>
+                                                                <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                    </div>
 
-                            <% } else { %>
-                                <!-- Caso não existam consultas -->
-                                <tr>
-                                    <td colspan="3" class="text-center">Nenhuma consulta encontrada</td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                    <div class="col-lg-2"></div>
                 </div>
             </div>
 
-            <div class="col-lg-2"></div>
-        </div>
-    </div>
-    <%- include('includes/script') %>
-</body>
+            <%- include('includes/script') %>
+    </body>
 
 </html>

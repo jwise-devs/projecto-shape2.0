@@ -91,11 +91,13 @@ exports.delete = async (req, res) => {
 
 exports.historico = async (req, res) => {
     try {
-        const userId = req.params.id || res.locals.user.id;
+        const userId = req.params.id;
 
         const usuario = await Usuario.findOne({
-            where: { id: userId }
+            where: { id: res.locals.user.id },
+            attributes: ['id', 'nome', 'created_at', 'role'] // <-- role adicionado aqui
         });
+
 
         const sessoes = await Sessao.findAll({
             where: { userId },
@@ -140,6 +142,9 @@ exports.historico = async (req, res) => {
                 marcadas.push(sessao);
             }
         });
+
+        console.log('ROLE:', usuario.role);
+
 
         return res.render('historico', {
             usuario,
