@@ -1,0 +1,30 @@
+<div class="mb-3 p-3 border rounded small bg-light">
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+    <span><strong>Data:</strong> <%= new Date(consultaemcasa.data_hora_consulta).toLocaleDateString('pt-PT') %></span>
+    <span><strong>Hora:</strong> <%= new Date(consultaemcasa.data_hora_consulta).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }) %></span>
+  </div>
+
+  <% let tratamentosList = []; %>
+  <% try { 
+    if (typeof consultaemcasa.tratamentosArray === "string") {
+      tratamentosList = JSON.parse(consultaemcasa.tratamentosArray); 
+    } else if (Array.isArray(consultaemcasa.tratamentosArray)) {
+      tratamentosList = consultaemcasa.tratamentosArray; 
+    } else if (Array.isArray(consultaemcasa.tratamentos)) {
+      tratamentosList = consultaemcasa.tratamentos;
+    }
+  } catch (err) { tratamentosList = []; } %>
+
+  <% if (tratamentosList.length > 0) { %>
+    <div>
+      <strong>Tratamentos:</strong>
+      <span class="d-block">
+        <% tratamentosList.forEach(t => { %>
+          <span class="d-block"><%= typeof t === 'string' ? t : t.nome %></span>
+        <% }) %>
+      </span>
+    </div>
+  <% } else { %>
+    <em class="text-muted">Nenhum tratamento registrado.</em>
+  <% } %>
+</div>

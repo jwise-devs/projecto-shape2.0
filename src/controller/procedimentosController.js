@@ -33,6 +33,7 @@ exports.index = async (req, res) => {
             ]
           },
           { status: "Pendente" },
+           { pacote: { [Op.ne]: "consulta_em_casa" } } // <-- aqui está a exclusão do pacote
         ]
       }
     });

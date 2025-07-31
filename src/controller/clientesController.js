@@ -92,9 +92,15 @@ exports.delete = async (req, res) => {
 exports.historico = async (req, res) => {
     try {
         const userId = req.params.id;
+        const adminId = res.locals.user.id;
 
         const usuario = await Usuario.findOne({
-            where: { id: res.locals.user.id },
+            where: { id: userId },
+            attributes: ['id', 'nome', 'created_at', 'role'] // <-- role adicionado aqui
+        });
+
+        const admin = await Usuario.findOne({
+            where: { id: adminId },
             attributes: ['id', 'nome', 'created_at', 'role'] // <-- role adicionado aqui
         });
 
@@ -143,7 +149,7 @@ exports.historico = async (req, res) => {
             }
         });
 
-        console.log('ROLE:', usuario.role);
+        console.log('ROLE:', admin.role);
 
 
         return res.render('historico', {
@@ -152,7 +158,7 @@ exports.historico = async (req, res) => {
             concluidas,
             marcadas,
             fotos, // envia para a view
-            role: usuario.role,
+            role: admin.role,
         });
 
     } catch (error) {

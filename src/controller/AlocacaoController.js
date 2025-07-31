@@ -2,7 +2,7 @@ const Sessao = require('../model/Sessao');
 const Pupila = require('../model/Pupilas');  // model da tabela pupila
 const Tratamentos = require('../model/Tratamentos');  // model da tabela pupila
 const ConsultaEmCasa = require('../model/ConsultaEmCasa');  // model da tabela pupila
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const nodemailer = require("nodemailer");
 const path = require('path');
 require('dotenv').config();
@@ -34,10 +34,13 @@ exports.index = async (req, res) => {
             order: [['data_hora_consulta', 'ASC']]
         });
 
+        const sessoesAlocadas = await ConsultaEmCasa.findAll({
+            where: { pupilaId: pupilaId }
+        });
+
         const sessoes = sessoesData.map(sessao => {
             const plain = sessao.get({ plain: true });
 
-            // Corrige tratamentosArray para garantir que seja um array
             try {
                 if (typeof plain.tratamentosArray === 'string') {
                     plain.tratamentosArray = JSON.parse(plain.tratamentosArray);
@@ -50,10 +53,13 @@ exports.index = async (req, res) => {
                 plain.tratamentosArray = [];
             }
 
+            // Marcar se essa sessão já foi alocada para essa pupila
+            plain.jaAlocada = sessoesAlocadas.some(aloc =>
+                new Date(aloc.data_hora_consulta).getTime() === new Date(plain.data_hora_consulta).getTime()
+            );
+
             return plain;
         });
-
-        console.log(sessoes.map(s => s.tratamentosArray));
 
         return res.render('alocacao', {
             pupila,
@@ -67,6 +73,7 @@ exports.index = async (req, res) => {
         return res.redirect('back');
     }
 };
+
 
 
 exports.storeAlocacao = async (req, res) => {
@@ -92,6 +99,9 @@ exports.storeAlocacao = async (req, res) => {
             req.flash('error', 'Sessão não encontrada.');
             return res.redirect('/funcionarios');
         }
+
+
+
 
         await ConsultaEmCasa.create({
             pupilaId: pupila.id,

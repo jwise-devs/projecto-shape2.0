@@ -1,47 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt">
-<%- include('includes/head') %>
-<title>Alocação</title>
+<html lang="en">
+  <%- include('includes/head') %>
+  <title>Alocar Sessão</title>
 
-<body>
-<%- include('includes/navbar') %>
+  <body>
+    <%- include('includes/navbar') %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-2"></div>
+    <div class="container mt-5">
+      <h1 class="text-center">Alocar Sessão para <%= pupila.nome_completo %></h1>
 
-        <div class="col-lg-8 my-4">
-            <h1 class="text-center"><%= pupila.nome %> <%= pupila.sobrenome %></h1>
-            <p class="text-center lead">Selecione uma sessão do pacote <strong>"Consulta em Casa"</strong></p>
-
-            <%- include('includes/messeges') %>
-
-            <form action="/alocar-tratamento/data" method="POST">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input type="hidden" name="pupilaId" value="<%= pupila.id %>">
-
-                <div class="mb-3">
-                    <label for="sessaoId" class="form-label">Sessões Disponíveis</label>
-                    <select id="sessaoId" name="sessaoId" class="form-select" required>
-                        <option value="" disabled selected>Selecione uma sessão</option>
-                        <% sessoes.forEach(sessao => { %>
-                            <option value="<%= sessao.id %>">
-                                Sessão #<%= sessao.id %> – 
-                                <%= sessao.tratamentosArray.join(', ') %> – 
-                                <%= new Date(sessao.data_hora_consulta).toLocaleString('pt-BR') %>
-                            </option>
-                        <% }) %>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-success mt-3 w-100">Alocar Sessão</button>
-            </form>
+      <% if (sessoes.length === 0) { %>
+        <div class="alert alert-info text-center mt-4">
+          Nenhuma sessão encontrada.
         </div>
+      <% } else { %>
+        <form action="/alocar-tratamento/data" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="pupilaId" value="<%= pupila.id %>">
 
-        <div class="col-lg-2"></div>
+          <div class="form-group">
+            <label for="sessaoId">Selecionar Sessão Disponível:</label>
+            <select name="sessaoId" id="sessaoId" class="form-control" required>
+              <% let count = 0; %>
+              <% sessoes.forEach(sessao => { %>
+                <% if (!sessao.jaAlocada) { %>
+                  <% count++; %>
+                  <option value="<%= sessao.id %>">
+                    <%= new Date(sessao.data_hora_consulta).toLocaleString('pt-PT') %> - 
+                    <%= sessao.tratamentosArray.join(', ') %>
+                  </option>
+                <% } %>
+              <% }) %>
+            </select>
+          </div>
+
+          <% if (count > 0) { %>
+            <button type="submit" class="btn btn-primary mt-3">Alocar</button>
+          <% } else { %>
+            <div class="alert alert-warning mt-3">
+              Todas as sessões foram alocadas para esta pupila.
+            </div>
+          <% } %>
+        </form>
+      <% } %>
     </div>
-</div>
-
-<%- include('includes/script') %>
-</body>
+  </body>
 </html>

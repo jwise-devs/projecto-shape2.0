@@ -10,5 +10,6 @@ route.get('/funcionarios',pupilasController.index);
 route.get('/funcionarios/index/:id',pupilasController.editIndex);
 route.post('/funcionarios/edit/:id',upload.single('fotoPupila'),pupilasController.edit);
 route.get('/funcionarios/delete/:id',pupilasController.delete);
+route.get('/funcionarios/historico/:id',pupilasController.historico);
 
 module.exports = route;

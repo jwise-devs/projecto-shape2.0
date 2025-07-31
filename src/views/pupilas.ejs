@@ -49,7 +49,7 @@
                                                             href="/funcionarios/delete/<%= pupila.id %>">Excluir</a>
                                                     </td>
                                                     <td><a class="text-success"
-                                                            href="/funcionarios/index/<%= pupila.id %>">Historico</a>
+                                                            href="/funcionarios/historico/<%= pupila.id %>">Historico</a>
                                                     </td>
                                                     <td>
                                                         <a class="text-yellow"
@@ -61,7 +61,7 @@
 
                                                     <% }else if(typeof usuario !=='undefined' && usuario && usuario.role === 'desk'){ %>
                                                         <td><a class="text-success"
-                                                                href="/funcionarios/index/<%= pupila.id %>">Historico</a>
+                                                                href="/funcionarios/historico/<%= pupila.id %>">Historico</a>
                                                         </td>
                                                         <td>
                                                         <a class="text-yellow"
