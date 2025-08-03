@@ -23,6 +23,8 @@ module.exports = {
                     loader: 'babel-loader',
                 },
             },
+
+            "css(css-ruleorselectorexpected) : 0", 
         ],
     },
 

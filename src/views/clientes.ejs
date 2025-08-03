@@ -31,6 +31,7 @@
                                             <td><%= usuario.nome %></td>
                                             <td><%= usuario.email %></td>
                                             <td><%= usuario.telefone || "nenhum contacto adicionado" %></td>
+                                            <td><%= usuario.sexo %></td>
                                             <td><a class="text-success" href="/clientes/historico/<%= usuario.id %>">Historico</a></td>
                                             <td><a href="/clientes/index/<%= usuario.id %>">Editar</a></td>
                                             <td><a class="text-danger" href="/clientes/delete/<%= usuario.id %>">Excluir</a></td>

@@ -61,6 +61,11 @@ class Usuario extends Model {
                     allowNull: true,
                 },
 
+                sexo: {
+                    type: DataTypes.ENUM('F','M'),
+                    defaultValue: 'F',
+                },
+
                 ultimaSolicitacao: {
                     type: DataTypes.DATE, // Guarda a data da última solicitação
                     allowNull: true

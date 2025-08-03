@@ -214,34 +214,37 @@
 
                             </div>
 
-                            <div class="container mt-3">
-                                <fieldset class="border p-3">
-                                    <legend class="w-auto px-1 mb-3">Ciclo Menstrual Regular?</legend>
+                            <% if(usuario && usuario.sexo === 'F') {%>
+                                <div class="container mt-3">
+                                    <fieldset class="border p-3">
+                                        <legend class="w-auto px-1 mb-3">Ciclo Menstrual Regular?</legend>
 
-                                    <div class="d-flex flex-wrap gap-3">
-                                        <!-- Checkbox 1 -->
-                                        <div class="form-check">
-                                            <input class="form-check-input group-ciclo" type="checkbox" id="checkbox13"
-                                                name="ciclo_menstrual_regular" value="sim">
-                                            <label class="form-check-label" for="checkbox13">
-                                                SIM
-                                            </label>
+                                        <div class="d-flex flex-wrap gap-3">
+                                            <!-- Checkbox 1 -->
+                                            <div class="form-check">
+                                                <input class="form-check-input group-ciclo" type="checkbox" id="checkbox13"
+                                                    name="ciclo_menstrual_regular" value="sim">
+                                                <label class="form-check-label" for="checkbox13">
+                                                    SIM
+                                                </label>
+                                            </div>
+
+                                            <!-- Checkbox 2 -->
+                                            <div class="form-check">
+                                                <input class="form-check-input group-ciclo" type="checkbox" id="checkbox14"
+                                                    name="ciclo_menstrual_regular" value="nao">
+                                                <label class="form-check-label" for="checkbox14">
+                                                    NAO
+                                                </label>
+                                            </div>
+
                                         </div>
 
-                                        <!-- Checkbox 2 -->
-                                        <div class="form-check">
-                                            <input class="form-check-input group-ciclo" type="checkbox" id="checkbox14"
-                                                name="ciclo_menstrual_regular" value="nao">
-                                            <label class="form-check-label" for="checkbox14">
-                                                NAO
-                                            </label>
-                                        </div>
+                                    </fieldset>
 
-                                    </div>
+                                </div>
 
-                                </fieldset>
-
-                            </div>
+                            <% } %>
 
                             <div class="container mt-3">
                                 <fieldset class="border p-3">

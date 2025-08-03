@@ -16,7 +16,8 @@ exports.index = async (req, res) => {
                 [Op.or]: [
                     { nome: { [Op.like]: `%${searchQuery}%` } },
                     { email: { [Op.like]: `%${searchQuery}%` } },
-                    { telefone: { [Op.like]: `%${searchQuery}%` } }
+                    { telefone: { [Op.like]: `%${searchQuery}%` } },
+                    { sexo: { [Op.like]: `%${searchQuery}%` } }
                 ]
             }
         });
@@ -54,11 +55,12 @@ exports.edit = async (req, res) => {
 
     try {
 
-        const { nome, email, telefone } = req.body; // Pega os dados do formulário de login
+        const { nome, email, telefone, sexo } = req.body; // Pega os dados do formulário de login
         const atualizacao = await Usuario.update({
             nome,
             email,
             telefone,
+            sexo,
         },
             {
                 where: { id: req.params.id }
