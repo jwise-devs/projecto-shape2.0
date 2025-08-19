@@ -37,7 +37,7 @@
                         <select multiple class="form-select" id="tratamentosPersonalizados" name="tratamentos[]">
                             <% tratamentos.forEach(tratamento => { %>
                                 <option value="<%= tratamento.nome %>" data-preco="<%= tratamento.preco %>">
-                                    <%= tratamento.nome %> - R$ <%= tratamento.preco.toFixed(2) %>
+                                    <%= tratamento.nome %> -  <%= tratamento.preco.toFixed(2) %>MT
                                 </option>
                             <% }); %>
                         </select>
@@ -148,7 +148,7 @@
             tratamentos.forEach(produto => {
                 const option = document.createElement("option");
                 option.value = produto.value;
-                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                option.textContent = `${produto.text} -  ${produto.preco.toFixed(2)}MT`;
                 option.dataset.preco = produto.preco;
                 option.selected = true;
                 produtosSelect.appendChild(option);
@@ -207,7 +207,7 @@
                             produtos.forEach(produto => {
                                 const option = document.createElement("option");
                                 option.value = produto.value;
-                                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                option.textContent = `${produto.text} -  ${produto.preco.toFixed(2)}MT`;
                                 option.dataset.preco = produto.preco;
                                 produtosSelect.appendChild(option);
                             });
@@ -221,7 +221,7 @@
                             dados[categoriaSelecionada].produtos.forEach(produto => {
                                 const option = document.createElement("option");
                                 option.value = produto.value;
-                                option.textContent = `${produto.text} - R$ ${produto.preco.toFixed(2)}`;
+                                option.textContent = `${produto.text} -  ${produto.preco.toFixed(2)}MT`;
                                 option.dataset.preco = produto.preco;
                                 produtosSelect.appendChild(option);
                             });

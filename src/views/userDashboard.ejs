@@ -83,7 +83,7 @@
                                                 <p>Sem tratamentos registrados.</p>
                                             <% } %>
                                         </td>
-                                        <td>R$ <%= parseFloat(sessao.precoSessao).toFixed(2) %></td>
+                                        <td> <%= parseFloat(sessao.precoSessao).toFixed(2) %>MT</td>
                                         <td>
                                             <form id="cancelForm" action="/cancelar/<%= sessao.id %>" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -98,7 +98,7 @@
                                 <% }); %>
                                 <tr>
                                     <td colspan="2" class="text-right"><strong>Total Geral:</strong></td>
-                                    <td><strong>R$ <%= totalPreco.toFixed(2) %></strong></td>
+                                    <td><strong> <%= totalPreco.toFixed(2) %>MT</strong></td>
                                     <td></td>
                                 </tr>
                             <% } else { %>
