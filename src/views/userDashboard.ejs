@@ -5,6 +5,27 @@
 
 <body>
     <%- include('includes/navbar') %>
+
+    <!-- Modal de confirmação -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancelModalLabel">Confirmar Cancelamento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        Tem certeza que deseja cancelar esta consulta?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+        <button type="button" class="btn btn-danger" id="confirmCancelBtn">Sim, cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <div class="container">
         <div class="row">
             <div class="col-lg-2"></div>
@@ -64,10 +85,13 @@
                                         </td>
                                         <td>R$ <%= parseFloat(sessao.precoSessao).toFixed(2) %></td>
                                         <td>
-                                            <form action="/cancelar/<%= sessao.id %>" method="POST"
-                                                onsubmit="return confirm('Tem certeza que deseja cancelar esta consulta?');">
-                                                <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
-                                            </form>
+                                            <form id="cancelForm" action="/cancelar/<%= sessao.id %>" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelModal">
+        Cancelar
+    </button>
+</form>
+
                                         </td>
                                     </tr>
                                     <% totalPreco += parseFloat(sessao.precoSessao); %>
@@ -90,6 +114,13 @@
             <div class="col-lg-2"></div>
         </div>
     </div>
+
+    <script>
+document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+    document.getElementById('cancelForm').submit();
+});
+</script>
+
 
     <%- include('includes/script') %>
 </body>

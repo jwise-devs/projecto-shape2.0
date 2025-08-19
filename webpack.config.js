@@ -24,7 +24,7 @@ module.exports = {
                 },
             },
 
-            "css(css-ruleorselectorexpected) : 0", 
+           
         ],
     },
 
