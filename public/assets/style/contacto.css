@@ -121,17 +121,17 @@ section.informacoes img{
 
 .conteudo-informacoes .flex{
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
 }
 
 .conteudo-informacoes .informacoes-direita .flex{
     flex-direction: column;
-    gap: 70px 0;
+    gap: 10px 0;
 }
 
 .conteudo-informacoes .informacoes-direita h2{
-    margin-bottom: 120px;
+    margin-bottom: 100px;
     font-size: 1.7em;
     color: #007d7b;
 }
