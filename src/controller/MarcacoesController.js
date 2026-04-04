@@ -10,38 +10,38 @@ exports.index = async (req, res) => {
 
     const hojeStr = hoje.toISOString().slice(0,10); // 'YYYY-MM-DD'
 
-    const sessoes = await Sessao.findAll({
-      include: [
-        {
-          model: Usuario,
-          as: "usuario",
-          attributes: ["id", "nome", "email"],
-          where: {
-            nome: {
-              [Op.like]: `%${search}%`
-            }
-          }
-        }
-      ],
-      where: {
-        [Op.and]: [
-          {
-            [Op.or]: [
-              { "$usuario.nome$": { [Op.like]: `%${search}%` } },
-              { tratamentosArray: { [Op.like]: `%${search}%` } }
-            ]
-          },
-          { status: "Marcado" },
-        ]
-      }
-    });
+   const sessoes = await Sessao.findAll({
+  subQuery: false,
+  include: [
+    {
+      model: Usuario,
+      as: "usuario",
+      attributes: ["id", "nome", "email"],
+      required: false
+    }
+  ],
+  where: {
+    status: "marcado",
+    ...(search && {
+      [Op.or]: [
+        { '$usuario.nome$': { [Op.like]: `%${search}%` } },
+
+        // 🔥 CORRETO PARA JSON
+        where(
+          fn('JSON_SEARCH', col('tratamentosArray'), 'one', `%${search}%`),
+          { [Op.ne]: null }
+        )
+      ]
+    })
+  }
+});
 
     console.log("Sessões encontradas:", JSON.stringify(sessoes, null, 2));
 
     res.render("marcacoes", { sessoes, search });
   } catch (error) {
     console.error("Erro ao buscar sessões:", error);
-    res.render("procedimentos", { sessoes: [], search: '' });
+    res.render("marcacoes", { sessoes: [] });
   }
 };
 
