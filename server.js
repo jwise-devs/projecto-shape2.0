@@ -28,6 +28,7 @@ const marcacoesRoute = require('./src/routes/marcacoesRoute');
 const pupilasRoute = require('./src/routes/pupilasRoute');
 const criarPupilasRoute = require('./src/routes/criaPupilasRoute');
 const alocacaoRoute = require('./src/routes/alocacaoRoute');
+const pagamentoRoutes = require('./src/routes/pagamentoRoutes');
 
 
 const User = require('./src/model/Usuario');
@@ -195,6 +196,7 @@ app.use(marcacoesRoute);
 app.use(pupilasRoute);
 app.use(criarPupilasRoute);
 app.use(alocacaoRoute);
+app.use(pagamentoRoutes);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {
