@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <%- include('includes/head') %>
+<head>
+  <title>Pagamento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<%- include('includes/navbar') %>
+<div class="container mt-5">
+  <div class="col-lg-6 mx-auto">
+
+    <h2 class="text-center mb-4">Pagamento com M-Pesa</h2>
+
+    <div class="card p-4 shadow">
+
+      <p><strong>Valor:</strong> <%= sessao.precoSessao %> MT</p>
+
+      <!-- FLASH (opcional nesta página também) -->
+     <% if (error && error.length > 0) { %>
+  <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<% if (success && success.length > 0) { %>
+  <div class="alert alert-success"><%= success %></div>
+<% } %>
+
+      <form action="/pagamentos/mpesa/pagar" method="POST">
+
+        <!-- sessão -->
+        <input type="hidden" name="sessaoId" value="<%= sessao.id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <!-- telefone -->
+        <div class="mb-3">
+          <label class="form-label">Número M-Pesa</label>
+          <input 
+            type="text" 
+            name="telefone" 
+            class="form-control" 
+            placeholder="2588XXXXXXX"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">
+          Pagar Agora
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

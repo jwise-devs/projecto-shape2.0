@@ -8,5 +8,6 @@ route.post('/sessao/data', sessaoController.data);
 // Rota extra para desk manager criar sessão para usuário específico
 route.get('/sessao/novo/:usuarioId', sessaoController.novaSessao);
 route.post('/sessao/novo/data/:usuarioId', sessaoController.criarSessaoParaUsuario);
+route.get('/sessao/:id/pagar', sessaoController.paginaPagamento);
 
 module.exports = route;

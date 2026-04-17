@@ -196,7 +196,7 @@ app.use(marcacoesRoute);
 app.use(pupilasRoute);
 app.use(criarPupilasRoute);
 app.use(alocacaoRoute);
-app.use(pagamentoRoutes);
+app.use("/pagamentos", pagamentoRoutes);
 
 // // Rota principal renderizando o arquivo index.ejs
 // app.get('/', (req, res) => {
